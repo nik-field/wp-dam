@@ -41,13 +41,24 @@
 		"oAP": "/comments.php",
 		"oF": 0
 		},
-	"/css/style.css": {
+	"/dist/bundle.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "/dist/bundle-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/dist/style.css": {
 		"aP": 1,
 		"bl": 0,
 		"ft": 16,
 		"ma": 0,
 		"oA": 0,
-		"oAP": "/css/style-min.css",
+		"oAP": "/dist/style-min.css",
 		"oF": 0,
 		"oS": 3
 		},
@@ -970,27 +981,6 @@
 		"oF": 0,
 		"oS": 0,
 		"uL": 1
-		},
-	"/frameworks/mdc-web/dist/bundle.css": {
-		"aP": 1,
-		"bl": 0,
-		"ft": 16,
-		"ma": 0,
-		"oA": 0,
-		"oAP": "/frameworks/mdc-web/dist/bundle-min.css",
-		"oF": 0,
-		"oS": 3
-		},
-	"/frameworks/mdc-web/dist/bundle.js": {
-		"bF": 0,
-		"ft": 64,
-		"ma": 0,
-		"mi": 1,
-		"oA": 0,
-		"oAP": "/frameworks/mdc-web/dist/bundle-min.js",
-		"oF": 0,
-		"sC": 3,
-		"tS": 0
 		},
 	"/frameworks/mdc-web/index.html": {
 		"cB": 0,
@@ -3407,6 +3397,28 @@
 		"oAP": "/LICENSE",
 		"oF": 0
 		},
+	"/node_modules": {
+		"ft": 65536,
+		"oA": 2,
+		"oAP": "/build/node_modules",
+		"oF": 0
+		},
+	"/package-lock.json": {
+		"ft": 524288,
+		"oA": 1,
+		"oAP": "/package-lock-min.json",
+		"oF": 0,
+		"oO": 0,
+		"oS": 1
+		},
+	"/package.json": {
+		"ft": 524288,
+		"oA": 1,
+		"oAP": "/package-min.json",
+		"oF": 0,
+		"oO": 0,
+		"oS": 1
+		},
 	"/page.php": {
 		"cB": 0,
 		"ft": 8192,
@@ -3450,39 +3462,6 @@
 		"oAP": "/readme.txt",
 		"oF": 0
 		},
-	"/rtl.css": {
-		"aP": 1,
-		"bl": 0,
-		"ft": 16,
-		"ma": 0,
-		"oA": 0,
-		"oAP": "/rtl-min.css",
-		"oF": 0,
-		"oS": 3
-		},
-	"/sass/style.css": {
-		"aP": 1,
-		"bl": 0,
-		"ft": 16,
-		"ma": 0,
-		"oA": 0,
-		"oAP": "/sass/style-min.css",
-		"oF": 0,
-		"oS": 3
-		},
-	"/sass/style.scss": {
-		"aP": 1,
-		"bl": 1,
-		"dP": 10,
-		"dS": 0,
-		"ft": 4,
-		"ma": 0,
-		"oA": 0,
-		"oAP": "/css/style.css",
-		"oF": 2,
-		"oS": 3,
-		"uL": 1
-		},
 	"/screenshot.png": {
 		"ft": 32768,
 		"iS": 264,
@@ -3517,6 +3496,43 @@
 		"oA": 0,
 		"oAP": "/single.php",
 		"oF": 0
+		},
+	"/src/js/webapp.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "/src/js/webapp-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/src/scss/theme.scss": {
+		"aP": 0,
+		"bl": 0,
+		"dP": 10,
+		"dS": 0,
+		"ft": 4,
+		"ma": 0,
+		"oA": 1,
+		"oAP": "/src/scss/theme.css",
+		"oF": 0,
+		"oS": 0,
+		"uL": 1
+		},
+	"/src/scss/webapp.scss": {
+		"aP": 0,
+		"bl": 0,
+		"dP": 10,
+		"dS": 0,
+		"ft": 4,
+		"ma": 0,
+		"oA": 0,
+		"oAP": "/src/scss/webapp.css",
+		"oF": 0,
+		"oS": 0,
+		"uL": 1
 		},
 	"/style.css": {
 		"aP": 1,
@@ -3559,6 +3575,17 @@
 		"oA": 0,
 		"oAP": "/template-parts/content.php",
 		"oF": 0
+		},
+	"/webpack.config.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "/webpack.config-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
 		}
 	},
 "hooks": [

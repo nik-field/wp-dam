@@ -120,7 +120,9 @@ add_action( 'widgets_init', 'wp_dam_widgets_init' );
  * Enqueue scripts and styles.
  */
 function wp_dam_scripts() {
-	wp_enqueue_style( 'wp-dam-style', get_stylesheet_uri() );
+	wp_enqueue_style( 'wp-dam-style-info', get_stylesheet_uri() );
+	wp_enqueue_style( 'wp-dam-style', get_template_directory_uri() . '/dist/style.css', array(), date("H:i:s"));
+	wp_enqueue_script( 'wp-dam-js', get_template_directory_uri() . '/dist/bundle.js', array(), date("H:i:s"), true);
 
 	wp_enqueue_script( 'wp-dam-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
 

@@ -20,11 +20,9 @@
 	<?php wp_head(); ?>
 </head>
 
-<body <?php body_class(); ?>>
+<body <?php body_class('mdc-theme--background mdc-typography'); ?>>
 <div id="page" class="site">
-	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'wp-dam' ); ?></a>
-
-	<header id="masthead" class="site-header">
+		<header id="masthead" class="site-header mdc-theme--primary-bg">
 		<div class="site-branding">
 			<?php
 			the_custom_logo();
@@ -45,7 +43,7 @@
 		</div><!-- .site-branding -->
 
 		<nav id="site-navigation" class="main-navigation">
-			<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'wp-dam' ); ?></button>
+			<button class="menu-toggle foo-button mdc-button mdc-button--raised" aria-controls="primary-menu" aria-expanded="false"><div class="mdc-button__ripple"></div><div class="mdc-button__label"><?php esc_html_e( 'Primary Menu', 'wp-dam' ); ?></div></button>
 			<?php
 			wp_nav_menu( array(
 				'theme_location' => 'menu-1',
