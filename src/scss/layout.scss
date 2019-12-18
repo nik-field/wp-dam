@@ -1,0 +1,23 @@
+body {
+	margin: 0;
+}
+
+.page-container {
+	position:relative;
+	height:150vh;
+}
+
+.site-header {
+	text-align:center;
+}
+
+.site-branding {
+	grid-gap: 0px !important;
+	.site-description {
+		color: $darkgreen;
+	}
+}
+
+.dam-search-input {
+	width: 50%;
+}

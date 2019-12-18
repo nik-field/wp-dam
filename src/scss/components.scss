@@ -1,0 +1,35 @@
+// .dam-search-input {
+// 	//background-color: rgba(255,255,255,.26) !important;
+// 	&.mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input, .mdc-floating-label, .mdc-text-field__icon {
+// 		color: rgba(255,255,255,.70) !important;
+// 	}
+// 	&.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading, .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch, .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+// 		color: rgba(255,255,255,.70) !important;
+// 	}
+// }
+
+.dam-search-input {
+	@include mdc-text-field-ink-color($mdc-theme-background);
+	@include mdc-text-field-label-color($mdc-theme-background);
+	@include mdc-text-field-caret-color($mdc-theme-background);
+	@include mdc-text-field-icon-color($mdc-theme-background, $styleSecondIcon: false);
+	@include mdc-text-field-focused-outline-color(rgba($white, .5));
+	@include mdc-text-field-outline-color(rgba($white, 0));
+	@include mdc-text-field-hover-outline-color(rgba($white, .25));
+	@include mdc-text-field-fill-color(rgba($mdc-theme-background, 0.25));
+    &:not(.mdc-text-field--focused) {
+        @include mdc-text-field-fill-color(rgba($mdc-theme-background, 0.25));
+    }
+    .mdc-notched-outline {
+    	.mdc-notched-outline--notched .mdc-notched-outline__notch {
+    		padding:0 30px;
+    	}
+    	.mdc-floating-label {
+    	@include mdc-floating-label-max-width(200px);
+    }
+    .mdc-floating-label--float-above {
+    	@include mdc-floating-label-ink-color($white);
+    	@include mdc-floating-label-fill-color($mdc-theme-primary);
+    }
+}
+}

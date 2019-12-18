@@ -42,6 +42,8 @@ if ( ! function_exists( 'wp_dam_setup' ) ) :
 		 */
 		add_theme_support( 'post-thumbnails' );
 
+		add_theme_support( 'post-formats', array('link', 'image', 'quote', 'video', 'audio'));
+
 		// This theme uses wp_nav_menu() in one location.
 		register_nav_menus( array(
 			'menu-1' => esc_html__( 'Primary', 'wp-dam' ),
@@ -121,8 +123,10 @@ add_action( 'widgets_init', 'wp_dam_widgets_init' );
  */
 function wp_dam_scripts() {
 	wp_enqueue_style( 'wp-dam-style-info', get_stylesheet_uri() );
-	wp_enqueue_style( 'wp-dam-style', get_template_directory_uri() . '/dist/style.css', array(), date("H:i:s"));
-	wp_enqueue_script( 'wp-dam-js', get_template_directory_uri() . '/dist/bundle.js', array(), date("H:i:s"), true);
+	wp_enqueue_style( 'wp-dam-style', get_template_directory_uri() . '/dist/css/style.css', array(), date("H:i:s"));
+	wp_enqueue_script( 'wp-dam-js', get_template_directory_uri() . '/dist/scripts/script.js', array(), date("H:i:s"), true);
+
+	wp_enqueue_style( 'material-icons', "https://fonts.googleapis.com/icon?family=Material+Icons", array(), date("H:i:s"));
 
 	wp_enqueue_script( 'wp-dam-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
 

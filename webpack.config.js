@@ -5,8 +5,8 @@ const path = require('path');
 module.exports = {
   entry: ['./src/scss/webapp.scss', './src/js/webapp.js'],
   output: {
-   path: path.resolve(__dirname, 'dist'),
-   filename: "bundle.js"
+   path: path.resolve(__dirname, 'dist/scripts'),
+   filename: "script.js"
   },
   module: {
     rules: [
@@ -16,8 +16,8 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'style.css',
-            },
+              name: 'style.css'
+            }
           },
           {loader: 'extract-loader'},
           {loader: 'css-loader'},
@@ -31,19 +31,19 @@ module.exports = {
             loader: 'sass-loader',
             options: {
               sassOptions: {
-                includePaths: ['./node_modules'],
+                includePaths: ['./node_modules']
               }
-            },
+            }
           }
-        ],
+        ]
       },
       {
         test: /\.js$/,
         loader: 'babel-loader',
         query: {
-          presets: ['@babel/preset-env'],
-        },
+          presets: ['@babel/preset-env']
+        }
       }
-    ],
-  },
+    ]
+  }
 };

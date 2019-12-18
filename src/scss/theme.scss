@@ -24,12 +24,14 @@ $mdc-shape-large-component-radius: 0px;
 
 $mdc-theme-primary: #48BF91;
 $mdc-theme-secondary: #247BA0;
-
+$yellow: #FFDB58;
+$white: #FCFFFE;
+$darkgreen: #27664E;
 
 // Theme background ($mdc-theme-background) appears behind scrollable content. Surface color ($mdc-theme-surface) is mapped to the surface of components such as cards, sheets, and menus. Error color ($mdc-theme-error) is used to indicate an error state for components such as text fields provided with inaccurate input.
 
 // $mdc-theme-surface: #ffffff;
-$mdc-theme-background: #FCFFFE;
+$mdc-theme-background: $white;
 // $mdc-theme-error: #b00020;
 
 
@@ -39,3 +41,15 @@ $mdc-theme-background: #FCFFFE;
 // $mdc-theme-on-secondary: #ffffff;
 // $mdc-theme-on-error: #ffffff;
  $mdc-theme-on-surface: #000000;
+
+$mdc-typography-styles-headline3: (
+  font-family: unquote("Varela Round, sans-serif")
+);
+
+
+.site-header {
+	background-color: $mdc-theme-primary;
+}
+ .site-title {
+	color: $yellow;
+}

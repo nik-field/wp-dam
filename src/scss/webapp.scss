@@ -1,5 +1,7 @@
 // Import global Material Theming variables
+@import "normalize-css/normalize";
 @import "theme";
+
 
 // Import styles for each MDC Web component
 @import "@material/button/mdc-button";
@@ -31,8 +33,12 @@
 @import "@material/tab-indicator/mdc-tab-indicator";
 @import "@material/tab/mdc-tab";
 @import "@material/textfield/mdc-text-field";
+@import "@material/line-ripple/mdc-line-ripple";
 @import "@material/textfield/helper-text/mdc-text-field-helper-text";
 @import "@material/theme/mdc-theme";
+
+@import"custom-top-app-bar";
+
 @import "@material/top-app-bar/mdc-top-app-bar";
 @import "@material/typography/mdc-typography";
 @import "@material/data-table/mdc-data-table";
@@ -40,4 +46,5 @@
 
 // Import site-specific CSS files
 // @import "my-layout";
-// @import "my-components";
+@import "components";
+@import "layout";

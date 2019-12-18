@@ -8,7 +8,7 @@
  */
 
 ?>
-
+<!-- CONTENT-NONE -->
 <section class="no-results not-found">
 	<header class="page-header">
 		<h1 class="page-title"><?php esc_html_e( 'Nothing Found', 'wp-dam' ); ?></h1>
@@ -49,3 +49,4 @@
 		?>
 	</div><!-- .page-content -->
 </section><!-- .no-results -->
+<!-- CONTENT-NONE END -->
