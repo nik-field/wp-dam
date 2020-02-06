@@ -13,6 +13,8 @@ DONE: TODO: Download button triggers basic download
 TODO: More Options: Edit Details, Edit Tags(modal), Other Sizes(for image)
 DONE: TODO: Clicking Title or thumbnail brings up modal with image preview which includes actions
 TODO: Add Asset 'kind': Follows content under templates in mind map
+TODO: Featured Image Meta Box
+TODO: Handle Links
 
 Filtering & Searching
 TODO: Search Configuration

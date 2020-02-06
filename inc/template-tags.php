@@ -181,7 +181,7 @@
 
 	function asset_has_file( $post = null ) {
 		$asset_id = get_the_id();
-		$has_file = (bool) get_post_meta( $asset_id, 'add_image_file' );
+		$has_file = (bool) get_post_meta( $asset_id, 'add_asset_file' );
 
 		/**
 		 * Filters whether a post has a post thumbnail.
@@ -295,7 +295,7 @@
 		if ( get_asset_format() == 'format_image' ) {
 			$file[0] = get_the_post_thumbnail_url();
 		} else {
-			$file = get_post_meta( get_the_id(), 'add_image_file' );
+			$file = get_post_meta( get_the_id(), 'add_asset_file' );
 		}
 		$file_type_check = wp_check_filetype( $file[0] );
 		$mime            = $file_type_check['type'];
@@ -360,7 +360,7 @@
 	}
 
 	function get_asset_creator() {
-		$creator = get_post_meta( get_the_id(), 'add_image_creator' );;
+		$creator = get_post_meta( get_the_id(), 'add_asset_creator' );;
         if (! $creator[0]) {
 	        return "None specified";
         }
@@ -380,7 +380,7 @@
 
 			return $filename;
 		}
-		$url      = get_post_meta( get_the_id(), 'add_image_file' )[0];
+		$url      = get_post_meta( get_the_id(), 'add_asset_file' )[0];
 		if (! $url ){
 			return 'No file added';
 		}

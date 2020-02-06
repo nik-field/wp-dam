@@ -69,7 +69,7 @@
 
 			);
 			if ( get_asset_format() == 'format_image') {
-				$assetObject += array( "is_image" => "is_image" );
+				$assetObject += array( "is_image" => "is_image", "display_size" => get_the_post_thumbnail_url( get_the_ID(), 'full' ) );
 			} else if (get_asset_format() == 'format_document') {
 				$assetObject += array( "is_doc" => "is_doc" );
 			} else {

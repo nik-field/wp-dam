@@ -58,6 +58,7 @@ function ajaxExec() {
                     addedon: r.addedon,
                     displaydate: r.displaydate,
                     thumbnail: r.thumbnail,
+                    display_size: r.display_size,
                     format: r.format,
                     filesize: r.filesize,
                     dimensions: r.maxres,

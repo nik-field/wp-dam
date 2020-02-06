@@ -79,7 +79,7 @@
                 <div class="mdc-dialog__content">
                     <div class="mdc-dialog__content--image">
                         {{if is_image}}
-                        <img src="{{permalink}}">
+                        <img src="{{display_size}}">
                         {{/if}}
                         {{if is_doc}}
                         <img src="{{thumbnail}}">

@@ -4,7 +4,7 @@
 	TODO: Display 'Post Format' dependent metaboxes [https://code.tutsplus.com/tutorials/how-to-display-metaboxes-according-to-the-current-post-format--wp-27970]
 	*/
 
-	class AddImage_Meta_Box {
+	class AddAsset_Meta_Box {
 		private $screens = array(
 			'Asset',
 		);
@@ -47,8 +47,8 @@
 		public function add_meta_boxes() {
 			foreach ( $this->screens as $screen ) {
 				add_meta_box(
-					'add-image',
-					__( 'Add Image', 'add-image-metabox' ),
+					'add-asset',
+					__( 'Add Asset', 'add-asset-metabox' ),
 					array( $this, 'add_meta_box_callback' ),
 					$screen,
 					'normal',
@@ -63,7 +63,7 @@
 		 * @param object $post WordPress post object
 		 */
 		public function add_meta_box_callback( $post ) {
-			wp_nonce_field( 'add_image_data', 'add_image_nonce' );
+			wp_nonce_field( 'add_asset_data', 'add_asset_nonce' );
 			$this->generate_fields( $post );
 		}
 
@@ -79,7 +79,7 @@
                     if (typeof wp.media !== 'undefined') {
                         var _custom_media = true,
                             _orig_send_attachment = wp.media.editor.send.attachment;
-                        $('.add-image-metabox-media').click(function (e) {
+                        $('.add-asset-metabox-media').click(function (e) {
                             var send_attachment_bkp = wp.media.editor.send.attachment;
                             var button = $(this);
                             var id = button.attr('id').replace('_button', '');
@@ -110,11 +110,11 @@
 			$output = '';
 			foreach ( $this->fields as $field ) {
 				$label    = '<label for="' . $field['id'] . '">' . $field['label'] . '</label>';
-				$db_value = get_post_meta( $post->ID, 'add_image_' . $field['id'], true );
+				$db_value = get_post_meta( $post->ID, 'add_asset_' . $field['id'], true );
 				switch ( $field['type'] ) {
 					case 'media':
 						$input = sprintf(
-							'<input class="regular-text" id="%s" name="%s" type="text" value="%s"> <input class="button add-image-metabox-media" id="%s_button" name="%s_button" type="button" value="Upload" />',
+							'<input class="regular-text" id="%s" name="%s" type="text" value="%s"> <input class="button add-asset-metabox-media" id="%s_button" name="%s_button" type="button" value="Upload" />',
 							$field['id'],
 							$field['id'],
 							$db_value,
@@ -169,12 +169,12 @@
 		 * Hooks into WordPress' save_post function
 		 */
 		public function save_post( $post_id ) {
-			if ( ! isset( $_POST['add_image_nonce'] ) ) {
+			if ( ! isset( $_POST['add_asset_nonce'] ) ) {
 				return $post_id;
 			}
 
-			$nonce = $_POST['add_image_nonce'];
-			if ( ! wp_verify_nonce( $nonce, 'add_image_data' ) ) {
+			$nonce = $_POST['add_asset_nonce'];
+			if ( ! wp_verify_nonce( $nonce, 'add_asset_data' ) ) {
 				return $post_id;
 			}
 
@@ -192,15 +192,15 @@
 							$_POST[ $field['id'] ] = sanitize_text_field( $_POST[ $field['id'] ] );
 							break;
 					}
-					update_post_meta( $post_id, 'add_image_' . $field['id'], $_POST[ $field['id'] ] );
+					update_post_meta( $post_id, 'add_asset_' . $field['id'], $_POST[ $field['id'] ] );
 				} else if ( $field['type'] === 'checkbox' ) {
-					update_post_meta( $post_id, 'add_image_' . $field['id'], '0' );
+					update_post_meta( $post_id, 'add_asset_' . $field['id'], '0' );
 				}
 			}
 		}
 	}
 
-	new AddImage_Meta_Box;
+	new AddAsset_Meta_Box;
 
 
 	function add_asset_format_box() {
@@ -223,7 +223,7 @@
 	// This function gets called in edit-form-advanced.php
 	function print_asset_format_box( $post ) {
 
-		echo '<input type="hidden" name="taxonomy_noncename" id="taxonomy_noncename" value="' .
+		echo '<input type="hidden" name="taxonomy_format_nonce" id="taxonomy_format_nonce" value="' .
 		     wp_create_nonce( 'taxonomy_format' ) . '" />';
 
 
@@ -235,6 +235,7 @@
             <!-- Display formats as options -->
 			<?php
 				$labels = wp_get_object_terms( $post->ID, 'format' );
+				wp_nonce_field( 'taxonomy_format', 'taxonomy_format_nonce' );
 
 				foreach ( $formats as $format ) {
 					if ( ! is_wp_error( $labels ) && ! empty( $labels ) && ! strcmp( $format->slug, $labels[0]->slug ) ) {
@@ -251,7 +252,7 @@
 	function save_format_data( $post_id ) {
 // verify this came from our screen and with proper authorization.
 
-		if ( ! wp_verify_nonce( $_POST['taxonomy_noncename'], 'taxonomy_format' ) ) {
+		if ( isset( $_POST['taxonomy_format_nonce'] ) && ! wp_verify_nonce( $_POST['taxonomy_format_nonce'], 'taxonomy_format' ) ) {
 			return $post_id;
 		}
 
@@ -262,7 +263,7 @@
 
 
 		// Check permissions
-		if ( 'page' == $_POST['post_type'] ) {
+		if ( 'page' == $_GET['post_type'] ) {
 			if ( ! current_user_can( 'edit_page', $post_id ) ) {
 				return $post_id;
 			}
