@@ -1,0 +1,34 @@
+
+ASSET CARDS:
+DONE: TODO: Download bar with URL
+    1. Form field with fetched url
+    2. Download button
+    3. Copy to Clipboard when clicking inside url box
+    4. "Click to copy" tooltip
+
+DASHBOARD:
+
+Add/Edit Asset Screen:
+DONE: TODO: Download button triggers basic download
+TODO: More Options: Edit Details, Edit Tags(modal), Other Sizes(for image)
+DONE: TODO: Clicking Title or thumbnail brings up modal with image preview which includes actions
+TODO: Add Asset 'kind': Follows content under templates in mind map
+
+Filtering & Searching
+TODO: Search Configuration
+TODO: Year categories for projects
+TODO: Clicking projects/year sends filter
+TODO: Searching shouldn't call ajax again
+TODO: Sorted by should be a dropdown. setRef to variable based on selected value (ex. Most Recent = 'addedon')
+DONE: TODO: Recently used
+DONE: TODO: Functioning filters
+DONE: TODO: Funcitoning Search Bar
+
+Pages
+DONE: TODO: Artist Pages
+TODO: DAM logo goes home
+TODO: Artists goes home
+TODO: Mobile adjustments
+
+Content:
+TODO: Add content

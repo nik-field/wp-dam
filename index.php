@@ -1,63 +1,101 @@
 <?php
-/**
- * The main template file
- *
- * This is the most generic template file in a WordPress theme
- * and one of the two required files for a theme (the other being style.css).
- * It is used to display a page when nothing more specific matches a query.
- * E.g., it puts together the home page when no home.php file exists.
- *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
- *
- * @package DAM_-_Digital_Asset_Manager
- */
+	/**
+	 * The main template file
+	 *
+	 * This is the most generic template file in a WordPress theme
+	 * and one of the two required files for a theme (the other being style.css).
+	 * It is used to display a page when nothing more specific matches a query.
+	 * E.g., it puts together the home page when no home.php file exists.
+	 *
+	 * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
+	 *
+	 * @package DAM_-_Digital_Asset_Manager
+	 */
 
-get_header();
+	get_header();
 ?>
 
-	<div id="primary" class="content-area">
-		<main id="main" class="site-main">
+    <div id="primary" class="content-area mdc-layout-grid">
+        <div class="content-area-container mdc-layout-grid__inner">
 
-		<?php
+			<?php get_sidebar(); ?>
+            <main id="main" class="site-main mdc-layout-grid__cell mdc-layout-grid__cell--span-9">
+<?php if ( is_user_logged_in()) : ?>
+                <div id="recently-used">
+                    <span class="recent-label">Recently Used: </span>
+					<?php
+						$user_id           = get_current_user_id();
+						$recent_assets     = get_user_meta( $user_id, 'recent_assets' )[0];
+						$args              = array( 'post_type' => 'asset', 'post__in' => $recent_assets, 'orderby' => 'post__in', 'posts_per_page' => 3 );
+						$recentAssetsQuery = new WP_Query( $args );
+						if ( $recentAssetsQuery->have_posts() ) :
+							while ( $recentAssetsQuery->have_posts() ) : $recentAssetsQuery->the_post();
+								get_template_part( 'template-parts/content', 'asset' );
+							endwhile;
+						else:
+							echo 'Sorry, no recent posts';
+						endif;
+						wp_reset_postdata();
 
-		$args = array('post_type'=> 'asset');
-  		query_posts($args);
+					?>
+                </div>
+                <?php endif; ?>
+                <div class="loading-bars">
+                    <div class="spinner">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
+                </div>
 
-		if ( have_posts() ) :
+                <div id="search-results"></div>
 
-			if ( is_home() && ! is_front_page() ) :
-				?>
-				<header>
-					<h1 class="page-title screen-reader-text"><?php single_post_title(); ?></h1>
-				</header>
-				<?php
-			endif;
+                <div id="initial-results">
 
-			/* Start the Loop */
-			while ( have_posts() ) :
-				the_post();
+                    <!--					--><?php
+						//
+						//						$assetsQuery = damQuery( 'assets' );
+						//
+						//						if ( $assetsQuery->have_posts() ) :
+						//
+						//							if ( is_home() && ! is_front_page() ) :
+						//
+						//								?>
+                    <!--                                <header>-->
+                    <!--                                    <h1 class="page-title screen-reader-text">--><?php //single_post_title(); ?><!--</h1>-->
+                    <!--                                </header>-->
+                    <!--							--><?php
+						//							endif;
+						//							?><!----><?php
+						//							/* Start the Loop */
+						//							while ( $assetsQuery->have_posts() ) : $assetsQuery->the_post();
+						//
+						//
+						//								/*
+						//								 * Include the Post-Type-specific template for the content.
+						//								 * If you want to override this in a child theme, then include a file
+						//								 * called content-___.php (where ___ is the Post Type name) and that will be used instead.
+						//								 */
+						//								get_template_part( 'template-parts/content', 'asset' );
+						//
+						//							endwhile;
+						//
+						//							?>
+                    <!--                            <div class="asset-pagination"></div> --><?php
+						//
+						//						else :
+						//
+						//							get_template_part( 'template-parts/content', 'none' );
+						//
+						//						endif;
+						//						wp_reset_postdata();
+						//					?>
+                </div>
+            </main><!-- #main -->
+        </div>
+    </div><!-- #primary -->
 
-				/*
-				 * Include the Post-Type-specific template for the content.
-				 * If you want to override this in a child theme, then include a file
-				 * called content-___.php (where ___ is the Post Type name) and that will be used instead.
-				 */
-				get_template_part( 'template-parts/content', 'asset' );
-
-			endwhile;
-
-			the_posts_navigation();
-
-		else :
-
-			get_template_part( 'template-parts/content', 'none' );
-
-		endif;
-		?>
-
-		</main><!-- #main -->
-	</div><!-- #primary -->
+    <script id="definitions" type="text/javascript">var $artist = "";</script>
 
 <?php
-get_sidebar();
-get_footer();
+	get_footer();

@@ -42,7 +42,7 @@ if ( ! function_exists( 'wp_dam_setup' ) ) :
 		 */
 		add_theme_support( 'post-thumbnails' );
 
-		add_theme_support( 'post-formats', array('link', 'image', 'quote', 'video', 'audio'));
+		//add_theme_support( 'post-formats', array('link', 'image', 'quote', 'video', 'audio'));
 
 		// This theme uses wp_nav_menu() in one location.
 		register_nav_menus( array(
@@ -124,7 +124,19 @@ add_action( 'widgets_init', 'wp_dam_widgets_init' );
 function wp_dam_scripts() {
 	wp_enqueue_style( 'wp-dam-style-info', get_stylesheet_uri() );
 	wp_enqueue_style( 'wp-dam-style', get_template_directory_uri() . '/dist/css/style.css', array(), date("H:i:s"));
-	wp_enqueue_script( 'wp-dam-js', get_template_directory_uri() . '/dist/scripts/script.js', array(), date("H:i:s"), true);
+	wp_enqueue_style( 'wp-dam-fonts', get_template_directory_uri() . '/dist/css/fonts/GothamRounded-Medium.css', array(), date("H:i:s"));
+	wp_enqueue_script( 'wp-dam-js', get_template_directory_uri() . '/dist/scripts/script.js', array('jquery'), date("H:i:s"), true);
+
+	wp_enqueue_script( 'template-web', get_template_directory_uri() . '/dist/scripts/template-web-min.js', array('jquery'), date("H:i:s"), true);
+	//wp_enqueue_script( 'asset-search', get_template_directory_uri() . '/dist/scripts/asset-search-min.js', array('jquery', 'wp-dam-js'), date("H:i:s"), true );
+	wp_localize_script('wp-dam-js', 'ajax_url', admin_url('admin-ajax.php') );
+	wp_localize_script('asset-access', 'ajax_url', admin_url('admin-ajax.php') );
+	wp_enqueue_script( 'elasticlunr', 'http://elasticlunr.com/elasticlunr.min.js', array(), date("H:i:s"), true);
+
+
+	wp_deregister_script('jquery');
+	wp_enqueue_script('jquery', get_template_directory_uri() . '/dist/scripts/jquery-3.4.1.min.js', array(), date("H:i:s"), true);
+
 
 	wp_enqueue_style( 'material-icons', "https://fonts.googleapis.com/icon?family=Material+Icons", array(), date("H:i:s"));
 
@@ -137,6 +149,20 @@ function wp_dam_scripts() {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'wp_dam_scripts' );
+
+	/**
+	 * Enqueue scripts in the WordPress admin.
+	 *
+	 * @param int $hook Hook suffix for the current admin page.
+	 */
+	function wp_dam_admin_scripts(  $hook ) {
+		if ( 'edit-tags.php' == $hook && get_current_screen()->taxonomy == 'artist_project') {
+			wp_enqueue_script( 'admin_customizer_script', get_template_directory_uri() . '/dist/scripts/admin-customizer-min.js', array('jquery'), date("H:i:s"), true );
+			wp_enqueue_style( 'admin_style', get_template_directory_uri() . '/dist/css/admin.css', array(), date("H:i:s"));
+		}
+		return;
+	}
+	add_action( 'admin_enqueue_scripts', 'wp_dam_admin_scripts' );
 
 /**
  * Implement the Custom Header feature.

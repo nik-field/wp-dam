@@ -1,63 +1,63 @@
 <?php
-/**
- * Template part for displaying posts
- *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
- *
- * @package DAM_-_Digital_Asset_Manager
- * 
- * TODO: Implement frontend tagging function [https://wordpress.stackexchange.com/questions/167197/how-to-add-tags-to-post-from-frontend]
- */
+	/**
+	 * Template part for displaying posts
+	 *
+	 * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
+	 *
+	 * @package DAM_-_Digital_Asset_Manager
+	 *
+	 * TODO: Implement frontend tagging function [https://wordpress.stackexchange.com/questions/167197/how-to-add-tags-to-post-from-frontend]
+	 */
 
 ?>
+<?php
 
+?>
 <!-- CONTENT-ASSET -->
-<article id="asset-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<header class="entry-header">
-		<?php
-		if ( is_singular() ) :
-			the_title( '<h1 class="entry-title">', '</h1>' );
-		else :
-			the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
-		endif;
 
-		if ( 'post' === get_post_type() ) :
+<article asset-id="<?php the_ID(); ?>" id="asset-<?php the_ID(); ?>" <?php post_class( 'mdc-card large-asset' ); ?>>
+    <div class="large-asset-card large-asset-basic-with-header">
+
+        <div class="large-asset-card__content">
+        <div class="large-asset-card__primary">
+			<?php
+				the_title( '<h2 class="large-asset-card__title mdc-typography mdc-typography--headline4 open-dialog">', '</h2>' );
 			?>
-			<div class="entry-meta">
+            <div class="entry-meta large-asset-card__subtitle mdc-typography mdc-typography--subtitle2">
 				<?php
-				wp_dam_posted_on();
-				wp_dam_posted_by();
+					wp_dam_added_on();
 				?>
-			</div><!-- .entry-meta -->
-		<?php endif; ?>
-	</header><!-- .entry-header -->
+            </div>
+        </div>
 
-	<?php wp_dam_post_thumbnail(); ?>
+			<?php if ( get_asset_format() == 'format_image' || get_asset_format() == 'format_document' ) : ?>
+                <div class="mdc-card__media mdc-card__media--4-3 large-asset-card__media open-dialog" style="background-image: url(<?php echo wp_dam_asset_thumbnail(); ?>);"></div>
+			<?php else : ?>
+                <div class="mdc-card__media mdc-card__media--4-3 large-asset-card__media large-asset-card__media--no-img open-dialog"><i class="material-icons large-asset-card__media--icon""><?php echo wp_dam_asset_thumbnail(); ?></i></div>
+			<?php endif; ?>
+            <div class="large-asset-card__secondary mdc-typography mdc-typography--body2">
+                <div class="large-asset-card__file-info">
+                    <h2>File Info</h2>
+                    <div class="large-asset-card-file-info__details">
+						<?php get_asset_file_info(); ?>
+                    </div>
+                </div>
+                <div class="large-asset-card__actions mdc-card__actions">
+                    <div class="mdc-card__action-icons large-asset-card__action-bar">
+                        <div class="large-asset-card__actions-link">
+                            <div class="large-asset-card__link-copy">
+	                            <?php $fileLink = get_asset_url(); ?>
+	                            <i asset-id="<?php the_ID(); ?>" class="access-trigger large-asset-card__link-copy-button mdc-icon-button material-icons mdc-card__action mdc-card__action--icon--unbounded copy" data-clipboard-text="<?php echo $fileLink; ?>">link</i><input data-clipboard-text="<?php echo $fileLink; ?>" asset-id="<?php the_ID(); ?>" class="access-trigger copy" type="text" value="<?php echo $fileLink; ?>" readonly></input>
+                            </div>
+                            <div asset-id="<?php the_ID(); ?>" class="access-trigger large-asset-card__link-download mdc-button mdc-ripple"><a href="<?php echo $fileLink; ?>" download><span class="mdc-button__ripple"></span> Download</a></div>
 
-	<div class="entry-content">
-		<?php
-		the_content( sprintf(
-			wp_kses(
-				/* translators: %s: Name of current post. Only visible to screen readers */
-				__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'wp-dam' ),
-				array(
-					'span' => array(
-						'class' => array(),
-					),
-				)
-			),
-			get_the_title()
-		) );
+                        </div>
+                        <button class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon--unbounded" title="More options" data-mdc-ripple-is-unbounded="false">more_vert</button>
 
-		wp_link_pages( array(
-			'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'wp-dam' ),
-			'after'  => '</div>',
-		) );
-		?>
-	</div><!-- .entry-content -->
-
-	<footer class="entry-footer">
-		<?php wp_dam_entry_footer(); ?>
-	</footer><!-- .entry-footer -->
-</article><!-- #post-<?php the_ID(); ?> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
 <!-- CONTENT-ASSET END -->

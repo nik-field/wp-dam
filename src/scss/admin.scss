@@ -1,0 +1,13 @@
+#addtag {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field {
+  flex-basis: 100%;
+}
+
+.form-field.term-is_artist_or_project_select_type-wrap, .term-project_type-wrap, .term-project_yearyear_select-wrap {
+  order: -1;
+  margin-bottom: 0;
+}

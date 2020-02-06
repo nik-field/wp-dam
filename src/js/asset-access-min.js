@@ -1,0 +1,1 @@
+$(".access-trigger").click((function(c){$.ajax({url:ajax_url,data:{action:"asset_access"},success:function(c){console.log("access triggered")}})}));

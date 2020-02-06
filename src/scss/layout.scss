@@ -1,23 +1,337 @@
 body {
-	margin: 0;
+  margin: 0;
 }
 
-.page-container {
-	position:relative;
-	height:150vh;
+.site-header,
+.site-footer {
+  text-align: center;
 }
 
-.site-header {
-	text-align:center;
+.site-footer {
+  position: relative;
+  bottom: 0;
 }
 
 .site-branding {
-	grid-gap: 0px !important;
-	.site-description {
-		color: $darkgreen;
-	}
+  grid-gap: 0px !important;
 }
 
 .dam-search-input {
-	width: 50%;
+  width: 50%;
+
+  form {
+    width: 100%;
+  }
+}
+
+.content-area {
+  justify-content: center;
+  max-width: 70%;
+}
+
+@media(max-width: 768px) {
+  .filters-area {
+    display: none;
+  }
+}
+
+.large-asset-card {
+  padding: 1rem;
+}
+
+.large-asset-card__primary {
+  display: flex;
+  flex: 1 1 100%;
+  flex-flow: row;
+  justify-content: space-between;
+  padding-bottom: 1em;
+  min-width: 0;
+
+  .large-asset-card__title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .large-asset-card__subtitle {
+    flex-shrink: 0;
+    margin-left: 20px;
+  }
+}
+
+.large-asset-card__content {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  width: 100%;
+
+  .large-asset-card__media {
+    width: 260px;
+    border-radius: 3px;
+  }
+
+  .large-asset-card__media--no-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $offwhite;
+  }
+}
+
+.large-asset-card__secondary {
+  padding-left: 1.5em;
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1 1 50%;
+  min-width: 0;
+
+  .large-asset-card__file-info {
+    flex: 1 1 auto;
+
+    h2 {
+      color: $mediumgrey;
+      margin-top: 0;
+      margin-bottom: .5em;
+      padding-bottom: 2px;
+      border-bottom: 2px dotted $lightgrey;
+    }
+
+    .large-asset-card-file-info__details {
+      columns: 2;
+    }
+
+    .asset-file-info__item {
+      display: block;
+      color: $mediumgrey;
+      margin-bottom: .15em;
+
+      .asset-file-info__item--label {
+        font-weight: bold;
+        font-style: normal;
+      }
+    }
+  }
+}
+
+.mdc-card__actions.large-asset-card__actions {
+  align-self: end;
+  flex: 1 1 100%;
+  min-width: 0;
+  padding-left: 0;
+}
+
+.large-asset-card__actions {
+}
+
+.large-asset-card__primary-action {
+  display: flex;
+  flex-direction: row;
+}
+
+#recently-used {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-bottom: 20px;
+
+  .recent-label {
+    flex-basis: 100%;
+    margin-bottom: 20px;
+    color: $mediumgrey;
+  }
+
+  .mdc-card {
+    width: 32%;
+    min-width: 300px;
+    margin: 0 0 20px;
+
+
+    .large-asset-card {
+      padding: 0;
+      padding-top: 1px / 3px * 100%;
+      overflow: hidden;
+      height: 0;
+      position: relative;
+
+      .large-asset-card__content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: 33% 66%;
+        grid-template-rows: 25% repeat(2, 37.5%);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+
+
+        .large-asset-card__primary {
+          flex-basis: 59%;
+          grid-area: 1 / 2 / 2 / 3;
+          order: 1;
+          min-width: 0;
+          padding: .5em .5em 0 .5em;
+
+          .large-asset-card__title {
+            white-space: normal;
+            font-size: 1rem;
+            line-height: 1.25rem;
+          }
+        }
+
+        .large-asset-card__media {
+          //flex: 0 1 35%;
+          grid-area: 1 / 1 / 4 / 2;
+          order: 0;
+          width: 100%;
+
+
+          .large-asset-card__media--icon {
+            font-size: 3em !important;
+            position: absolute;
+            top: 50%;
+            margin-top: -25%;
+          }
+        }
+
+        .large-asset-card__secondary {
+          order: 2;
+          grid-area: 2 / 2 / 4 / 3;
+          padding: .5em .5em .5em;
+
+          .mdc-card__actions.large-asset-card__actions {
+            min-height: 25px;
+            padding: 0;
+          }
+
+          .large-asset-card__file-info {
+            width: 100%;
+
+            .asset-file-info__item {
+              margin-bottom: 0;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              overflow: hidden;
+              line-height:1rem;
+            }
+
+            .large-asset-card-file-info__details {
+              columns: 1;
+
+              i:nth-child(n+3) {
+                display: none;
+              }
+            }
+
+            h2 {
+              display: none;
+            }
+
+
+          }
+
+          .large-asset-card__action-bar {
+            .large-asset-card__actions-link {
+              border: none;
+              height: 25px;
+              width: unset;
+
+              .mdc-button {
+                border-left: none;
+              }
+
+              .large-asset-card__link-copy {
+                input {
+                  display: none;
+                }
+              }
+            }
+
+            button {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+
+    .entry-meta {
+      display: none;
+    }
+  }
+}
+
+.projects-menu {
+  display:none;
+}
+
+.loading-bars {
+  position:absolute;
+  left:50%;
+}
+.spinner {
+  width: 70px;
+  text-align: center;
+  margin: auto;
+  position: relative;
+  left:-50%;
+}
+
+.spinner > div {
+  width: 18px;
+  height: 18px;
+  background-color: $mediumgrey;
+
+
+  border-radius: 0;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+  0%, 80%, 100% {
+    -webkit-transform: scale(0)
+  }
+  40% {
+    -webkit-transform: scale(.75)
+  }
+}
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  40% {
+    -webkit-transform: scale(.75);
+    transform: scale(.75);
+  }
+}
+
+.mdc-dialog {
+  footer {
+    padding: 0 24px 24px;
+  }
+  .asset-dialog-surface {
+    max-width: 50%;
+  }
+}
+.mdc-dialog__content--image img {
+  width:100%;
+}
+.open-dialog {
+  cursor: pointer;
 }

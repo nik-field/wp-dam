@@ -17,6 +17,12 @@
 		"oAP": "/.gitattributes",
 		"oF": 1
 		},
+	"/.idea": {
+		"ft": 65536,
+		"oA": 1,
+		"oAP": "/dist/.idea",
+		"oF": 0
+		},
 	"/.php_cs.cache": {
 		"cB": 0,
 		"ft": 8192,
@@ -79,6 +85,14 @@
 		"oAP": "/header.php",
 		"oF": 0
 		},
+	"/inc/ajax-search.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/inc/ajax-search.php",
+		"oF": 0
+		},
 	"/inc/custom-header.php": {
 		"cB": 0,
 		"ft": 8192,
@@ -93,6 +107,30 @@
 		"hM": 0,
 		"oA": 0,
 		"oAP": "/inc/custom-metaboxes.php",
+		"oF": 0
+		},
+	"/inc/custom-posttypes.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/inc/custom-posttypes.php",
+		"oF": 0
+		},
+	"/inc/custom-taxonomies.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/inc/custom-taxonomies.php",
+		"oF": 0
+		},
+	"/inc/custom-widgets.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/inc/custom-widgets.php",
 		"oF": 0
 		},
 	"/inc/customizer.php": {
@@ -211,57 +249,79 @@
 		"oAP": "/dist/node_modules",
 		"oF": 0
 		},
-	"/node_modules/@material/base/index.js": {
+	"/node_modules/@material/dialog/index.js": {
+		"bF": 2,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/node_modules/@material/dialog/index-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 1
+		},
+	"/node_modules/@material/dialog/util.js": {
+		"bF": 2,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/node_modules/@material/dialog/util-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 1
+		},
+	"/node_modules/clipboard/dist/clipboard.js": {
 		"bF": 0,
 		"ft": 64,
 		"ma": 0,
 		"mi": 1,
 		"oA": 1,
-		"oAP": "/node_modules/@material/base/index-min.js",
+		"oAP": "/node_modules/clipboard/dist/clipboard-min.js",
 		"oF": 0,
 		"sC": 3,
 		"tS": 0
 		},
-	"/node_modules/@material/floating-label/index.js": {
+	"/node_modules/focus-trap/index.js": {
 		"bF": 0,
 		"ft": 64,
 		"ma": 0,
 		"mi": 1,
 		"oA": 1,
-		"oAP": "/node_modules/@material/floating-label/index-min.js",
+		"oAP": "/node_modules/focus-trap/index-min.js",
 		"oF": 0,
 		"sC": 3,
 		"tS": 0
 		},
-	"/node_modules/@material/line-ripple/index.js": {
+	"/node_modules/popper.js/dist/esm/popper.js": {
 		"bF": 0,
 		"ft": 64,
 		"ma": 0,
 		"mi": 1,
 		"oA": 1,
-		"oAP": "/node_modules/@material/line-ripple/index-min.js",
+		"oAP": "/node_modules/popper.js/dist/esm/popper-min.js",
 		"oF": 0,
 		"sC": 3,
 		"tS": 0
 		},
-	"/node_modules/@material/textfield/index.js": {
+	"/node_modules/tippy.js/dist/tippy.chunk.esm.js": {
 		"bF": 0,
 		"ft": 64,
 		"ma": 0,
 		"mi": 1,
 		"oA": 1,
-		"oAP": "/node_modules/@material/textfield/index-min.js",
+		"oAP": "/node_modules/tippy.js/dist/tippy.chunk.esm-min.js",
 		"oF": 0,
 		"sC": 3,
 		"tS": 0
 		},
-	"/node_modules/@material/top-app-bar/index.js": {
+	"/node_modules/tippy.js/dist/tippy.esm.js": {
 		"bF": 0,
 		"ft": 64,
 		"ma": 0,
 		"mi": 1,
 		"oA": 1,
-		"oAP": "/node_modules/@material/top-app-bar/index-min.js",
+		"oAP": "/node_modules/tippy.js/dist/tippy.esm-min.js",
 		"oF": 0,
 		"sC": 3,
 		"tS": 0
@@ -378,16 +438,95 @@
 		"plM": 61593588924415,
 		"prP": 1
 		},
+	"/src/js/admin-customizer.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "/dist/scripts/admin-customizer-min.js",
+		"oF": 2,
+		"sC": 3,
+		"tS": 0
+		},
+	"/src/js/asset-access-min.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "/src/js/asset-access-min-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/src/js/asset-access.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/src/js/asset-access-min.js",
+		"oF": 1,
+		"sC": 3,
+		"tS": 0
+		},
+	"/src/js/asset-search.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 0,
+		"oA": 1,
+		"oAP": "/dist/scripts/asset-search-min.js",
+		"oF": 3,
+		"sC": 3,
+		"tS": 0
+		},
+	"/src/js/pace.min.js": {
+		"bF": 2,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "/src/js/pace.min-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 1
+		},
+	"/src/js/template-web.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 2,
+		"oAP": "/dist/scripts/template-web-min.js",
+		"oF": 3,
+		"sC": 3,
+		"tS": 0
+		},
 	"/src/js/webapp.js": {
-		"bF": 6,
+		"bF": 2,
 		"ft": 64,
 		"ma": 0,
 		"mi": 0,
 		"oA": 0,
 		"oAP": "/dist/scripts/script.js",
 		"oF": 2,
-		"sC": 0,
-		"tS": 1
+		"sC": 3,
+		"tS": 0
+		},
+	"/src/scss/admin.scss": {
+		"aP": 1,
+		"bl": 0,
+		"dP": 10,
+		"dS": 0,
+		"ft": 4,
+		"ma": 0,
+		"oA": 0,
+		"oAP": "/dist/css/admin.css",
+		"oF": 3,
+		"oS": 0,
+		"uL": 1
 		},
 	"/src/scss/components.scss": {
 		"aP": 0,
@@ -464,6 +603,22 @@
 		"oF": 1,
 		"oS": 3
 		},
+	"/taxonomy-artist_project.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/taxonomy-artist_project.php",
+		"oF": 0
+		},
+	"/template-parts/asset-card.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/template-parts/asset-card.php",
+		"oF": 0
+		},
 	"/template-parts/content-asset.php": {
 		"cB": 0,
 		"ft": 8192,
@@ -502,6 +657,14 @@
 		"hM": 0,
 		"oA": 0,
 		"oAP": "/template-parts/content.php",
+		"oF": 0
+		},
+	"/todo.txt": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/todo.txt",
 		"oF": 0
 		},
 	"/webpack.config.js": {
@@ -972,8 +1135,8 @@
 		},
 	"environmentVariablesString": "NODE_ENV:::production",
 	"esLintConfigFileHandlingType": 0,
-	"esLintECMAVersion": 6,
-	"esLintEnvironmentsMask": 3,
+	"esLintECMAVersion": 9,
+	"esLintEnvironmentsMask": 8211,
 	"esLintRules": {
 		"accessor-pairs": {
 			"active": 0,
@@ -1296,7 +1459,7 @@
 			"optionString": "{'allowParens': true}"
 			},
 		"no-console": {
-			"active": 1,
+			"active": 0,
 			"optionString": "{'allow': ['warn', 'error']}"
 			},
 		"no-const-assign": {
@@ -2013,10 +2176,10 @@
 			}
 		},
 	"esLintSourceType": 0,
-	"externalServerAddress": "http://dam.local:8888/",
+	"externalServerAddress": "http://dam.local:80",
 	"gitIgnoreBuildFolder": 1,
 	"hideConfigFile": 1,
-	"jsCheckerReservedNamesString": "",
+	"jsCheckerReservedNamesString": "jQuery, $, template, ajax_url, elasticlunr, dialogOpen",
 	"jsHintFlags2": {
 		"asi": {
 			"active": 0,
@@ -2431,11 +2594,11 @@
 		"autoOutputPathReplace1": "",
 		"autoOutputPathReplace2": "",
 		"autoOutputPathStyle": 0,
-		"bundleFormat": 0,
+		"bundleFormat": 2,
 		"createSourceMap": 0,
 		"minifyOutput": 1,
 		"syntaxCheckerStyle": 3,
-		"transpilerStyle": 0
+		"transpilerStyle": 1
 		},
 	"languageDefaultsJSON": {
 		"autoOutputAction": 1,
