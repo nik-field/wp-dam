@@ -4,6 +4,88 @@
 	TODO: Display 'Post Format' dependent metaboxes [https://code.tutsplus.com/tutorials/how-to-display-metaboxes-according-to-the-current-post-format--wp-27970]
 	*/
 
+	function add_asset_format_box() {
+		remove_meta_box( 'tagsdiv-format', 'asset', 'side' );
+		add_meta_box( 'asset_format_box_ID', __( 'Format' ), 'print_asset_format_box', 'asset', 'normal', 'high' );
+	}
+
+	function add_asset_format_toggle() {
+
+		if ( ! is_admin() ) {
+			return;
+		}
+
+		add_action( 'admin_menu', 'add_asset_format_box' );
+		add_action( 'save_post', 'save_format_data' );
+	}
+
+	add_asset_format_toggle();
+
+	// This function gets called in edit-form-advanced.php
+	function print_asset_format_box( $post ) {
+
+		echo '<input type="hidden" name="taxonomy_format_nonce" id="taxonomy_format_nonce" value="' .
+		     wp_create_nonce( 'taxonomy_format' ) . '" />';
+
+
+		// Get all theme taxonomy terms
+		$formats = get_terms( 'format', 'hide_empty=0' );
+
+		?>
+		<form id='asset_format'>
+			<!-- Display formats as options -->
+			<?php
+				$labels = wp_get_object_terms( $post->ID, 'format' );
+				wp_nonce_field( 'taxonomy_format', 'taxonomy_format_nonce' );
+
+				foreach ( $formats as $format ) {
+					if ( ! is_wp_error( $labels ) && ! empty( $labels ) && ! strcmp( $format->slug, $labels[0]->slug ) ) {
+						echo "<input type='radio' name='format' class='format-option' value='" . $format->slug . "' checked>" . $format->name . "</input>\n";
+					} else {
+						echo "<input type='radio' name='format' class='format-option' value='" . $format->slug . "'>" . $format->name . "</input>\n";
+					}
+				}
+			?>
+		</form>
+		<?php
+	}
+
+	function save_format_data( $post_id ) {
+// verify this came from our screen and with proper authorization.
+
+		if ( isset( $_POST['taxonomy_format_nonce'] ) && ! wp_verify_nonce( $_POST['taxonomy_format_nonce'], 'taxonomy_format' ) ) {
+			return $post_id;
+		}
+
+		// verify if this is an auto save routine. If it is our form has not been submitted, so we dont want to do anything
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return $post_id;
+		}
+
+
+		// Check permissions
+		if ( 'page' == $_GET['post_type'] ) {
+			if ( ! current_user_can( 'edit_page', $post_id ) ) {
+				return $post_id;
+			}
+		} else {
+			if ( ! current_user_can( 'edit_post', $post_id ) ) {
+				return $post_id;
+			}
+		}
+
+		// OK, we're authenticated: we need to find and save the data
+		$post = get_post( $post_id );
+		if ( ( $post->post_type == 'asset' ) ) {
+			// OR $post->post_type != 'revision'
+			$format = $_POST['format'];
+			wp_set_object_terms( $post_id, $format, 'format' );
+		}
+
+		return $format;
+
+	}
+
 	class AddAsset_Meta_Box {
 		private $screens = array(
 			'Asset',
@@ -52,7 +134,7 @@
 					array( $this, 'add_meta_box_callback' ),
 					$screen,
 					'normal',
-					'low'
+					'high'
 				);
 			}
 		}
@@ -203,87 +285,7 @@
 	new AddAsset_Meta_Box;
 
 
-	function add_asset_format_box() {
-		remove_meta_box( 'tagsdiv-format', 'asset', 'side' );
-		add_meta_box( 'asset_format_box_ID', __( 'Format' ), 'print_asset_format_box', 'asset', 'normal', 'high' );
-	}
 
-	function add_asset_format_toggle() {
-
-		if ( ! is_admin() ) {
-			return;
-		}
-
-		add_action( 'admin_menu', 'add_asset_format_box' );
-		add_action( 'save_post', 'save_format_data' );
-	}
-
-	add_asset_format_toggle();
-
-	// This function gets called in edit-form-advanced.php
-	function print_asset_format_box( $post ) {
-
-		echo '<input type="hidden" name="taxonomy_format_nonce" id="taxonomy_format_nonce" value="' .
-		     wp_create_nonce( 'taxonomy_format' ) . '" />';
-
-
-		// Get all theme taxonomy terms
-		$formats = get_terms( 'format', 'hide_empty=0' );
-
-		?>
-        <form id='asset_format'>
-            <!-- Display formats as options -->
-			<?php
-				$labels = wp_get_object_terms( $post->ID, 'format' );
-				wp_nonce_field( 'taxonomy_format', 'taxonomy_format_nonce' );
-
-				foreach ( $formats as $format ) {
-					if ( ! is_wp_error( $labels ) && ! empty( $labels ) && ! strcmp( $format->slug, $labels[0]->slug ) ) {
-						echo "<input type='radio' name='format' class='format-option' value='" . $format->slug . "' checked>" . $format->name . "</input>\n";
-					} else {
-						echo "<input type='radio' name='format' class='format-option' value='" . $format->slug . "'>" . $format->name . "</input>\n";
-					}
-				}
-			?>
-        </form>
-		<?php
-	}
-
-	function save_format_data( $post_id ) {
-// verify this came from our screen and with proper authorization.
-
-		if ( isset( $_POST['taxonomy_format_nonce'] ) && ! wp_verify_nonce( $_POST['taxonomy_format_nonce'], 'taxonomy_format' ) ) {
-			return $post_id;
-		}
-
-		// verify if this is an auto save routine. If it is our form has not been submitted, so we dont want to do anything
-		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-			return $post_id;
-		}
-
-
-		// Check permissions
-		if ( 'page' == $_GET['post_type'] ) {
-			if ( ! current_user_can( 'edit_page', $post_id ) ) {
-				return $post_id;
-			}
-		} else {
-			if ( ! current_user_can( 'edit_post', $post_id ) ) {
-				return $post_id;
-			}
-		}
-
-		// OK, we're authenticated: we need to find and save the data
-		$post = get_post( $post_id );
-		if ( ( $post->post_type == 'asset' ) ) {
-			// OR $post->post_type != 'revision'
-			$format = $_POST['format'];
-			wp_set_object_terms( $post_id, $format, 'format' );
-		}
-
-		return $format;
-
-	}
 
 	function remove_default_tax_metabox() {
 		remove_meta_box( 'artist_projectdiv', 'asset', 'side' );
@@ -294,7 +296,7 @@
 
 	function add_asset_image_metabox() {
 		remove_meta_box( 'postimagediv', 'asset', 'side' );
-	    add_meta_box( 'assetimagediv', 'Add Image', 'post_thumbnail_meta_box', 'asset', 'normal', 'default' );
+	    add_meta_box( 'assetimagediv', 'Add Image', 'post_thumbnail_meta_box', 'asset', 'normal', 'high' );
 	}
 
 //	add_action( 'admin_menu', 'remove_default_tax_metabox' );
