@@ -44,15 +44,9 @@
                 <span class="site-description mdc-layout-grid__cell mdc-layout-grid__cell--span-12">DIGITAL ASSET MANAGER</span>
             </section><!-- .site-branding -->
         </div>
-        <!-- TODO: Dynamic nav
-		-->
         <nav class="footer-nav mdc-menu mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
             <div class="footer-nav-links">
-                <button class="footer-nav-link-item mdc-button mdc-button__ripple"><a class="mdc-typography--button" href="#">Artists</a>
-                </button>
-                <button class="footer-nav-link-item mdc-button"><a class="mdc-typography--button" href="#">Projects</a>
-                </button>
-                <button class="footer-nav-link-item mdc-button"><a class="mdc-typography--button" href="#">Assets</a>
+                <button class="footer-nav-link-item mdc-button mdc-button__ripple"><a class="mdc-typography--button" href="mailto:nik@ordinaryartistservices.com">Built by Ordinary Artist Services</a>
                 </button>
             </div>
     </div>
@@ -73,34 +67,6 @@
 </script>
 
 <script id="tpl-dialog" type="text/html">
-                <h2 class="mdc-dialog__title">
-                    {{title}}
-                </h2>
-                <div class="mdc-dialog__content">
-                    <div class="mdc-dialog__content--image">
-                        {{if is_image}}
-                        <img src="{{display_size}}">
-                        {{/if}}
-                        {{if is_doc}}
-                        <img src="{{thumbnail}}">
-                        {{/if}}
-                        {{if is_not_image}}
-                        <i class="material-icons large-asset-card__media--icon">{{thumbnail}}</i>
-                        {{/if}}
-                    </div>
-                </div>
-                <footer class="mdc-dialog__actions">
-                    <div class="mdc-card__action-icons large-asset-card__action-bar">
-                        <div class="large-asset-card__actions-link">
-                            <div class="large-asset-card__link-copy">
-                                <i asset-id="{{ id }}" class="access-trigger large-asset-card__link-copy-button mdc-icon-button material-icons mdc-card__action mdc-card__action--icon--unbounded copy" data-clipboard-text="{{permalink}}">link</i><input data-clipboard-text="{{permalink}}" asset-id="{{ id }}" class="access-trigger copy" type="text" value="{{permalink}}" readonly></input>
-                            </div>
-                            <div asset-id="{{ id }}" class="access-trigger large-asset-card__link-download mdc-button mdc-ripple"><a href="{{permalink}}" download="{{filename}}"><span class="mdc-button__ripple"></span>Download</a></div>
-
-                        </div>
-                        <button class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon--unbounded" title="More options" data-mdc-ripple-is-unbounded="false">more_vert</button>
-
-                    </div>
-                </footer>
+	<?php require get_template_directory() . '/template-parts/asset-dialog.php'; ?>
 </script>
 </body></html>

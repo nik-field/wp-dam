@@ -17,6 +17,14 @@
 		"oAP": "/.gitattributes",
 		"oF": 1
 		},
+	"/.gitignore": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/.gitignore",
+		"oF": 0
+		},
 	"/.idea": {
 		"ft": 65536,
 		"oA": 1,
@@ -91,6 +99,14 @@
 		"hM": 0,
 		"oA": 0,
 		"oAP": "/inc/ajax-search.php",
+		"oF": 0
+		},
+	"/inc/class.metabox.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/inc/class.metabox.php",
 		"oF": 0
 		},
 	"/inc/custom-header.php": {
@@ -267,6 +283,39 @@
 		"mi": 1,
 		"oA": 1,
 		"oAP": "/node_modules/@material/dialog/util-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 1
+		},
+	"/node_modules/@material/menu-surface/index.js": {
+		"bF": 2,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/node_modules/@material/menu-surface/index-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 1
+		},
+	"/node_modules/@material/menu-surface/util.js": {
+		"bF": 2,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/node_modules/@material/menu-surface/util-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 1
+		},
+	"/node_modules/@material/menu/index.js": {
+		"bF": 2,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/node_modules/@material/menu/index-min.js",
 		"oF": 0,
 		"sC": 3,
 		"tS": 1
@@ -482,14 +531,25 @@
 		"sC": 3,
 		"tS": 0
 		},
+	"/src/js/elasticlunr.js": {
+		"bF": 2,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/dist/scripts/elasticlunr.min.js",
+		"oF": 3,
+		"sC": 3,
+		"tS": 0
+		},
 	"/src/js/pace.min.js": {
 		"bF": 2,
 		"ft": 64,
 		"ma": 0,
 		"mi": 1,
-		"oA": 0,
+		"oA": 1,
 		"oAP": "/src/js/pace.min-min.js",
-		"oF": 0,
+		"oF": 1,
 		"sC": 3,
 		"tS": 1
 		},
@@ -617,6 +677,14 @@
 		"hM": 0,
 		"oA": 0,
 		"oAP": "/template-parts/asset-card.php",
+		"oF": 0
+		},
+	"/template-parts/asset-dialog.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/template-parts/asset-dialog.php",
 		"oF": 0
 		},
 	"/template-parts/content-asset.php": {

@@ -200,9 +200,9 @@
 	function asset_is_audio( $post = null ) {
 		$asset_id = get_the_id();
 		$is_audio = false;
-		if (get_asset_format() == 'format_audio') {
-		    $is_audio = true;
-        }
+		if ( get_asset_format() == 'format_audio' ) {
+			$is_audio = true;
+		}
 
 		/**
 		 * Filters whether a post has a post thumbnail.
@@ -221,9 +221,9 @@
 		$asset_id = get_the_id();
 		$is_image = false;
 
-		if (get_asset_format() == 'format_image') {
-		    $is_image = true;
-        }
+		if ( get_asset_format() == 'format_image' ) {
+			$is_image = true;
+		}
 
 		/**
 		 * Filters whether a post has a post thumbnail.
@@ -265,12 +265,20 @@
 					break;
 
 				case 'format_document':
-					return wp_get_attachment_image_src(get_asset_attachment_id(),'full')[0];
+					return wp_get_attachment_image_src( get_asset_attachment_id(), 'full' )[0];
 					break;
 
 				case 'format_link':
 					return 'link';
 					break;
+
+				case 'format_video':
+					$url       = get_asset_url();
+					$thumb_url = get_video_thumb_url( $url );
+
+					return $thumb_url;
+					break;
+
 			}
 
 		}
@@ -301,7 +309,7 @@
 		$mime            = $file_type_check['type'];
 		$ext             = pathinfo( $file[0], PATHINFO_EXTENSION );
 
-		if (! $ext && ! $mime ){
+		if ( ! $ext && ! $mime ) {
 			return 'No file attached';
 		}
 
@@ -319,40 +327,28 @@
 			'taxonomy'   => 'artist_project',
 			'object_ids' => get_the_id(),
 			'hide_empty' => false,
-			'meta_query' => array(
-				array(
-					'key'     => 'is_artist_or_project_select_type',
-					'value'   => 'is_artist_or_project_artist',
-					'compare' => 'LIKE'
-				)
-			),
+			'parent' => 0,
 
 		);
 		$artist = get_terms( $args );
-		if (! $artist ){
-		    return 'None specified';
-        }
+		if ( ! $artist ) {
+			return 'None specified';
+		}
 
 
 		return $artist[0]->name;
 	}
 
 	function get_asset_project() {
-		$args   = array(
+		$args    = array(
 			'taxonomy'   => 'artist_project',
 			'object_ids' => get_the_id(),
 			'hide_empty' => false,
-			'meta_query' => array(
-				array(
-					'key'     => 'is_artist_or_project_select_type',
-					'value'   => 'is_artist_or_project_project',
-					'compare' => 'LIKE'
-				)
-			),
+			'childless' => true,
 
 		);
 		$project = get_terms( $args );
-		if (! $project ){
+		if ( ! $project || $project[0]->name === get_asset_artist() ) {
 			return 'None specified';
 		}
 
@@ -361,16 +357,17 @@
 
 	function get_asset_creator() {
 		$creator = get_post_meta( get_the_id(), 'add_asset_creator' );;
-        if (! $creator[0]) {
-	        return "None specified";
-        }
+		if ( ! $creator[0] ) {
+			return "None specified";
+		}
+
 		return $creator[0];
 	}
 
 	function get_asset_url( $slug_only = false ) {
 		if ( get_asset_format() == 'format_image' ) {
-			$url      = wp_get_original_image_url(get_post_thumbnail_id());
-			if (! $url ){
+			$url = wp_get_original_image_url( get_post_thumbnail_id() );
+			if ( ! $url ) {
 				return 'No image added';
 			}
 			$filename = basename( $url );
@@ -379,9 +376,13 @@
 			}
 
 			return $filename;
+		} elseif ( get_asset_format() === 'format_link' ) {
+			$url = get_post_meta( get_the_id(), 'add_asset_link' )[0];
+		} else {
+			$url = get_post_meta( get_the_id(), 'add_asset_file' )[0];
 		}
-		$url      = get_post_meta( get_the_id(), 'add_asset_file' )[0];
-		if (! $url ){
+
+		if ( ! $url ) {
 			return 'No file added';
 		}
 		$filename = basename( $url );
@@ -394,54 +395,62 @@
 
 	function get_asset_tags_list() {
 		$tagsList = comma_tags( get_the_tags(), false );
-		if (! $tagsList ){
+		if ( ! $tagsList ) {
 			return 'None specified';
 		}
 
 		return $tagsList;
 	}
 
-	function get_asset_audio_duration() {
+	function get_asset_file_meta( string $key ) {
 		$attachments = get_attached_media( '' );
-		if (! $attachments ){
+
+		$attachment = reset( $attachments );
+		$metadata   = wp_get_attachment_metadata( $attachment->ID );
+		if ( ! $attachments || ! $metadata[$key] ){
 			return 'No file attached';
 		}
-		$attachment  = reset( $attachments );
-		$metadata    = wp_get_attachment_metadata( $attachment->ID );
 
-
-		return $metadata['length_formatted'];
+		return $metadata[ $key ];
 	}
 
 	function get_asset_attachment_id() {
+//	    if (get_asset_format() == 'format_video') {
+//	    	$asset_id = get_the_id();
+//		    $attachment = get_post_meta( $asset_id, 'add_asset_file' );
+//		    print_r(get_post());
+//		    return $attachment->ID;
+//        }
 		$attachments = get_attached_media( '' );
 		$attachment  = reset( $attachments );
+
 		return $attachment->ID;
 	}
 
 
 	function get_asset_file_size() {
-	    if (get_asset_format() !== 'format_audio' && get_asset_format() !== 'format_image') {
-	        $attachments = get_attached_media('');
-		    $attachment  = reset( $attachments );
-	        $filepath = get_attached_file($attachment->ID);
-	        $filesize = filesize($filepath);
-	        $readout = size_format($filesize);
-	        return $readout;
-        }
-		if ( get_asset_format() == 'format_audio' ) {
+		if ( get_asset_format() !== 'format_audio' && get_asset_format() !== 'format_image' ) {
 			$attachments = get_attached_media( '' );
-			if (! $attachments ){
-				return 'No file attached';
-			}
 			$attachment  = reset( $attachments );
-			$metadata    = wp_get_attachment_metadata( $attachment->ID );
-			$readout     = size_format( $metadata['filesize'] );
+			$filepath    = get_attached_file( $attachment->ID );
+			$filesize    = filesize( $filepath );
+			$readout     = size_format( $filesize );
 
 			return $readout;
 		}
-		$image    = wp_get_original_image_path( get_post_thumbnail_id() );
-		if (! $image ){
+		if ( get_asset_format() == 'format_audio' ) {
+			$attachments = get_attached_media( '' );
+			if ( ! $attachments ) {
+				return 'No file attached';
+			}
+			$attachment = reset( $attachments );
+			$metadata   = wp_get_attachment_metadata( $attachment->ID );
+			$readout    = size_format( $metadata['filesize'] );
+
+			return $readout;
+		}
+		$image = wp_get_original_image_path( get_post_thumbnail_id() );
+		if ( ! $image ) {
 			return 'No file attached';
 		}
 		$filesize = filesize( $image );
@@ -451,12 +460,12 @@
 	}
 
 	function get_asset_image_res( $style = 'dimensions' ) {
-		if ( get_asset_format() !== 'format_image' ) {
-			return;
+		if ( get_asset_format() !== 'format_image' || get_asset_file_type() === 'svg' ) {
+			return null;
 		}
 		//$image_data = wp_get_attachment_image_src( get_post_thumbnail_id(), 'full' );
 		//$dimensions = array( 'width' => $image_data[1], 'height' => $image_data[2] );
-		$image_data = getimagesize(wp_get_original_image_path(get_post_thumbnail_id()));
+		$image_data = getimagesize( wp_get_original_image_path( get_post_thumbnail_id() ) );
 		$dimensions = array( 'width' => $image_data[0], 'height' => $image_data[1] );
 		$res        = 0;
 		if ( $style === 'res' ) {
@@ -516,7 +525,7 @@
 				?>
 				</span>
             </i>
-			<?php if ( get_asset_format() == 'format_image') : ?>
+			<?php if ( get_asset_format() == 'format_image' && get_asset_file_type() !== 'svg' ) : ?>
                 <i class="asset-file-info__item"><span class="asset-file-info__item--label">Dimensions:</span>
                     <span class="asset-file-info--typography">
 				<?php
@@ -533,16 +542,20 @@
 				</span>
             </i>
 			<?php
-			if ( get_asset_format() == 'format_audio' && get_asset_file_type() !== 'format_zip' ) : ?>
+			if ( get_asset_format() == 'format_audio' || get_asset_format() == 'format_video' && get_asset_file_type() !== 'format_zip' ) : ?>
                 <i class="asset-file-info__item"><span class="asset-file-info__item--label">Duration:</span>
                     <span class="asset-file-info--typography">
 				<?php
-					print get_asset_audio_duration();
+					print get_asset_file_meta( 'length_formatted' );
 				?>
 				</span>
                 </i>
 			<?php endif; ?>
+
+
 			<?php
 
 		}
 	endif;
+
+

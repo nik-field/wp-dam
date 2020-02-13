@@ -1,4 +1,5 @@
 var $ = jQuery;
+console.log('admin script loaded');
 $(document).ready(function () {
     if (!$("input[name='is_artist_or_project_select_type']:checked").val()) {
         $('#tag-name').prop('disabled', true);
@@ -22,6 +23,38 @@ $(document).ready(function () {
             $('.term-project_yearyear_select-wrap').hide();
         }
     });
+    if (!$("input[name='format']:checked").val()) {
+        $('#add-asset').hide();
+        $('#assetimagediv').hide();
+    }
+    const initial_selection = $("input[name='format']:checked").val();
+    if (initial_selection === 'format_image') {
+        $('#add-asset').hide();
+        $('#assetimagediv').show();
+    } else {
+        $('#assetimagediv').hide();
+        $('#add-asset').show();
+        $('#add-asset tbody tr').first().show();
+        if (initial_selection === 'format_link') {
+            $('#add-asset tbody tr').first().hide();
+        }
+    }
+    $("input[name='format']").change(function () {
+        const selection = $("input[name='format']:checked").val();
+        if (selection === 'format_image') {
+            $('#add-asset').hide();
+            $('#assetimagediv').show();
+        } else {
+            $('#assetimagediv').hide();
+            $('#add-asset').show();
+            $('#add-asset tbody tr').first().show();
+            if (selection ==='format_link') {
+                $('#add-asset tbody tr').first().hide();
+            }
+        }
+
+    });
+
 
 });
 

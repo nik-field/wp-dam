@@ -52,7 +52,7 @@
 			$assetObject = array(
 				"id"          => get_the_ID(),
 				"permalink"   => get_asset_url(),
-				"title"       => get_the_title(),
+				"title"       => html_entity_decode( get_the_title() ),
 				"artist"      => get_asset_artist(),
 				"project"     => get_asset_project(),
 				"addedon"     => get_the_date( 'U' ),
@@ -60,20 +60,32 @@
 				"thumbnail"   => wp_dam_asset_thumbnail(),
 				"format"      => get_asset_format(),
 				"filesize"    => get_asset_file_size(),
-				"maxres"      => get_asset_image_res(),
-				"duration"    => ( asset_is_audio() ? get_asset_audio_duration() : null ),
+				"duration"    => ( get_asset_file_meta( 'length_formatted' ) !== 'No file attached' ? get_asset_file_meta( 'length_formatted' ) : null ),
 				"filetype"    => get_asset_file_type(),
 				"creator"     => get_asset_creator(),
 				"filename"    => get_asset_url( 'true' ),
 				"tags"        => $tags_r,
 
 			);
-			if ( get_asset_format() == 'format_image') {
-				$assetObject += array( "is_image" => "is_image", "display_size" => get_the_post_thumbnail_url( get_the_ID(), 'full' ) );
-			} else if (get_asset_format() == 'format_document') {
-				$assetObject += array( "is_doc" => "is_doc" );
-			} else {
-				$assetObject += array( "is_not_image" => "is_not_image" );
+
+			switch ( get_asset_format() ) {
+				case 'format_image':
+					$assetObject += array( "is_image" => "is_image", "maxres" => get_asset_image_res(), "display_size" => get_the_post_thumbnail_url( get_the_ID(), 'full' ), "is_not_link" => "is_not_link" );
+					break;
+				case 'format_document':
+					$assetObject += array( "is_doc" => "is_doc", "is_not_link" => "is_not_link" );
+					break;
+				case 'format_video':
+					$assetObject += array( "is_video" => "is_video", "maxres" => get_asset_file_meta( 'width' ) . 'x' . get_asset_file_meta( 'height' ), "is_not_link" => "is_not_link" );
+					break;
+				case 'format_audio':
+					$assetObject += array( "is_not_image" => "is_not_image", "is_audio" => "is_audio", "is_not_link" => "is_not_link" );
+					break;
+				case 'format_link':
+					$assetObject += array( "is_link" => "is_link" );
+					break;
+				default:
+					$assetObject += array( "is_not_image" => "is_not_image", "is_not_link" => "is_not_link" );
 			}
 
 			$result[] = $assetObject;

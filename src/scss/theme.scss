@@ -120,6 +120,9 @@ aside {
       height: 100%;
       width: 100%;
       align-items: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
 
       .filter-menu-icon {
         color: $mediumgrey;
@@ -133,6 +136,12 @@ aside {
     }
   }
 }
+
+
+  .mdc-list-item {
+    white-space: nowrap;
+  }
+
 
 #current-page.mdc-list-item {
   padding: 0px 16px !important;
@@ -174,6 +183,8 @@ article {
 .large-asset-card__media--icon {
   font-size: 6em !important;
   color: $mediumgrey;
+  width: 100%;
+  text-align: center;
 }
 
 .large-asset-card__actions-link {
@@ -225,4 +236,10 @@ article {
   .search-message, .sort-label {
     color: $mediumgrey;
   }
+}
+
+.debug {
+  border: solid 5px red;
+  min-height: 50px;
+
 }

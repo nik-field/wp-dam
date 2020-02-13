@@ -22,8 +22,9 @@
             <main id="main" class="site-main mdc-layout-grid__cell mdc-layout-grid__cell--span-9">
 <?php if ( is_user_logged_in()) : ?>
                 <div id="recently-used">
-                    <span class="recent-label">Recently Used: </span>
-					<?php
+                    <span class="recent-label" onclick="$('.recently-used-container').slideToggle()">Recently Used <i class="material-icons">arrow_drop_down</i></span>
+					<div class="recently-used-container">
+                    <?php
 						$user_id           = get_current_user_id();
 						$recent_assets     = get_user_meta( $user_id, 'recent_assets' )[0];
 						$args              = array( 'post_type' => 'asset', 'post__in' => $recent_assets, 'orderby' => 'post__in', 'posts_per_page' => 3 );
@@ -38,6 +39,7 @@
 						wp_reset_postdata();
 
 					?>
+                    </div>
                 </div>
                 <?php endif; ?>
                 <div class="loading-bars">

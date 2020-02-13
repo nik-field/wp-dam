@@ -8,6 +8,7 @@
 	 */
 
 	get_header();
+
 ?>
 
 	<div id="primary" class="content-area mdc-layout-grid">
@@ -22,7 +23,8 @@
 				<div class="mdc-typography--headline3 mdc-theme--primary"><?php print $artist->name; ?></div>
 				<?php if ( is_user_logged_in() ) : ?>
                 <div id="recently-used">
-                    <span class="recent-label">Recently Used: </span>
+                    <span class="recent-label" onclick="$('.recently-used-container').slideToggle()">Recently Used <i class="material-icons">arrow_drop_down</i></span>
+                    <div class="recently-used-container">
 					<?php
 						$user_id           = get_current_user_id();
 						$recent_assets     = get_user_meta( $user_id, 'recent_assets' )[0];
@@ -47,6 +49,7 @@
 						wp_reset_postdata();
 
 					?>
+                    </div>
                 </div>
                 <?php endif; ?>
 				<div id="search-results"></div>

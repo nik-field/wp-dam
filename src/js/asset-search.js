@@ -1,4 +1,4 @@
-
+import {Corner, MDCMenu} from "@material/menu";
 
 var assetSearch = $("#asset-search");
 
@@ -13,6 +13,8 @@ var initial = $("#initial-results");
 var message = "<span class='search-message'>Search results for: </span>";
 
 var index;
+var elastic_results;
+
 
 function ajaxExec() {
 
@@ -69,7 +71,11 @@ function ajaxExec() {
                     tags: tags,
                     is_image: r.is_image,
                     is_not_image: r.is_not_image,
-                    is_doc: r.is_doc
+                    is_doc: r.is_doc,
+                    is_video: r.is_video,
+                    is_audio: r.is_audio,
+                    is_not_link: r.is_not_link,
+                    is_link: r.is_link,
                 };
 
                 index.addDoc(data);
@@ -78,9 +84,9 @@ function ajaxExec() {
             }
 
 
-            var search_query = $("#text-field-hero-input").val();
+            const search_query = $("#text-field-hero-input").val();
 
-            var elastic_results = index.search(search_query);
+            elastic_results = index.search(search_query);
 
             function allDocs() {
                 results.empty();
@@ -102,7 +108,6 @@ function ajaxExec() {
                     var parsed = elastic_results[j].doc;
 
                     var html = template.render(lg_card_tpl, parsed);
-
                     $(html).appendTo(results).hide();
                 }
             } else {
@@ -137,7 +142,7 @@ import {MDCDialog} from '@material/dialog';
 
 const dialog = new MDCDialog(document.querySelector('.mdc-dialog'));
 
-$('.site-main').on('click','.open-dialog',function () {
+$('.site-main').on('click', '.open-dialog', function () {
     var asset = $(this).closest('article').attr('asset-id');
     createDialog(parseInt(asset));
 });
@@ -160,7 +165,18 @@ function createDialog(identifier) {
 
 function dialogOpen() {
     dialog.open();
+    dialog.listen('MDCDialog:opened', function () {
+        var diagMenuEl = this.querySelector('.mdc-dialog-menu');
+        var menu = new MDCMenu(diagMenuEl);
+        var diagMenuToggle = diagMenuEl.parentElement.querySelector('.mdc-menu-toggle');
+        diagMenuToggle.addEventListener('click', function () {
+            menu.open = !menu.open;
+        });
+        menu.setAnchorCorner(Corner.BOTTOM_RIGHT);
+    });
+
 }
+
 createDialog();
 
 

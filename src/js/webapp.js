@@ -49,12 +49,10 @@ const floatingLabel = new MDCFloatingLabel(document.querySelector('.mdc-floating
 
 import {MDCLineRipple} from '@material/line-ripple/index';
 
+
 import Clipboard from 'clipboard';
 
 new Clipboard('.copy');
-
-
-
 
 import {delegate} from 'tippy.js';
 import tippy from 'tippy.js';
@@ -73,6 +71,23 @@ tippy.setDefaultProps({
 // $('.large-asset-card__title').truncate( {
 //     lines: 2
 // });
+
+import {MDCMenu, Corner} from '@material/menu';
+import {MDCMenuSurface} from '@material/menu-surface';
+
+
+$(document).ajaxSuccess(function () {
+    const menuEls = Array.from(document.querySelectorAll('.mdc-card-menu'));
+
+    menuEls.forEach(function (menuEl) {
+        const menu = new MDCMenu(menuEl);
+        const menuToggle = menuEl.parentElement.querySelector('.mdc-menu-toggle');
+        menuToggle.addEventListener('click', function () {
+            menu.open = !menu.open;
+        });
+        menu.setAnchorCorner(Corner.BOTTOM_RIGHT);
+    });
+});
 
 
 import './asset-search';

@@ -14,11 +14,12 @@
 	<?php dynamic_sidebar( 'sidebar-1' ); ?>
     <div class="filters-header mdc-typography--headline5">Filters</div>
 
-    <div class="filters-sub-header mdc-typography--headline6"><a href="<?php get_home_url(); ?>">Artists</a></div>
+    <div class="filters-sub-header mdc-typography--headline6"><a href="<?php echo get_home_url(); ?>">Artists</a></div>
     <div class="mdc-menu artists-menu">
         <ul class="mdc-list" role="menu">
             <!-- TODO: Convert getting artist/project terms into function
 			-->
+
 			<?php
 				$get_artists_args = array(
 					'taxonomy'   => 'artist_project',
@@ -46,7 +47,7 @@
 					?>
                     <li <?php if ( filter_page_check( $artist_page ) ) {
 						echo 'id="current-page"';
-					} ?> class="filter-list-item mdc-list-item" role="menuitem">
+					} ?> class="filter-list-item mdc-ripple mdc-list-item" role="menuitem">
 						<?php if ( ! filter_page_check( $artist_page ) ) {
 							echo '<a class="menu-link" href="' . $artist_page . '">';
 						} ?><?php echo $artist_name; ?>

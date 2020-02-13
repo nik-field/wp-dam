@@ -28,7 +28,7 @@
                 <div style="position: absolute;right: 0;" class="login-link mdc-layout-grid__cell--span-12"><a href="<?php echo wp_login_url( get_home_url() ); ?>"><span>Login</span></a></div>
                 <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12 mdc-layout-grid__cell--align-middle">
                     <section class="site-branding mdc-top-app-bar__section mdc-layout-grid__inner">
-					<span class="site-title mdc-typography--headline3 mdc-layout-grid__cell mdc-layout-grid__cell--span-12"><a href="<?php get_home_url(); ?>">
+					<span class="site-title mdc-typography--headline3 mdc-layout-grid__cell mdc-layout-grid__cell--span-12"><a href="<?php echo get_home_url(); ?>">
 					<svg height="33" viewBox="0 0 33 33" width="33" xmlns="http://www.w3.org/2000/svg"><defs><style>.a {
                                     fill: rgba(255, 219, 88, .6)
                                 }

@@ -1,6 +1,6 @@
 
 ASSET CARDS:
-DONE: TODO: Download bar with URL
+DONE: Download bar with URL
     1. Form field with fetched url
     2. Download button
     3. Copy to Clipboard when clicking inside url box
@@ -9,12 +9,18 @@ DONE: TODO: Download bar with URL
 DASHBOARD:
 
 Add/Edit Asset Screen:
-DONE: TODO: Download button triggers basic download
+DONE: Download button triggers basic download
+TODO: Display 'Post Format' dependent metaboxes [https://code.tutsplus.com/tutorials/how-to-display-metaboxes-according-to-the-current-post-format--wp-27970]
+TODO: Add custom term meta form to taxonomy-artist_project div (categorydiv)
 TODO: More Options: Edit Details, Edit Tags(modal), Other Sizes(for image)
-DONE: TODO: Clicking Title or thumbnail brings up modal with image preview which includes actions
+DONE: Clicking Title or thumbnail brings up modal with image preview which includes actions
 TODO: Add Asset 'kind': Follows content under templates in mind map
 TODO: Featured Image Meta Box
-TODO: Handle Links
+DONE:  Handle Links
+
+TODO: Add frontend drag-and-drop file uploader
+    [https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/]
+    [https://stackoverflow.com/questions/17714446/front-end-drag-and-drop-uploader-for-wordpress]
 
 Filtering & Searching
 TODO: Search Configuration
@@ -22,15 +28,15 @@ TODO: Year categories for projects
 TODO: Clicking projects/year sends filter
 TODO: Searching shouldn't call ajax again
 TODO: Sorted by should be a dropdown. setRef to variable based on selected value (ex. Most Recent = 'addedon')
-DONE: TODO: Recently used
-DONE: TODO: Functioning filters
-DONE: TODO: Funcitoning Search Bar
+DONE: Recently used
+DONE: Functioning filters
+DONE: Funcitoning Search Bar
 
 Pages
-DONE: TODO: Artist Pages
-TODO: DAM logo goes home
-TODO: Artists goes home
-TODO: Mobile adjustments
+DONE: Artist Pages
+DONE: DAM logo goes home
+DONE: Artists goes home
+DONE: Mobile adjustments
 
-Content:
-TODO: Add content
+Assets:
+TODO: Add assets

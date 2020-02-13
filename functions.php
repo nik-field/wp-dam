@@ -85,6 +85,19 @@ if ( ! function_exists( 'wp_dam_setup' ) ) :
 endif;
 add_action( 'after_setup_theme', 'wp_dam_setup' );
 
+if (!is_super_admin() ) {
+	add_action('admin_menu', 'notadmin_remove_menus', 999);
+}
+	function notadmin_remove_menus() {
+		remove_menu_page( 'edit.php');
+		remove_menu_page( 'edit.php?post_type=page' );
+		remove_menu_page( 'edit-comments.php' );
+		remove_menu_page( 'themes.php' );
+		remove_menu_page( 'plugins.php' );
+		remove_menu_page( 'tools.php' );
+		remove_menu_page( 'options-general.php' );
+	}
+
 /**
  * Set the content width in pixels, based on the theme's design and stylesheet.
  *
@@ -132,13 +145,14 @@ function wp_dam_scripts() {
 	wp_localize_script('wp-dam-js', 'ajax_url', admin_url('admin-ajax.php') );
 	wp_localize_script('asset-access', 'ajax_url', admin_url('admin-ajax.php') );
 	wp_enqueue_script( 'elasticlunr', 'http://elasticlunr.com/elasticlunr.min.js', array(), date("H:i:s"), true);
+	// LOCAL //wp_enqueue_script( 'elasticlunr', get_template_directory_uri() . '/dist/scripts/elasticlunr.min.js', array(), date( "H:i:s" ), true );
 
 
 	wp_deregister_script('jquery');
 	wp_enqueue_script('jquery', get_template_directory_uri() . '/dist/scripts/jquery-3.4.1.min.js', array(), date("H:i:s"), true);
 
 
-	wp_enqueue_style( 'material-icons', "https://fonts.googleapis.com/icon?family=Material+Icons", array(), date("H:i:s"));
+	wp_enqueue_style( 'material-icons', get_template_directory_uri() . "/dist/assets/fonts/material/material-icons.css", array(), date("H:i:s"));
 
 	wp_enqueue_script( 'wp-dam-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
 
@@ -159,6 +173,10 @@ add_action( 'wp_enqueue_scripts', 'wp_dam_scripts' );
 		if ( 'edit-tags.php' == $hook && get_current_screen()->taxonomy == 'artist_project') {
 			wp_enqueue_script( 'admin_customizer_script', get_template_directory_uri() . '/dist/scripts/admin-customizer-min.js', array('jquery'), date("H:i:s"), true );
 			wp_enqueue_style( 'admin_style', get_template_directory_uri() . '/dist/css/admin.css', array(), date("H:i:s"));
+		}
+		if ( get_current_screen()->post_type == 'asset' && get_current_screen()->base == 'post' ) {
+			wp_enqueue_script( 'admin_post_customizer_script', get_template_directory_uri() . '/dist/scripts/admin-customizer-min.js', array( 'jquery' ), date( "H:i:s" ), true );
+			wp_enqueue_style( 'admin_post_style', get_template_directory_uri() . '/dist/css/admin.css', array(), date( "H:i:s" ) );
 		}
 		return;
 	}
