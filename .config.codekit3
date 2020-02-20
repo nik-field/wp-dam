@@ -69,6 +69,14 @@
 		"oAP": "/dist/dist",
 		"oF": 0
 		},
+	"/download.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/download.php",
+		"oF": 0
+		},
 	"/footer.php": {
 		"cB": 0,
 		"ft": 8192,
@@ -568,7 +576,7 @@
 		"bF": 2,
 		"ft": 64,
 		"ma": 0,
-		"mi": 0,
+		"mi": 1,
 		"oA": 0,
 		"oAP": "/dist/scripts/script.js",
 		"oF": 2,

@@ -327,7 +327,7 @@
 			'taxonomy'   => 'artist_project',
 			'object_ids' => get_the_id(),
 			'hide_empty' => false,
-			'parent' => 0,
+			'parent'     => 0,
 
 		);
 		$artist = get_terms( $args );
@@ -344,7 +344,7 @@
 			'taxonomy'   => 'artist_project',
 			'object_ids' => get_the_id(),
 			'hide_empty' => false,
-			'childless' => true,
+			'childless'  => true,
 
 		);
 		$project = get_terms( $args );
@@ -406,8 +406,10 @@
 		$attachments = get_attached_media( '' );
 
 		$attachment = reset( $attachments );
-		$metadata   = wp_get_attachment_metadata( $attachment->ID );
-		if ( ! $attachments || ! $metadata[$key] ){
+		if ( isset( $attachment->ID ) ) {
+			$metadata = wp_get_attachment_metadata( $attachment->ID );
+		}
+		if ( ! $attachments || ! isset($metadata[ $key ]) ) {
 			return 'No file attached';
 		}
 

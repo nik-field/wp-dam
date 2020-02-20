@@ -296,7 +296,7 @@
 
 	function add_asset_image_metabox() {
 		remove_meta_box( 'postimagediv', 'asset', 'side' );
-	    add_meta_box( 'assetimagediv', 'Add Image', 'post_thumbnail_meta_box', 'asset', 'normal', 'high' );
+	    add_meta_box( 'postimagediv', 'Add Image', 'post_thumbnail_meta_box', 'asset', 'normal', 'high' );
 	}
 
 //	add_action( 'admin_menu', 'remove_default_tax_metabox' );

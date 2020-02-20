@@ -27,14 +27,15 @@
                     <?php
 						$user_id           = get_current_user_id();
 						$recent_assets     = get_user_meta( $user_id, 'recent_assets' )[0];
+
 						$args              = array( 'post_type' => 'asset', 'post__in' => $recent_assets, 'orderby' => 'post__in', 'posts_per_page' => 3 );
 						$recentAssetsQuery = new WP_Query( $args );
-						if ( $recentAssetsQuery->have_posts() ) :
+						if ( $recentAssetsQuery->have_posts() && isset($recent_assets) ) :
 							while ( $recentAssetsQuery->have_posts() ) : $recentAssetsQuery->the_post();
 								get_template_part( 'template-parts/content', 'asset' );
 							endwhile;
 						else:
-							echo 'Sorry, no recent posts';
+							echo 'No recent activity';
 						endif;
 						wp_reset_postdata();
 

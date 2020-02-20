@@ -86,9 +86,9 @@
                     <div class="mdc-card__action-icons large-asset-card__action-bar">
                         <div class="large-asset-card__actions-link">
                             <div class="large-asset-card__link-copy">
-                                <i asset-id="{{ id }}" class="access-trigger large-asset-card__link-copy-button mdc-icon-button material-icons mdc-card__action mdc-card__action--icon--unbounded copy" data-clipboard-text="{{permalink}}">link</i><input data-clipboard-text="{{permalink}}" asset-id="{{ id }}" class="access-trigger copy" type="text" value="{{permalink}}" readonly></input>
+                                <i asset-id="{{ id }}" class="access-trigger large-asset-card__link-copy-button mdc-icon-button material-icons mdc-card__action mdc-card__action--icon--unbounded copy" data-clipboard-text="<?php echo get_site_url() . '/download/'; ?>{{id}}">link</i><input data-clipboard-text="<?php echo get_site_url() . '/download/'; ?>{{id}}" asset-id="{{ id }}" class="access-trigger copy" type="text" value="<?php echo get_site_url() . '/download/'; ?>{{id}}" readonly></input>
                             </div>
-                            <div asset-id="{{ id }}" class="access-trigger large-asset-card__link-download mdc-button mdc-ripple"><a href="{{permalink}}" download="{{filename}}"><span class="mdc-button__ripple"></span>{{if is_not_link}}Download{{/if}} {{if is_link}}Go to link{{/if}}</a></div>
+                            <div asset-id="{{ id }}" class="access-trigger large-asset-card__link-download mdc-button mdc-ripple"><a href="<?php echo get_site_url() . '/download/'; ?>{{id}}"><span class="mdc-button__ripple"></span>{{if is_not_link}}Download{{/if}} {{if is_link}}Go to link{{/if}}</a></div>
 
                         </div>
 
@@ -100,12 +100,12 @@
                                 <div class="mdc-menu mdc-menu-surface mdc-card-menu mdc-card-menu-surface" data-toggle="collapse" tabindex="-1" style="transform-origin: center bottom 0px; left: 0px; bottom: 0px; max-height: 900.8px;">
                                     <ul class="mdc-list" role="menu" aria-hidden="true">
                                         {{if is_image }}
-                                        <a class="mdc-list-item mdc-ripple" role="menuitem" tabindex="-1">Get web resolution</a>
+                                        <a href="{{display_size}}" class="mdc-list-item mdc-ripple" role="menuitem" tabindex="-1">Get web resolution</a>
                                         <li class="mdc-list-divider" role="separator"></li>
                                         {{/if}}
-                                        <a class="mdc-list-item mdc-ripple" role="menuitem" tabindex="-1">Send in email</a>
+                                        <a href="mailto:?subject={{title}}&body={{permalink}}" class="mdc-list-item mdc-ripple" role="menuitem" tabindex="-1">Send in email</a>
                                         <?php if (is_user_logged_in() && current_user_can('edit_posts')) : ?>
-                                        <a class="mdc-list-item mdc-ripple" role="menuitem" tabindex="-1">Edit Details</a>
+                                        <a href="<?php echo get_site_url(); ?>/wp-admin/post.php?post={{id}}&action=edit" class="mdc-list-item mdc-ripple" role="menuitem" tabindex="-1">Edit Details</a>
                                         <?php endif; ?>
                                     </ul>
                                 </div>

@@ -85,8 +85,8 @@
 			$file_name = basename( $file, '.' . $info['extension'] );
 			$path      = ABSPATH . ltrim( $file, '/' );
 			// where ffmpeg is located
-			$ffmpeg  = '/usr/local/bin/ffmpeg';
-			$ffprobe = '/usr/local/bin/ffprobe';
+			$ffmpeg  = '/usr/bin/ffmpeg';
+			$ffprobe = '/usr/bin/ffprobe';
 //video dir
 			$video = $path;
 //where to save the image
@@ -94,15 +94,16 @@
 //time to take screenshot at
 			$interval = 1;
 //screenshot size
-			$find_size = "$ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 $video";
-			exec( $find_size, $size );
+			//$find_size = "$ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of default=nw=1 $video";
+			//exec( $find_size, $size );
+			//$size_formatted = $size->width . 'x' . $size->height;
 //		$size = '640x480';
 //ffmpeg command
-			$generate = "$ffmpeg -i $video -deinterlace -an -ss $interval -f mjpeg -t 1 -r 1 -y -s $size[0] $image 2>&1";
+			$generate = "$ffmpeg -i $video -ss $interval -vframes 1 $image";
 
 			exec( $generate, $output );
 
-//			error_log(print_r($output));
+			write_log($output);
 
 
 			return $upload;
@@ -178,6 +179,49 @@
 		}
 
 		return $artist_project;
+	}
+
+	add_action( 'wp_ajax_asset_download', 'asset_download_callback' );
+	add_action( 'wp_ajax_nopriv_asset_download', 'asset_download_callback' );
+
+	function asset_download_callback() {
+
+		$download_args = array();
+		if ( isset( $_GET['id'] ) ) {
+			$download_id = sanitize_text_field( ( $_GET['id'] ) );
+			if ( $download_args !== 0 ) {
+				$download_args = array(
+					"p"              => $download_id,
+					"post_type"      => 'asset',
+					"posts_per_page" => 1,
+				);
+			}
+		}
+
+		$assetsQuery = new WP_Query( $download_args );
+
+		if ( $assetsQuery->have_posts() ) {
+			$assetsQuery->the_post();
+			$download_link     = get_asset_url();
+			$download_filename = get_asset_url( true );
+			$download_format = get_asset_format();
+			$download_mime = get_asset_file_type('mime');
+		}
+		if ($download_format === 'format_link') {
+			header('Location: ' . $download_link);
+		}
+		header( 'Content-Description: Downloading Asset...');
+		header( 'Content-Disposition: attachment; filename="' . $download_filename . '"' );
+		header( "Content-Type: " . $download_mime );
+		header( "Connection: close" );
+		$context = stream_context_create( array( 'http' => array( 'header' => 'Connection: close\r\n' ) ) );
+		echo $download_link;
+		wp_die();
+	}
+
+	add_action( 'init', 'download_url_handler' );
+	function download_url_handler() {
+		add_rewrite_rule( 'download/([^/]*)$', 'wp-content/themes/wp-dam/download.php?id=$1', 'top' );
 	}
 
 	require get_template_directory() . '/inc/ajax-search.php';
