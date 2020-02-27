@@ -268,6 +268,14 @@
 
 	}
 
+//	function change_permalinks() {
+//		global $wp_rewrite;
+//		$wp_rewrite->set_permalink_structure( '/%postname%/' );
+//		$wp_rewrite->flush_rules();
+//	}
+//
+//	add_action( 'init', 'change_permalinks' );
+
 
 	require get_template_directory() . '/inc/ajax-search.php';
 	require get_template_directory() . '/inc/custom-taxonomies.php';

@@ -1,8 +1,7 @@
 <?php
 
 	define( 'DOING_AJAX', true );
-	$path = preg_replace( '/wp-content(?!.*wp-content).*/', '', __DIR__ );
-	require_once( $path.'wp-load.php' );
+	require_once( '../../../wp-load.php' );
 	@header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
 	@header( 'X-Robots-Tag: noindex' );
 	send_nosniff_header();
