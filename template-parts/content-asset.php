@@ -11,7 +11,7 @@
 
 ?>
 <?php
-
+video_thumbnail_generator('https://dev.ordinaryartistservices.com/dam/wp-content/uploads/2020/02/background.mp4');
 ?>
 <!-- CONTENT-ASSET -->
 <article asset-id="<?php the_ID(); ?>" id="asset-<?php the_ID(); ?>" <?php post_class( 'mdc-card large-asset' ); ?>>
