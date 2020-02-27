@@ -253,7 +253,7 @@
 
 	add_action( 'after_setup_theme', 'acme_remove_default_widgets' );
 	/**
-	 * When the theme is activated, all of the active widgets are deactived.
+	 * When the theme is activated, all of the active widgets are deactivated.
 	 *
 	 * @since    1.0.0
 	 */
