@@ -27,8 +27,12 @@ function ajaxExec() {
     $.ajax({
         url: ajax_url,
         data: data,
+        error: function() {
+            alert('No Assets!');
+            loading.hide();
+        },
         success: function (response) {
-
+            
             var lg_card_tpl = $('#tpl-lg-card').html();
 
             var props = Object.keys(response[0]);
