@@ -33,7 +33,7 @@ function ajaxExec() {
         },
         success: function (response) {
             if (!$.trim(response)) {
-                results.html('No Assets Exist! Add one by clicking <a href="/wp-admin/post-new.php?post_type=asset">here</a>');
+                results.html('No Assets Exist! Add one by clicking <a href="/wp-admin/post-new.php?post_type=asset" class="mdc-theme-primary" style="text-decoration: underline;">here.</a>');
                 loading.hide();
             } else {
 
