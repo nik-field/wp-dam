@@ -250,6 +250,25 @@
 		add_rewrite_rule( 'download/([^/]*)$', 'wp-content/themes/wp-dam/download.php?id=$1', 'top' );
 	}
 
+
+	add_action( 'after_setup_theme', 'acme_remove_default_widgets' );
+	/**
+	 * When the theme is activated, all of the active widgets are deactived.
+	 *
+	 * @since    1.0.0
+	 */
+	function acme_remove_default_widgets() {
+
+		if ( ! get_option( 'acme_cleared_widgets' ) ) {
+
+			update_option( 'sidebars_widgets', array() );
+			update_option( 'acme_cleared_widgets', true );
+
+		}
+
+	}
+
+
 	require get_template_directory() . '/inc/ajax-search.php';
 	require get_template_directory() . '/inc/custom-taxonomies.php';
 	require get_template_directory() . '/inc/custom-posttypes.php';

@@ -70,9 +70,9 @@
 			'labels'            => $labels,
 			'hierarchical'      => false,
 			'public'            => true,
-			'show_ui'           => true,
+			'show_ui'           => false,
 			'show_admin_column' => true,
-			'show_in_nav_menus' => true,
+			'show_in_nav_menus' => false,
 			'show_tagcloud'     => false,
 		);
 		register_taxonomy( 'format', array( 'asset' ), $args );
@@ -80,6 +80,32 @@
 	}
 
 	add_action( 'init', 'asset_format', 0 );
+
+	function initialize_formats() {
+		$initial_formats = array(
+			'format_image'     => 'Image',
+			'format_video'     => 'Video',
+			'format_link'      => 'Link',
+			'format_audio'     => 'Audio',
+			'format_audio-zip' => 'Audio Zip',
+			'format_document'  => 'Document'
+		);
+		foreach ( $initial_formats as $slug => $name ) {
+			if ( ! term_exists( $name, 'format' ) ) {
+				wp_insert_term(
+					$name,
+					'format',
+					array(
+						'description' => '',
+						'slug'        => $slug
+					)
+				);
+			}
+		}
+	}
+
+// Hook into the 'init' action
+	add_action( 'init', 'initialize_formats', 0 );
 
 	$project_types = array(
 		'album'  => 'Album',
