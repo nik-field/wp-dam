@@ -103,7 +103,7 @@
 
 			exec( $generate, $output );
 
-			write_log($output);
+			write_log( $output );
 
 
 			return $upload;
@@ -120,7 +120,8 @@
 	function get_video_thumb_url( $url ) {
 		$path      = wp_parse_url( $url, PHP_URL_PATH );
 		$info      = pathinfo( $path );
-		$thumb_url = get_site_url() . $info['dirname'] . '/' . $info['filename'] . '_thumb.jpg';
+		$baseurl   = wp_parse_url( get_site_url() );
+		$thumb_url = $baseurl['host'] . $info['dirname'] . '/' . $info['filename'] . '_thumb.jpg';
 
 		return $thumb_url;
 	}
@@ -161,7 +162,7 @@
 			}
 			if ( $term_meta['is_artist_or_project_select_type'][0] === 'is_artist_or_project_project' ) {
 				$project_name = $term_object->name;
-				$project_id = $term_object->term_id;
+				$project_id   = $term_object->term_id;
 				$project_slug = $term_object->slug;
 				$project_type = $term_meta['project_type'][0];
 				$project_year = $term_meta['project_yearyear_select'][0];
@@ -230,18 +231,18 @@
 			$assetsQuery->the_post();
 			$download_link     = get_asset_url();
 			$download_filename = get_asset_url( true );
-			$download_format = get_asset_format();
-			$download_mime = get_asset_file_type('mime');
+			$download_format   = get_asset_format();
+			$download_mime     = get_asset_file_type( 'mime' );
 		}
-		if ($download_format === 'format_link') {
-			header('Location: ' . $download_link);
+		if ( $download_format === 'format_link' ) {
+			header( 'Location: ' . $download_link );
 		}
-		header( 'Content-Description: Downloading Asset...');
+		header( 'Content-Description: Downloading Asset...' );
 		header( 'Content-Disposition: attachment; filename="' . $download_filename . '"' );
 		header( "Content-Type: " . $download_mime );
 		header( "Connection: close" );
 		$context = stream_context_create( array( 'http' => array( 'header' => 'Connection: close\r\n' ) ) );
-		echo url_get_contents($download_link);
+		echo url_get_contents( $download_link );
 		wp_die();
 	}
 
