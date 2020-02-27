@@ -28,12 +28,13 @@ function ajaxExec() {
         url: ajax_url,
         data: data,
         error: function (errorThrown) {
-            alert(errorThrown);
-            alert("There is an error with AJAX!");
+            console.log(errorThrown);
+            console.log("There is an error with AJAX!");
         },
         success: function (response) {
             if (!$.trim(response)) {
-                results.html('No Assets Exist!');
+                results.html('No Assets Exist! Add one by clicking <a href="/wp-admin/post-new.php?post_type=asset">here</a>');
+                loading.hide();
             } else {
 
                 var lg_card_tpl = $('#tpl-lg-card').html();
