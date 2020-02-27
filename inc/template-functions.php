@@ -115,7 +115,7 @@
 
 //	add_action( 'add_attachment', 'video_attachment_update_meta' );
 	add_action( 'delete_attachment', 'delete_video_thumb' );
-	//add_filter( 'wp_handle_upload', 'video_thumbnail_generator' );
+	add_filter( 'wp_handle_upload', 'video_thumbnail_generator' );
 
 	function get_video_thumb_url( $url ) {
 		$path      = wp_parse_url( $url, PHP_URL_PATH );
