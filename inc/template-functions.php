@@ -121,7 +121,7 @@
 		$path      = wp_parse_url( $url, PHP_URL_PATH );
 		$info      = pathinfo( $path );
 		$baseurl   = wp_parse_url( get_site_url() );
-		$thumb_url = $baseurl['host'] . $info['dirname'] . '/' . $info['filename'] . '_thumb.jpg';
+		$thumb_url = $baseurl['scheme'] . $baseurl['host'] . $info['dirname'] . '/' . $info['filename'] . '_thumb.jpg';
 
 		return $thumb_url;
 	}
