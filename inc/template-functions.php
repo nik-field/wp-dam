@@ -120,7 +120,7 @@
 	function get_video_thumb_url( $url ) {
 		$path      = wp_parse_url( $url, PHP_URL_PATH );
 		$info      = pathinfo( $path );
-		$thumb_url = get_home_url() . $info['dirname'] . '/' . $info['filename'] . '_thumb.jpg';
+		$thumb_url = get_site_url() . $info['dirname'] . '/' . $info['filename'] . '_thumb.jpg';
 
 		return $thumb_url;
 	}
