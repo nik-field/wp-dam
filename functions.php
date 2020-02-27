@@ -146,8 +146,8 @@
 		//wp_enqueue_script( 'asset-search', get_template_directory_uri() . '/dist/scripts/asset-search-min.js', array('jquery', 'wp-dam-js'), date("H:i:s"), true );
 		wp_localize_script( 'wp-dam-js', 'ajax_url', admin_url( 'admin-ajax.php' ) );
 		wp_localize_script( 'asset-access', 'ajax_url', admin_url( 'admin-ajax.php' ) );
-		wp_enqueue_script( 'elasticlunr', 'http://elasticlunr.com/elasticlunr.min.js', array(), date( "H:i:s" ), true );
-		// LOCAL //wp_enqueue_script( 'elasticlunr', get_template_directory_uri() . '/dist/scripts/elasticlunr.min.js', array(), date( "H:i:s" ), true );
+		// CDN // wp_enqueue_script( 'elasticlunr', 'http://elasticlunr.com/elasticlunr.min.js', array(), date( "H:i:s" ), true );
+		wp_enqueue_script( 'elasticlunr', get_template_directory_uri() . '/dist/scripts/elasticlunr.min.js', array(), date( "H:i:s" ), true );
 
 
 		wp_deregister_script( 'jquery' );
