@@ -115,7 +115,7 @@
 
 //	add_action( 'add_attachment', 'video_attachment_update_meta' );
 	add_action( 'delete_attachment', 'delete_video_thumb' );
-	add_filter( 'wp_handle_upload', 'video_thumbnail_generator' );
+	//add_filter( 'wp_handle_upload', 'video_thumbnail_generator' );
 
 	function get_video_thumb_url( $url ) {
 		$path      = wp_parse_url( $url, PHP_URL_PATH );
@@ -181,6 +181,32 @@
 		return $artist_project;
 	}
 
+	/**
+	 * Uses cURL rather than file_get_contents to make a request to the specified URL.
+	 *
+	 * @param string $url The URL to which we're making the request.
+	 *
+	 * @return   string    $output    The result of the request.
+	 */
+	function url_get_contents( $url ) {
+
+		if ( ! function_exists( 'curl_init' ) ) {
+			die( 'The cURL library is not installed.' );
+		}
+
+		$ch = curl_init();
+
+		curl_setopt( $ch, CURLOPT_URL, $url );
+		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+
+		$output = curl_exec( $ch );
+
+		curl_close( $ch );
+
+		return $output;
+
+	}
+
 	add_action( 'wp_ajax_asset_download', 'asset_download_callback' );
 	add_action( 'wp_ajax_nopriv_asset_download', 'asset_download_callback' );
 
@@ -215,7 +241,7 @@
 		header( "Content-Type: " . $download_mime );
 		header( "Connection: close" );
 		$context = stream_context_create( array( 'http' => array( 'header' => 'Connection: close\r\n' ) ) );
-		echo $download_link;
+		echo url_get_contents($download_link);
 		wp_die();
 	}
 

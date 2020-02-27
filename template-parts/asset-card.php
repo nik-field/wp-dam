@@ -86,7 +86,7 @@
                     <div class="mdc-card__action-icons large-asset-card__action-bar">
                         <div class="large-asset-card__actions-link">
                             <div class="large-asset-card__link-copy">
-                                <i asset-id="{{ id }}" class="access-trigger large-asset-card__link-copy-button mdc-icon-button material-icons mdc-card__action mdc-card__action--icon--unbounded copy" data-clipboard-text="<?php echo get_site_url() . '/download/'; ?>{{id}}">link</i><input data-clipboard-text="<?php echo get_site_url() . '/download/'; ?>{{id}}" asset-id="{{ id }}" class="access-trigger copy" type="text" value="<?php echo get_site_url() . '/download/'; ?>{{id}}" readonly></input>
+                                <i asset-id="{{ id }}" class="access-trigger large-asset-card__link-copy-button mdc-icon-button material-icons mdc-card__action mdc-card__action--icon--unbounded copy" data-clipboard-text="{{title}}: <?php echo get_site_url() . '/download/'; ?>{{id}}">link</i><input data-clipboard-text="<?php echo get_site_url() . '/download/'; ?>{{id}}" asset-id="{{ id }}" class="access-trigger copy" type="text" value="<?php echo get_site_url() . '/download/'; ?>{{id}}" readonly></input>
                             </div>
                             <div asset-id="{{ id }}" class="access-trigger large-asset-card__link-download mdc-button mdc-ripple"><a href="<?php echo get_site_url() . '/download/'; ?>{{id}}"><span class="mdc-button__ripple"></span>{{if is_not_link}}Download{{/if}} {{if is_link}}Go to link{{/if}}</a></div>
 

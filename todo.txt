@@ -25,6 +25,7 @@ TODO: Send link to a non-ajax search
 TODO: Shorter links. site.com/download={{ID}}. Copy as hyperlink: <a href="{{link}}">ASSET TITLE</a>
 TODO: Send link to group of assets. site.com/asset={{ID}}+{{ID}}+{{ID}}
 TODO: Multi-copy/paste. hold a key? to copy multiple links
+TODO: Video assets: youtube link option
 
 TODO: Add frontend drag-and-drop file uploader
     [https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/]
