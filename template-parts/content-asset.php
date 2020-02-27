@@ -11,7 +11,7 @@
 
 ?>
 <?php
-exec('/usr/bin/ffmpeg -v', $output);
+exec('ffmpeg -version', $output);
 echo print_r($output);
 ?>
 <!-- CONTENT-ASSET -->
