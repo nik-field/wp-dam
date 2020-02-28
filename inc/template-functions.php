@@ -99,7 +99,7 @@
 			//$size_formatted = $size->width . 'x' . $size->height;
 //		$size = '640x480';
 //ffmpeg command
-			$generate = "$ffmpeg -loglevel +debug -i $video -ss $interval -vframes 1 $image";
+			$generate = "ffmpeg -loglevel +debug -i $video -ss $interval -vframes 1 $image";
 
 			exec( $generate, $output );
 
