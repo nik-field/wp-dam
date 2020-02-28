@@ -79,15 +79,16 @@
 	function video_thumbnail_generator( $upload ) {
 
 		if ( strpos( $upload['type'], 'video' ) !== false ) {
-			$siteurl = get_option('siteurl');
+			$siteurl      = get_option( 'siteurl' );
 			$siteurl_path = wp_parse_url( $siteurl, PHP_URL_PATH );
-			$homeurl = get_option('home');
-			$url       = $upload['url'];
-			$file      = wp_parse_url( $url, PHP_URL_PATH );
-			$info      = pathinfo( $file );
-			$file_name = basename( $file, '.' . $info['extension'] );
-			if ($siteurl_path === dirname($file, 2)) {
-				$path = ABSPATH . ltrim($file, $siteurl_path . '/');
+			$homeurl      = get_option( 'home' );
+			$url          = $upload['url'];
+			$file         = wp_parse_url( $url, PHP_URL_PATH );
+			$file_topdir  = dirname( $file, 2 );
+			$info         = pathinfo( $file );
+			$file_name    = basename( $file, '.' . $info['extension'] );
+			if ( $siteurl_path === $file_topdir ) {
+				$path = ABSPATH . ltrim( $file, $siteurl_path . '/' );
 			} else {
 				$path = ABSPATH . ltrim( $file, '/' );
 			}
@@ -110,9 +111,9 @@
 
 			exec( $generate, $output );
 
-			$debug = "siteurl=$siteurl \n siteurl_path=$siteurl_path \n homeurl=$homeurl \n url=$url \n file=$file \n info=$info \n file_name=$file_name \n path=$path \n image=$image \n generate=$generate \n output=" . var_dump($output) . "\n";
+			$debug = "siteurl=$siteurl \n siteurl_path=$siteurl_path \n checked_against=$file_topdir \n homeurl=$homeurl \n url=$url \n file=$file \n info=$info \n file_name=$file_name \n path=$path \n image=$image \n generate=$generate \n output=" . var_dump( $output ) . "\n";
 
-			write_log($debug);
+			write_log( $debug );
 
 
 			return $upload;
