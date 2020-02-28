@@ -12,6 +12,7 @@
 ?>
 <?php
 write_log('testing log');
+error_log('testing error_log');
 ?>
 <!-- CONTENT-ASSET -->
 <article asset-id="<?php the_ID(); ?>" id="asset-<?php the_ID(); ?>" <?php post_class( 'mdc-card large-asset' ); ?>>
