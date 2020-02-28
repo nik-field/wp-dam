@@ -80,12 +80,17 @@
 
 		if ( strpos( $upload['type'], 'video' ) !== false ) {
 			$siteurl = get_option('siteurl');
+			$siteurl_path = wp_parse_url( $siteurl, PHP_URL_PATH );
 			$homeurl = get_option('home');
 			$url       = $upload['url'];
 			$file      = wp_parse_url( $url, PHP_URL_PATH );
 			$info      = pathinfo( $file );
 			$file_name = basename( $file, '.' . $info['extension'] );
-			$path      = ABSPATH . ltrim( $file, '/' );
+			if ($siteurl_path === dirname($file, 2)) {
+				$path = ABSPATH . ltrim($file, $siteurl_path . '/');
+			} else {
+				$path = ABSPATH . ltrim( $file, '/' );
+			}
 			// where ffmpeg is located
 			$ffmpeg  = '/usr/bin/ffmpeg';
 			$ffprobe = '/usr/bin/ffprobe';
