@@ -110,7 +110,7 @@
 
 			exec( $generate, $output );
 
-			$debug = "siteurl=$siteurl \n homeurl=$homeurl \n url=$url \n file=$file \n info=$info \n file_name=$file_name \n path=$path \n image=$image \n generate=$generate \n output=" . var_dump($output) . "\n";
+			$debug = "siteurl=$siteurl \n siteurl_path=$siteurl_path \n homeurl=$homeurl \n url=$url \n file=$file \n info=$info \n file_name=$file_name \n path=$path \n image=$image \n generate=$generate \n output=" . var_dump($output) . "\n";
 
 			write_log($debug);
 
