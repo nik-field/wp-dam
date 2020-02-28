@@ -103,7 +103,9 @@
 
 			exec( $generate, $output );
 
-			write_log( $file );
+			$debug = "url=$url \b file=$file \b info=$info \b file_name=$file_name \b path=$path \b image=$image \b generate=$generate \b output=" . var_dump($output) . "\b";
+
+			write_log($debug);
 
 
 			return $upload;
