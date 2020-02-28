@@ -79,6 +79,8 @@
 	function video_thumbnail_generator( $upload ) {
 
 		if ( strpos( $upload['type'], 'video' ) !== false ) {
+			$siteurl = get_option('siteurl');
+			$homeurl = get_option('home');
 			$url       = $upload['url'];
 			$file      = wp_parse_url( $url, PHP_URL_PATH );
 			$info      = pathinfo( $file );
@@ -103,7 +105,7 @@
 
 			exec( $generate, $output );
 
-			$debug = "url=$url \b file=$file \b info=$info \b file_name=$file_name \b path=$path \b image=$image \b generate=$generate \b output=" . var_dump($output) . "\b";
+			$debug = "siteurl=$siteurl \n homeurl=$homeurl \n url=$url \n file=$file \n info=$info \n file_name=$file_name \n path=$path \n image=$image \n generate=$generate \n output=" . var_dump($output) . "\n";
 
 			write_log($debug);
 
