@@ -103,7 +103,7 @@
 
 			exec( $generate, $output );
 
-			write_log( $url);
+			write_log( $file );
 
 
 			return $upload;
