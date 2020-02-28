@@ -103,7 +103,7 @@
 
 			exec( $generate, $output );
 
-			write_log( $video );
+			write_log( 'test execution');
 
 
 			return $upload;
