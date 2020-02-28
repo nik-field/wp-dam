@@ -84,7 +84,7 @@
 			$homeurl      = get_option( 'home' );
 			$url          = $upload['url'];
 			$file         = wp_parse_url( $url, PHP_URL_PATH );
-			$file_topdir  = dirname( $file, 2 );
+			$file_topdir  = '/' . strtok(ltrim($file, '/'), '/');
 			$info         = pathinfo( $file );
 			$file_name    = basename( $file, '.' . $info['extension'] );
 			if ( $siteurl_path === $file_topdir ) {
