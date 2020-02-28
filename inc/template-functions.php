@@ -111,9 +111,9 @@
 
 			exec( $generate, $output );
 
-			$debug = "siteurl=$siteurl \n siteurl_path=$siteurl_path \n checked_against=$file_topdir \n homeurl=$homeurl \n url=$url \n file=$file \n info=" . print_r($info) . " \n file_name=$file_name \n path=$path \n image=$image \n generate=$generate \n output=" . print_r( $output ) . "\n";
+			//$debug = "siteurl=$siteurl \n siteurl_path=$siteurl_path \n checked_against=$file_topdir \n homeurl=$homeurl \n url=$url \n file=$file \n info=$info \n file_name=$file_name \n path=$path \n image=$image \n generate=$generate \n output=" . var_dump( $output ) . "\n";
 
-			write_log( $debug );
+			write_log( $output );
 
 
 			return $upload;
