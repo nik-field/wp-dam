@@ -1,9 +1,5 @@
 <?php
 
-	/*
-	TODO: Display 'Post Format' dependent metaboxes [https://code.tutsplus.com/tutorials/how-to-display-metaboxes-according-to-the-current-post-format--wp-27970]
-	*/
-
 	function add_asset_format_box() {
 		remove_meta_box( 'tagsdiv-format', 'asset', 'side' );
 		add_meta_box( 'asset_format_box_ID', __( 'Format' ), 'print_asset_format_box', 'asset', 'normal', 'high' );
@@ -32,8 +28,8 @@
 		$formats = get_terms( 'format', 'hide_empty=0' );
 
 		?>
-		<form id='asset_format'>
-			<!-- Display formats as options -->
+        <form id='asset_format'>
+            <!-- Display formats as options -->
 			<?php
 				$labels = wp_get_object_terms( $post->ID, 'format' );
 				wp_nonce_field( 'taxonomy_format', 'taxonomy_format_nonce' );
@@ -46,7 +42,7 @@
 					}
 				}
 			?>
-		</form>
+        </form>
 		<?php
 	}
 
@@ -279,12 +275,25 @@
 					update_post_meta( $post_id, 'add_asset_' . $field['id'], '0' );
 				}
 			}
+			$attachments = get_attached_media( '' );
+			if ( get_asset_format() !== 'link' && get_asset_format() !== 'image' && isset( $attachments ) ) {
+				// $file_path should be the path to a file in the upload directory.
+				$file_url  = get_post_meta( get_the_ID() )['add_asset_file'][0];
+				$file_id   = attachment_url_to_postid( $file_url );
+
+// The ID of the post this attachment is for.
+				$parent_post_id = $post_id;
+
+				wp_update_post( array(
+						'ID'          => $file_id,
+						'post_parent' => $parent_post_id
+					)
+				);
+			}
 		}
 	}
 
 	new AddAsset_Meta_Box;
-
-
 
 
 	function remove_default_tax_metabox() {
@@ -296,7 +305,7 @@
 
 	function add_asset_image_metabox() {
 		remove_meta_box( 'postimagediv', 'asset', 'side' );
-	    add_meta_box( 'postimagediv', 'Add Image', 'post_thumbnail_meta_box', 'asset', 'normal', 'high' );
+		add_meta_box( 'postimagediv', 'Add Image', 'post_thumbnail_meta_box', 'asset', 'normal', 'high' );
 	}
 
 //	add_action( 'admin_menu', 'remove_default_tax_metabox' );

@@ -409,7 +409,7 @@
 		if ( isset( $attachment->ID ) ) {
 			$metadata = wp_get_attachment_metadata( $attachment->ID );
 		}
-		if ( ! $attachments || ! isset($metadata[ $key ]) ) {
+		if ( ! $attachments || ! isset( $metadata[ $key ] ) ) {
 			return 'No file attached';
 		}
 
@@ -431,34 +431,39 @@
 
 
 	function get_asset_file_size() {
-		if ( get_asset_format() !== 'format_audio' && get_asset_format() !== 'format_image' ) {
-			$attachments = get_attached_media( '' );
-			$attachment  = reset( $attachments );
-			$filepath    = get_attached_file( $attachment->ID );
-			$filesize    = filesize( $filepath );
-			$readout     = size_format( $filesize );
+		if ( get_attached_media( '' ) ) {
+			if ( get_asset_format() !== 'format_audio' && get_asset_format() !== 'format_image' ) {
+				$attachments = get_attached_media( '' );
+				$attachment  = reset( $attachments );
+				$filepath    = get_attached_file( $attachment->ID );
+//				$filesize    = filesize( $filepath );
+                $filesize = wp_get_attachment_metadata($attachment->ID)['filesize'];
+				$readout     = size_format( $filesize );
 
-			return $readout;
-		}
-		if ( get_asset_format() == 'format_audio' ) {
-			$attachments = get_attached_media( '' );
-			if ( ! $attachments ) {
+				return $readout;
+			}
+			if ( get_asset_format() == 'format_audio' ) {
+				$attachments = get_attached_media( '' );
+				if ( ! $attachments ) {
+					return 'No file attached';
+				}
+				$attachment = reset( $attachments );
+				$metadata   = wp_get_attachment_metadata( $attachment->ID );
+				$readout    = size_format( $metadata['filesize'] );
+
+				return $readout;
+			}
+			$image = wp_get_original_image_path( get_post_thumbnail_id() );
+			if ( ! $image ) {
 				return 'No file attached';
 			}
-			$attachment = reset( $attachments );
-			$metadata   = wp_get_attachment_metadata( $attachment->ID );
-			$readout    = size_format( $metadata['filesize'] );
+			$filesize = filesize( $image );
+			$readout  = size_format( $filesize );
 
 			return $readout;
-		}
-		$image = wp_get_original_image_path( get_post_thumbnail_id() );
-		if ( ! $image ) {
-			return 'No file attached';
-		}
-		$filesize = filesize( $image );
-		$readout  = size_format( $filesize );
 
-		return $readout;
+		}
+
 	}
 
 	function get_asset_image_res( $style = 'dimensions' ) {

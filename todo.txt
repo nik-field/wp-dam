@@ -30,9 +30,6 @@ TODO: Video assets: youtube link option
 TODO: Add frontend drag-and-drop file uploader
     [https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/]
     [https://stackoverflow.com/questions/17714446/front-end-drag-and-drop-uploader-for-wordpress]
-TODO: Add frontend drag-and-drop file uploader
-    [https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/]
-    [https://stackoverflow.com/questions/17714446/front-end-drag-and-drop-uploader-for-wordpress]
 TODO: Group images as asset with different sizes (Web banner, facebook banner, instagram, etc)
 TODO: Continue uploading while you edit details
 TODO: Queueing uploads and detail editing
