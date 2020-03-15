@@ -237,7 +237,7 @@
 		}
 	}
 
-	add_action( 'parse_request', 'v_forcelogin' );
+	add_action( 'template_redirect', 'v_forcelogin' );
 
 
 
