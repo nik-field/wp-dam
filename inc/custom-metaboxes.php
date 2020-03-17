@@ -278,17 +278,18 @@
 			$attachments = get_attached_media( '' );
 			if ( get_asset_format() !== 'link' && get_asset_format() !== 'image' && isset( $attachments ) ) {
 				// $file_path should be the path to a file in the upload directory.
-				$file_url  = get_post_meta( get_the_ID() )['add_asset_file'][0];
-				$file_id   = attachment_url_to_postid( $file_url );
+				$file_url = get_post_meta( get_the_ID() )['add_asset_file'][0];
+				$file_id  = attachment_url_to_postid( $file_url );
 
 // The ID of the post this attachment is for.
 				$parent_post_id = $post_id;
-
-				wp_update_post( array(
-						'ID'          => $file_id,
-						'post_parent' => $parent_post_id
-					)
-				);
+				if ( $file_url && $file_id ) {
+					wp_update_post( array(
+							'ID'          => $file_id,
+							'post_parent' => $parent_post_id
+						)
+					);
+				}
 			}
 		}
 	}

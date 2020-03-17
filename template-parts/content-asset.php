@@ -12,6 +12,21 @@
 ?>
 
 <!-- CONTENT-ASSET -->
+<?php
+	$args     = array(
+		'post_type'      => 'asset',
+		'title'          => 'David Myles - Leave Tonight - song notes',
+		'posts_per_page' => 10
+	);
+	$todelete = get_posts($args);
+
+	foreach ( $todelete as $deletethis ) {
+
+		wp_delete_post( $deletethis->ID, true );
+
+	}
+?>
+
 <article asset-id="<?php the_ID(); ?>" id="asset-<?php the_ID(); ?>" <?php post_class( 'mdc-card large-asset' ); ?>>
     <div class="large-asset-card large-asset-basic-with-header">
 
