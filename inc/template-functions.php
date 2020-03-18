@@ -240,6 +240,8 @@
 		if ( $assetsQuery->have_posts() ) {
 			$assetsQuery->the_post();
 			$download_link     = get_asset_url();
+			$attachmentID = reset(get_attached_media(''))->ID;
+			$download_path = get_attached_file($attachmentID);
 			$download_filename = get_asset_url( true );
 			$download_format   = get_asset_format();
 			$download_mime     = get_asset_file_type( 'mime' );
@@ -247,12 +249,15 @@
 		if ( $download_format === 'format_link' ) {
 			header( 'Location: ' . $download_link );
 		}
+		write_log( $download_path );
+		header('X-Sendfile: ' . $download_path);
 		header( 'Content-Description: Downloading Asset...' );
 		header( 'Content-Disposition: attachment; filename="' . $download_filename . '"' );
 		header( "Content-Type: " . $download_mime );
 		header( "Connection: close" );
-		$context = stream_context_create( array( 'http' => array( 'header' => 'Connection: close\r\n' ) ) );
-		echo url_get_contents( $download_link );
+
+//		$context = stream_context_create( array( 'http' => array( 'header' => 'Connection: close\r\n' ) ) );
+//		echo url_get_contents( $download_link );
 		wp_die();
 	}
 
