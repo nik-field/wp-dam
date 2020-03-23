@@ -250,6 +250,7 @@
 		}
 		if ( $download_format === 'format_link' ) {
 			header( 'Location: ' . $download_link );
+			wp_die();
 		}
 		if ( $download_format === 'format_image') {
 			$download_path = wp_get_original_image_path( get_post_thumbnail_id() );
