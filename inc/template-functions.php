@@ -70,6 +70,8 @@
 		function write_log( $log ) {
 			if ( is_array( $log ) || is_object( $log ) ) {
 				error_log( print_r( $log, true ) );
+			} else if ( is_bool( $log ) ) {
+				error_log( var_dump( $log ) );
 			} else {
 				error_log( $log );
 			}
@@ -84,7 +86,7 @@
 			$homeurl      = get_option( 'home' );
 			$url          = $upload['url'];
 			$file         = wp_parse_url( $url, PHP_URL_PATH );
-			$file_topdir  = '/' . strtok(ltrim($file, '/'), '/');
+			$file_topdir  = '/' . strtok( ltrim( $file, '/' ), '/' );
 			$info         = pathinfo( $file );
 			$file_name    = basename( $file, '.' . $info['extension'] );
 			if ( $siteurl_path === $file_topdir ) {
@@ -107,7 +109,7 @@
 			//$size_formatted = $size->width . 'x' . $size->height;
 //		$size = '640x480';
 //ffmpeg command
-			$generate = "ffmpeg -loglevel +debug -i $video -ss $interval -vframes 1 $image";
+			$generate = "ffmpeg -i $video -ss $interval -vframes 1 $image";
 
 			exec( $generate, $output );
 
@@ -240,8 +242,8 @@
 		if ( $assetsQuery->have_posts() ) {
 			$assetsQuery->the_post();
 			$download_link     = get_asset_url();
-			$attachmentID = reset(get_attached_media(''))->ID;
-			$download_path = get_attached_file($attachmentID);
+			$attachment        = reset( get_attached_media( '' ) );
+			$download_path     = get_attached_file( $attachment->ID );
 			$download_filename = get_asset_url( true );
 			$download_format   = get_asset_format();
 			$download_mime     = get_asset_file_type( 'mime' );
@@ -249,8 +251,15 @@
 		if ( $download_format === 'format_link' ) {
 			header( 'Location: ' . $download_link );
 		}
+		if ( $download_format === 'format_image') {
+			$download_path = wp_get_original_image_path( get_post_thumbnail_id() );
+		}
 		write_log( $download_path );
-		header('X-Sendfile: ' . $download_path);
+		if ( $download_path ) {
+			header( 'X-Sendfile: ' . $download_path );
+		} else {
+			header( 'X-Sendfile: ' . $download_link );
+		}
 		header( 'Content-Description: Downloading Asset...' );
 		header( 'Content-Disposition: attachment; filename="' . $download_filename . '"' );
 		header( "Content-Type: " . $download_mime );
