@@ -250,6 +250,8 @@
 		}
 		if ( $download_format === 'format_link' ) {
 			header( 'Location: ' . $download_link );
+			header( "Content-Type: " . $download_mime );
+			header( "Connection: close" );
 			wp_die();
 		}
 		if ( $download_format === 'format_image') {
