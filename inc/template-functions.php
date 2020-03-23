@@ -252,7 +252,7 @@
 			header( 'Location: ' . $download_link );
 			header( "Content-Type: " . $download_mime );
 			header( "Connection: close" );
-			wp_die();
+			return;
 		}
 		if ( $download_format === 'format_image') {
 			$download_path = wp_get_original_image_path( get_post_thumbnail_id() );
