@@ -429,41 +429,41 @@
 		return $attachment->ID;
 	}
 
-
-	function get_asset_file_size() {
-		if ( get_attached_media( '' ) ) {
-			if ( get_asset_format() !== 'format_audio' && get_asset_format() !== 'format_image' ) {
+function get_asset_file_size() {
+		if ( get_attached_media( '' ) && ! get_the_post_thumbnail_url() ) {
+			if ( get_asset_format() !== 'format_audio' && get_asset_format() !== 'format_image' && get_asset_format() !== 'format_document' ) {
 				$attachments = get_attached_media( '' );
 				$attachment  = reset( $attachments );
-				$filepath    = get_attached_file( $attachment->ID );
-//				$filesize    = filesize( $filepath );
-                $filesize = wp_get_attachment_metadata($attachment->ID)['filesize'];
-				$readout     = size_format( $filesize );
+				$filesize = wp_get_attachment_metadata( $attachment->ID )['filesize'];
 
-				return $readout;
+				$readout  = size_format( $filesize );
 			}
 			if ( get_asset_format() == 'format_audio' ) {
 				$attachments = get_attached_media( '' );
-				if ( ! $attachments ) {
-					return 'No file attached';
-				}
-				$attachment = reset( $attachments );
-				$metadata   = wp_get_attachment_metadata( $attachment->ID );
-				$readout    = size_format( $metadata['filesize'] );
+				$attachment  = reset( $attachments );
+				$metadata    = wp_get_attachment_metadata( $attachment->ID );
 
-				return $readout;
+				$readout     = size_format( $metadata['filesize'] );
 			}
-			$image = wp_get_original_image_path( get_post_thumbnail_id() );
-			if ( ! $image ) {
-				return 'No file attached';
-			}
-			$filesize = filesize( $image );
-			$readout  = size_format( $filesize );
+			if (get_asset_format() == 'format_document') {
+				$attachments = get_attached_media( '' );
+				$attachment  = reset( $attachments );
+			    $attached_file = get_attached_file($attachment->ID);
+				$bytes = filesize( $attached_file );
 
-			return $readout;
+				$readout = size_format( $bytes );
+            }
+		} else if ( get_the_post_thumbnail() ) {
+			$imgID         = get_post_thumbnail_id();
+			$attached_file = get_attached_file( $imgID );
+			$bytes         = filesize( $attached_file );
 
+			$readout       = size_format( $bytes );
+		} else {
+			$readout = 'No file attached';
 		}
 
+		return $readout;
 	}
 
 	function get_asset_image_res( $style = 'dimensions' ) {
