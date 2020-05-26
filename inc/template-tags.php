@@ -265,7 +265,8 @@
 					break;
 
 				case 'format_document':
-					return wp_get_attachment_image_src( get_asset_attachment_id(), 'full' )[0];
+					$thumbnail = wp_get_attachment_image_src( get_asset_attachment_id(), 'full' )[0];
+					return $thumbnail;
 					break;
 
 				case 'format_link':
@@ -429,7 +430,8 @@
 		return $attachment->ID;
 	}
 
-function get_asset_file_size() {
+
+	function get_asset_file_size() {
 		if ( get_attached_media( '' ) && ! get_the_post_thumbnail_url() ) {
 			if ( get_asset_format() !== 'format_audio' && get_asset_format() !== 'format_image' && get_asset_format() !== 'format_document' ) {
 				$attachments = get_attached_media( '' );

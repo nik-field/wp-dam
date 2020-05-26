@@ -54,8 +54,8 @@
     <!-- .site-info -->
     </div>
 </footer><!-- #colophon --></div><!-- .page-container --></div><!-- #page -->
-<div class="mdc-dialog">
-    <div class="mdc-dialog__container">
+<div class="dam-asset-dialog mdc-dialog">
+    <div class="mdc-dialog__container dam-asset-dialog__container">
         <div class="mdc-dialog__surface asset-dialog-surface">
         </div>
     </div>

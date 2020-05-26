@@ -147,8 +147,10 @@ searchForm.submit(function (e) {
 });
 
 import {MDCDialog} from '@material/dialog';
+import {MDCFloatingLabel} from "@material/floating-label/index";
 
-const dialog = new MDCDialog(document.querySelector('.mdc-dialog'));
+const assetDialog = new MDCDialog(document.querySelector('.dam-asset-dialog'));
+
 
 $('.site-main').on('click', '.open-dialog', function () {
     var asset = $(this).closest('article').attr('asset-id');
@@ -163,8 +165,8 @@ function createDialog(identifier) {
             return set.id == identifier;
         });
         var html = template.render(tpl_dialog, doc);
-        $('.mdc-dialog__surface').empty();
-        $('.mdc-dialog__surface').append(html);
+        $('.asset-dialog-surface').empty();
+        $('.asset-dialog-surface').append(html);
     } else {
         return false;
     }
@@ -172,8 +174,8 @@ function createDialog(identifier) {
 }
 
 function dialogOpen() {
-    dialog.open();
-    dialog.listen('MDCDialog:opened', function () {
+    assetDialog.open();
+    assetDialog.listen('MDCDialog:opened', function () {
         var diagMenuEl = this.querySelector('.mdc-dialog-menu');
         var menu = new MDCMenu(diagMenuEl);
         var diagMenuToggle = diagMenuEl.parentElement.querySelector('.mdc-menu-toggle');
@@ -186,6 +188,12 @@ function dialogOpen() {
 }
 
 createDialog();
+
+const addAssetDialog = new MDCDialog(document.querySelector('.dam-add-asset-dialog'));
+
+$('.dam-add-asset__button').on('click', function () {
+    addAssetDialog.open();
+});
 
 
 

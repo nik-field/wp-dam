@@ -1,0 +1,1 @@
+var loaded = wp.Uploader.queue

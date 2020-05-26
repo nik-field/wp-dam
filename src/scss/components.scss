@@ -181,3 +181,52 @@
 .search-spinner div {
   box-sizing: content-box;
 }
+
+#dam-floating-actions {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  z-index: 999;
+  .mdc-fab {
+    @include mdc-fab-container-color($primary);
+  }
+}
+
+.dam-add-asset-dialog {
+  .mdc-dialog__container {
+    flex-grow: 1;
+    #frontend_add_asset_form {
+      display:flex;
+      flex-wrap: wrap;
+    }
+  }
+  .mdc-dialog__title {
+    border-bottom: 1px solid $lightgrey;
+    padding-bottom: 15px;
+  }
+  .add-asset-title-input {
+    flex-basis:100%;
+    .mdc-text-field__input {
+      padding: 20px 6px 6px;
+    }
+    .mdc-floating-label {
+      left: 6px;
+    }
+  }
+  .add-asset__format {
+    flex-basis: 100%;
+    margin: 16px 0 16px;
+  }
+  .add-asset__artist-project {
+    flex-basis: 100%;
+    width: 100%;
+
+  }
+}
+
+@media (min-width: 592px) {
+  .mdc-dialog .mdc-dialog__surface {
+    max-width: 60%;
+    min-width: 592px;
+  }
+}

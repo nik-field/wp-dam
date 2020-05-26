@@ -1,5 +1,6 @@
 import {MDCComponent, MDCFoundation} from '@material/base/index';
 
+
 /*=============================================
 =            Include Ripple Effect            =
 =============================================*/
@@ -18,12 +19,7 @@ $(document).ajaxSuccess(function () {
 /*===========================================
 =            Include Top App Bar            =
 ===========================================*/
-
-import {MDCTopAppBar} from '@material/top-app-bar/index';
-
-// Instantiation
-//const topAppBarElement = document.querySelector('.mdc-top-app-bar');
-//const topAppBar = new MDCTopAppBar(topAppBarElement);
+//
 
 /*==========================================
 =            Include Text Field            =
@@ -32,23 +28,28 @@ import {MDCTopAppBar} from '@material/top-app-bar/index';
 import {MDCTextField} from '@material/textfield/index';
 
 //Instantiation
-const textField = new MDCTextField(document.querySelector('.mdc-text-field'));
+//const textField = new MDCTextField(document.querySelector('.mdc-text-field'));
+const searchTextField = new MDCTextField(document.querySelector('.dam-search-input'));
+const titleTextField = new MDCTextField(document.querySelector('.add-asset-title-input'));
 
-/*===========================================
-=            Include Floating Label           =
-===========================================*/
-
-import {MDCFloatingLabel} from '@material/floating-label/index';
-
-//Instantiation
-const floatingLabel = new MDCFloatingLabel(document.querySelector('.mdc-floating-label'));
 
 /*===========================================
 =            Include Line Ripple            =
 ===========================================*/
 
-import {MDCLineRipple} from '@material/line-ripple/index';
 
+import {MDCFormField} from '@material/form-field';
+import {MDCRadio} from '@material/radio';
+
+// mdcAutoInit.register('MDCRadio', MDCRadio);
+// mdcAutoInit.register('MDCFormField', MDCFormField);
+
+const radios = [].map.call(document.querySelectorAll('.mdc-radio'), function(el) {
+    return new MDCRadio(el);
+});
+const formFields = [].map.call(document.querySelectorAll('.mdc-form-field'), function (el) {
+    return new MDCFormField(el);
+});
 
 import Clipboard from 'clipboard';
 
@@ -92,4 +93,3 @@ $(document).ajaxSuccess(function () {
 
 import './asset-search';
 import './asset-access';
-

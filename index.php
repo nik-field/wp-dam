@@ -20,29 +20,29 @@
 
 			<?php get_sidebar(); ?>
             <main id="main" class="site-main mdc-layout-grid__cell mdc-layout-grid__cell--span-9">
-<?php if ( is_user_logged_in()) : ?>
-                <div id="recently-used">
-                    <span class="recent-label" onclick="$('.recently-used-container').slideToggle()">Recently Used <i class="material-icons">arrow_drop_down</i></span>
-					<div class="recently-used-container">
-                    <?php
-						$user_id           = get_current_user_id();
-						$recent_assets     = get_user_meta( $user_id, 'recent_assets' )[0];
+				<?php if ( is_user_logged_in() ) : ?>
+                    <div id="recently-used">
+                        <span class="recent-label" onclick="$('.recently-used-container').slideToggle()">Recently Used <i class="material-icons">arrow_drop_down</i></span>
+                        <div class="recently-used-container">
+							<?php
+								$user_id       = get_current_user_id();
+								$recent_assets = get_user_meta( $user_id, 'recent_assets' )[0];
 
-						$args              = array( 'post_type' => 'asset', 'post__in' => $recent_assets, 'orderby' => 'post__in', 'posts_per_page' => 3 );
-						$recentAssetsQuery = new WP_Query( $args );
-						if ( $recentAssetsQuery->have_posts() && isset($recent_assets) ) :
-							while ( $recentAssetsQuery->have_posts() ) : $recentAssetsQuery->the_post();
-								get_template_part( 'template-parts/content', 'asset' );
-							endwhile;
-						else:
-							echo 'No recent activity';
-						endif;
-						wp_reset_postdata();
+								$args              = array( 'post_type' => 'asset', 'post__in' => $recent_assets, 'orderby' => 'post__in', 'posts_per_page' => 3 );
+								$recentAssetsQuery = new WP_Query( $args );
+								if ( $recentAssetsQuery->have_posts() && isset( $recent_assets ) ) :
+									while ( $recentAssetsQuery->have_posts() ) : $recentAssetsQuery->the_post();
+										get_template_part( 'template-parts/content', 'asset' );
+									endwhile;
+								else:
+									echo 'No recent activity';
+								endif;
+								wp_reset_postdata();
 
-					?>
+							?>
+                        </div>
                     </div>
-                </div>
-                <?php endif; ?>
+				<?php endif; ?>
                 <div class="loading-bars">
                     <div class="spinner">
                         <div class="bounce1"></div>
@@ -53,50 +53,17 @@
 
                 <div id="search-results"></div>
 
-                <div id="initial-results">
+                <div id="initial-results"></div>
 
-                    <!--					--><?php
-						//
-						//						$assetsQuery = damQuery( 'assets' );
-						//
-						//						if ( $assetsQuery->have_posts() ) :
-						//
-						//							if ( is_home() && ! is_front_page() ) :
-						//
-						//								?>
-                    <!--                                <header>-->
-                    <!--                                    <h1 class="page-title screen-reader-text">--><?php //single_post_title(); ?><!--</h1>-->
-                    <!--                                </header>-->
-                    <!--							--><?php
-						//							endif;
-						//							?><!----><?php
-						//							/* Start the Loop */
-						//							while ( $assetsQuery->have_posts() ) : $assetsQuery->the_post();
-						//
-						//
-						//								/*
-						//								 * Include the Post-Type-specific template for the content.
-						//								 * If you want to override this in a child theme, then include a file
-						//								 * called content-___.php (where ___ is the Post Type name) and that will be used instead.
-						//								 */
-						//								get_template_part( 'template-parts/content', 'asset' );
-						//
-						//							endwhile;
-						//
-						//							?>
-                    <!--                            <div class="asset-pagination"></div> --><?php
-						//
-						//						else :
-						//
-						//							get_template_part( 'template-parts/content', 'none' );
-						//
-						//						endif;
-						//						wp_reset_postdata();
-						//					?>
-                </div>
             </main><!-- #main -->
         </div>
     </div><!-- #primary -->
+<?php
+	if ( is_user_logged_in() && current_user_can( 'edit_posts' ) ) {
+
+		require get_template_directory() . '/inc/frontend-addasset.php';
+	}
+?>
 
     <script id="definitions" type="text/javascript">var $artist = "";</script>
 

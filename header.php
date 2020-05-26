@@ -63,6 +63,7 @@
                                 <i class="material-icons mdc-text-field__icon">
                                     <div class="loading-spinner">
                                         <div class="search-spinner">
+                                            <!-- Each div contains a spoke of the spinner -->
                                             <div></div>
                                             <div></div>
                                             <div></div>
@@ -82,7 +83,7 @@
                                 <div class="mdc-notched-outline">
                                     <div class="mdc-notched-outline__leading"></div>
                                     <div class="mdc-notched-outline__notch">
-                                        <label for="text-field-hero-input" class="mdc-floating-label">Search for an asset</label>
+                                        <label for="text-field-hero-input" class="mdc-floating-label search-floating-label">Search for an asset</label>
                                     </div>
                                     <div class="mdc-notched-outline__trailing"></div>
                                 </div>

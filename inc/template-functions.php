@@ -296,6 +296,25 @@
 
 	}
 
+	function damAddNewAsset(){
+		if ( ! empty( $_POST ) ) {
+			$asset_title = $_POST["asset_title"];
+			$format = $_POST["format"];
+			$asset = array(
+				'post_title' => $asset_title,
+				'tax_input' => array(
+					'format' => $format,
+				),
+			);
+			print_r($asset);
+		}
+	}
+	function damAddNewAsset_nopriv() {
+		wp_die();
+	}
+	add_action('admin_post_frontend_add_asset', 'damAddNewAsset');
+	add_action('admin_post_nopriv_frontend_add_asset', 'damAddNewAsset_nopriv');
+
 //	function change_permalinks() {
 //		global $wp_rewrite;
 //		$wp_rewrite->set_permalink_structure( '/%postname%/' );
