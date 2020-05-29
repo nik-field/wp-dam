@@ -179,12 +179,12 @@
 	function wp_dam_admin_scripts( $hook ) {
 		
 		if ( 'edit-tags.php' == $hook && get_current_screen()->taxonomy == 'artist_project' ) {
-			wp_enqueue_script( 'admin_customizer_script', get_template_directory_uri() . '/dist/scripts/admin-customizer-min.js', array( 'jquery' ), date( "H:i:s" ), true );
-			wp_enqueue_style( 'admin_style', get_template_directory_uri() . '/dist/css/admin.css', array(), date( "H:i:s" ) );
+			wp_enqueue_script( 'admin_customizer_script', get_template_directory_uri() . '/dist/scripts/customizer-min.js', array( 'jquery' ), date( "H:i:s" ), true );
+			wp_enqueue_style( 'admin_style', get_template_directory_uri() . '/dist/css/admin-customizer.css', array(), date( "H:i:s" ) );
 		}
 		if ( get_current_screen()->post_type == 'asset' && get_current_screen()->base == 'post' ) {
-			wp_enqueue_script( 'admin_post_customizer_script', get_template_directory_uri() . '/dist/scripts/admin-customizer-min.js', array( 'jquery' ), date( "H:i:s" ), true );
-			wp_enqueue_style( 'admin_post_style', get_template_directory_uri() . '/dist/css/admin.css', array(), date( "H:i:s" ) );
+			wp_enqueue_script( 'admin_post_customizer_script', get_template_directory_uri() . '/dist/scripts/customizer-min.js', array( 'jquery' ), date( "H:i:s" ), true );
+			wp_enqueue_style( 'admin_post_style', get_template_directory_uri() . '/dist/css/admin-customizer.css', array(), date( "H:i:s" ) );
 		}
 
 		return;

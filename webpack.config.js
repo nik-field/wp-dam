@@ -17,7 +17,7 @@ module.exports = [
             {
               loader: "file-loader",
               options: {
-                name: "./dist/css/style.css",
+                name: "../css/style.css",
               },
             },
             { loader: "extract-loader" },
@@ -54,7 +54,10 @@ module.exports = [
     },
   },
   {
-    entry: ["./src/js/admin-frontend-addasset.js", "./src/js/admin-customizer.js", "./src/scss/admin.scss"],
+    entry: {
+      "frontend-addasset": './src/js/admin-frontend-addasset.js',
+      customizer: './src/js/admin-customizer.js',
+    },
     output: {
       path: path.resolve(__dirname, "dist/scripts"),
       filename: "[name]-min.js",
@@ -62,12 +65,12 @@ module.exports = [
     module: {
       rules: [
         {
-          test: /^admin.*scss$/,
+          test: /\.scss$/,
           use: [
             {
               loader: "file-loader",
               options: {
-                name: "./dist/css/admin.css",
+                name: "../css/admin-customizer.css",
               },
             },
             { loader: "extract-loader" },
@@ -92,9 +95,9 @@ module.exports = [
               },
             },
           ],
-        }
+        },
         {
-          test: /^admin.*js$/,
+          test: /\.js$/,
           loader: "babel-loader",
           query: {
             presets: ["@babel/preset-env"],

@@ -1,3 +1,4 @@
+import '../scss/admin-customizer.scss';
 var $ = jQuery;
 $(document).ready(function () {
     if (!$("input[name='is_artist_or_project_select_type']:checked").val()) {
