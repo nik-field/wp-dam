@@ -111,7 +111,7 @@ module.exports = [
     },
     plugins: [
       new BrowserSyncPlugin({
-        proxy: 'http://localhost:8080',
+        proxy: 'http://192.168.99.103:8080',
         files: [
           "./../",
           "./../api/**/*.php",
