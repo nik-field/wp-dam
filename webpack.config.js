@@ -1,4 +1,5 @@
 const autoprefixer = require("autoprefixer");
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
 var path = require("path");
 
@@ -8,6 +9,9 @@ module.exports = [
     output: {
       path: path.resolve(__dirname, "dist/scripts"),
       filename: "script.js",
+    },
+    watchOptions: {
+      ignored: /node_modules/,
     },
     module: {
       rules: [
@@ -55,8 +59,8 @@ module.exports = [
   },
   {
     entry: {
-      "frontend-addasset": './src/js/admin-frontend-addasset.js',
-      customizer: './src/js/admin-customizer.js',
+      "frontend-addasset": "./src/js/admin-frontend-addasset.js",
+      customizer: "./src/js/admin-customizer.js",
     },
     output: {
       path: path.resolve(__dirname, "dist/scripts"),
@@ -102,8 +106,25 @@ module.exports = [
           query: {
             presets: ["@babel/preset-env"],
           },
-        }
-      ]
-    }
+        },
+      ],
+    },
+    plugins: [
+      new BrowserSyncPlugin({
+        proxy: 'http://localhost:8080',
+        files: [
+          "./../",
+          "./../api/**/*.php",
+          "./../api/*.php",
+          "./",
+          "!./node_modules",
+          "!./yarn-error.log",
+          "!./package.json",
+          "!./style.css.map",
+          "!./app.js.map",
+        ],
+        reloadDelay: 0,
+      }),
+    ],
   },
 ];
