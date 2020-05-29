@@ -27,7 +27,6 @@
 							<?php
 								$user_id       = get_current_user_id();
 								$recent_assets = @get_user_meta( $user_id, 'recent_assets' )[0];
-// Need to initalize and add conditional for an empty $recent_assets
 								$args              = array( 'post_type' => 'asset', 'post__in' => $recent_assets, 'orderby' => 'post__in', 'posts_per_page' => 3 );
 								$recentAssetsQuery = new WP_Query( $args );
 								if ( $recentAssetsQuery->have_posts() && isset( $recent_assets ) ) :
