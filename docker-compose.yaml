@@ -1,18 +1,22 @@
-version: '3.8'
+version: "3.8"
 
 services:
-
   wordpress:
-    image: wordpress
+    build: 
+      context: https://github.com/bearbird/wp-fpm-ffmpeg.git
     restart: always
     ports:
-      - 8080:80
+      - 80:80
     environment:
       WORDPRESS_DB_HOST: wpdb
       WORDPRESS_DB_USER: exampleuser
       WORDPRESS_DB_PASSWORD: examplepass
       WORDPRESS_DB_NAME: exampledb
       WORDPRESS_DEBUG: 1
+      # WORDPRESS_CONFIG_EXTRA: |
+      #   define('WP_HOME', '/');
+      #   define('WP_SITEURL', '/');
+
     volumes:
       - ../../:/var/www/html/wp-content
 
@@ -25,7 +29,7 @@ services:
       MYSQL_PASSWORD: examplepass
       MYSQL_ROOT_PASSWORD: root
     volumes:
-      - db:/var/lib/mysql
+      - ../../testdb:/docker-entrypoint-initdb.d
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -34,12 +38,10 @@ services:
       - 8081:80
     links:
       - wpdb
-    environment: 
+    environment:
       PMA_HOST: wpdb
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
-
-
 
 volumes:
   wordpress:
