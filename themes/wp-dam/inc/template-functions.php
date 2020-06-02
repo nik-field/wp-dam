@@ -273,10 +273,15 @@
 		wp_die();
 	}
 
-	add_action( 'init', 'download_url_handler' );
+	add_action( 'after_setup_theme', 'download_url_handler' );
 	function download_url_handler() {
+		global $wp_rewrite;
+		$permalink_structure = get_option( 'permalink_structure' );
 		add_rewrite_rule( 'download/([^/]*)$', 'wp-content/themes/wp-dam/download.php?id=$1', 'top' );
+		
+		$wp_rewrite->generate_rewrite_rules($permalink_structure);
 	}
+
 
 
 	add_action( 'after_setup_theme', 'acme_remove_default_widgets' );

@@ -1,0 +1,5 @@
+.DS_Store
+.git
+.gitattributes
+.gitignore
+docker-compose.yaml
