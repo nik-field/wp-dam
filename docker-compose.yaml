@@ -28,7 +28,8 @@ services:
       MYSQL_PASSWORD: examplepass
       MYSQL_ROOT_PASSWORD: root
     volumes:
-      - ./testdb:/docker-entrypoint-initdb.d
+      - db:/var/lib/mysql
+#      - ./testdb:/docker-entrypoint-initdb.d
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -41,3 +42,6 @@ services:
       PMA_HOST: wpdb
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
+
+volumes:
+  db:
