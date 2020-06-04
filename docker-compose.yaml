@@ -10,7 +10,7 @@ services:
     ports:
       - 80:80
     environment:
-      WORDPRESS_DB_HOST: wpdb
+      WORDPRESS_DB_HOST: wpdb:3306
       WORDPRESS_DB_USER: exampleuser
       WORDPRESS_DB_PASSWORD: examplepass
       WORDPRESS_DB_NAME: exampledb
