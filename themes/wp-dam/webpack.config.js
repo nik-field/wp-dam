@@ -109,22 +109,22 @@ module.exports = [
         },
       ],
     },
-    plugins: [
-      new BrowserSyncPlugin({
-        proxy: 'http://192.168.99.103:8080',
-        files: [
-          "./../",
-          "./../api/**/*.php",
-          "./../api/*.php",
-          "./",
-          "!./node_modules",
-          "!./yarn-error.log",
-          "!./package.json",
-          "!./style.css.map",
-          "!./app.js.map",
-        ],
-        reloadDelay: 0,
-      }),
-    ],
+    // plugins: [
+    //   new BrowserSyncPlugin({
+    //     proxy: 'http://192.168.99.103',
+    //     files: [
+    //       "./../",
+    //       "./../api/**/*.php",
+    //       "./../api/*.php",
+    //       "./",
+    //       "!./node_modules",
+    //       "!./yarn-error.log",
+    //       "!./package.json",
+    //       "!./style.css.map",
+    //       "!./app.js.map",
+    //     ],
+    //     reloadDelay: 0,
+    //   }),
+    // ],
   },
 ];
