@@ -3,8 +3,6 @@ version: "3.8"
 services:
 
   wordpress:
-    depends_on:
-      - wpdb
     build: https://git@github.com/bearbird/wp-fpm-ffmpeg.git
     restart: always
     ports:
@@ -22,9 +20,6 @@ services:
       - ./:/var/www/html/wp-content
 
   wpcli:
-    depends_on: 
-      - wpdb
-      - wordpress
     image: wordpress:cli
     restart: always
     command: >
