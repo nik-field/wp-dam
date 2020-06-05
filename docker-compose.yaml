@@ -7,10 +7,8 @@ services:
     restart: always
     ports:
       - 80:80
-    links:
-      - wpdb
     environment:
-      WORDPRESS_DB_HOST: wpdb:3306
+      WORDPRESS_DB_HOST: wpdb
       WORDPRESS_DB_USER: exampleuser
       WORDPRESS_DB_PASSWORD: examplepass
       WORDPRESS_DB_NAME: exampledb
@@ -20,8 +18,13 @@ services:
     volumes:
       - wpdata:/var/www/html
       - ./:/var/www/html/wp-content
+    networks:
+      - wpnet
 
   wpcli:
+    depends_on:
+      - wordpress
+      - wpdb
     image: wordpress:cli
     restart: always
     command: >
@@ -34,6 +37,8 @@ services:
       - wpdata:/var/www/html
       - db:/var/lib/mysql
       - ./:/var/www/html/wp-content
+    networks:
+      - wpnet
 
   wpdb:
     image: mysql:5.7
@@ -46,19 +51,24 @@ services:
     volumes:
       - db:/var/lib/mysql
 #      - ./testdb:/docker-entrypoint-initdb.d
+    networks:
+      - wpnet
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     restart: always
     ports:
       - 8081:80
-    links:
-      - wpdb
     environment:
       PMA_HOST: wpdb
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
+    networks:
+      - wpnet
 
 volumes:
   wpdata:
   db:
+
+networks:
+  wpnet:
