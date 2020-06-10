@@ -1,6 +1,22 @@
 version: "3.8"
 
 services:
+  wpdb:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
+    volumes:
+      - db:/var/lib/mysql
+      - ./testdb:/docker-entrypoint-initdb.d
+    networks:
+      - wpnet
+    secrets:
+      - source: mysql_password
+      - source: mysql_root_password
 
   wordpress:
     build: https://git@github.com/bearbird/wp-fpm-ffmpeg.git
@@ -10,7 +26,7 @@ services:
     environment:
       WORDPRESS_DB_HOST: wpdb
       WORDPRESS_DB_USER: exampleuser
-      WORDPRESS_DB_PASSWORD: examplepass
+      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/mysql_password
       WORDPRESS_DB_NAME: exampledb
       WORDPRESS_DEBUG: 1
       WORDPRESS_CONFIG_EXTRA: |
@@ -20,6 +36,8 @@ services:
       - ./:/var/www/html/wp-content
     networks:
       - wpnet
+    secrets:
+      - source: mysql_password
 
   wpcli:
     depends_on:
@@ -37,20 +55,6 @@ services:
       - wpdata:/var/www/html
       - db:/var/lib/mysql
       - ./:/var/www/html/wp-content
-    networks:
-      - wpnet
-
-  wpdb:
-    image: mysql:5.7
-    restart: always
-    environment:
-      MYSQL_DATABASE: exampledb
-      MYSQL_USER: exampleuser
-      MYSQL_PASSWORD: examplepass
-      MYSQL_ROOT_PASSWORD: root
-    volumes:
-      - db:/var/lib/mysql
-#      - ./testdb:/docker-entrypoint-initdb.d
     networks:
       - wpnet
 
@@ -74,4 +78,7 @@ networks:
   wpnet:
 
 secrets:
-  
+  mysql_password:
+    file: ../secrets/mysql_password.secret
+  mysql_root_password:
+    file: ../secrets/mysql_root_password.secret
