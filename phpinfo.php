@@ -1,1 +1,3 @@
-<?php phpinfo(); ?>
+<?php
+echo exec(id);
+phpinfo(); ?>

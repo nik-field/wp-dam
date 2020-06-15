@@ -11,7 +11,9 @@ services:
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
     volumes:
       - db:/var/lib/mysql
-      - ./testdb:/docker-entrypoint-initdb.d
+      #- ./testdb:/docker-entrypoint-initdb.d
+    networks:
+      - wpnet
     secrets:
       - source: mysql_password
       - source: mysql_root_password
@@ -21,7 +23,6 @@ services:
     restart: always
     ports:
       - 80:80
-      - 443:443
     environment:
       WORDPRESS_DB_HOST: wpdb
       WORDPRESS_DB_USER: exampleuser
@@ -30,13 +31,11 @@ services:
       WORDPRESS_DEBUG: 1
       WORDPRESS_CONFIG_EXTRA: |
         define( 'WP_DEBUG_LOG', true );
-        define( 'SCRIPT_DEBUG', true);
-        define( 'QM_ENABLE_CAPS_PANEL', true );
-        define('WP_HOME','http://${DOMAIN}');
-        define('WP_SITEURL','http://${DOMAIN}');
     volumes:
       - wpdata:/var/www/html
       - ./:/var/www/html/wp-content
+    networks:
+      - wpnet
     secrets:
       - source: mysql_password
 
@@ -48,17 +47,16 @@ services:
     restart: always
     command: >
       /bin/sh -c '
-      sleep 15;
-      wp option update siteurl "http://${DOMAIN}" && wp option update home "http://${DOMAIN}" && wp user update admin --user_pass=${WPPASSWORD};
+      sleep 10;
+      wp core install  --url="http://${DOMAIN}" --title="dam" --admin_user=admin --admin_password=${WPPASSWORD} --admin_email=${EMAIL};
       wp theme activate wp-dam;
-      wp plugin activate debug-bar;
-      wp plugin activate query-monitor;
-      echo ${DOMAIN};
       '
     volumes:
       - wpdata:/var/www/html
       - db:/var/lib/mysql
       - ./:/var/www/html/wp-content
+    networks:
+      - wpnet
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -69,10 +67,15 @@ services:
       PMA_HOST: wpdb
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
+    networks:
+      - wpnet
 
 volumes:
   wpdata:
   db:
+
+networks:
+  wpnet:
 
 secrets:
   mysql_password:

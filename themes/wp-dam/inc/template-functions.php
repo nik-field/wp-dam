@@ -273,25 +273,25 @@
 		wp_die();
 	}
 
-	add_action( 'after_setup_theme', 'download_url_handler' );
+	add_action( 'wp-loaded', 'download_url_handler' );
 	function download_url_handler() {
-		global $wp_rewrite;
-		$permalink_structure = get_option( 'permalink_structure' );
 		add_rewrite_rule( 'download/([^/]*)$', 'wp-content/themes/wp-dam/download.php?id=$1', 'top' );
-		
-		$wp_rewrite->generate_rewrite_rules($permalink_structure);
 	}
 
 
-
-	add_action( 'after_setup_theme', 'acme_remove_default_widgets' );
+	add_action( 'after_setup_theme', 'theme_setup' );
 	/**
 	 * When the theme is activated, all of the active widgets are deactivated.
 	 *
 	 * @since    1.0.0
 	 */
-	function acme_remove_default_widgets() {
-
+	function theme_setup() {
+		download_url_handler();
+		require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "/wp-admin/includes/misc.php");
+		if ( function_exists( 'save_mod_rewrite_rules' ) ) {
+			save_mod_rewrite_rules();
+		} 
+		// $update_required = ( $new_rules !== $existing_rules );
 		if ( ! get_option( 'acme_cleared_widgets' ) ) {
 
 			update_option( 'sidebars_widgets', array() );

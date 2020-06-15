@@ -306,9 +306,9 @@
 		} else {
 			$file = get_post_meta( get_the_id(), 'add_asset_file' );
 		}
-		$file_type_check = wp_check_filetype( $file[0] );
+		$file_type_check = @wp_check_filetype( $file[0] );
 		$mime            = $file_type_check['type'];
-		$ext             = pathinfo( $file[0], PATHINFO_EXTENSION );
+		$ext             = pathinfo( @$file[0], PATHINFO_EXTENSION );
 
 		if ( ! $ext && ! $mime ) {
 			return 'No file attached';
@@ -358,7 +358,7 @@
 
 	function get_asset_creator() {
 		$creator = get_post_meta( get_the_id(), 'add_asset_creator' );;
-		if ( ! $creator[0] ) {
+		if ( ! @$creator[0] ) {
 			return "None specified";
 		}
 
@@ -380,7 +380,7 @@
 		} elseif ( get_asset_format() === 'format_link' ) {
 			$url = get_post_meta( get_the_id(), 'add_asset_link' )[0];
 		} else {
-			$url = get_post_meta( get_the_id(), 'add_asset_file' )[0];
+			$url = @get_post_meta( get_the_id(), 'add_asset_file' )[0];
 		}
 
 		if ( ! $url ) {
@@ -436,7 +436,7 @@
 			if ( get_asset_format() !== 'format_audio' && get_asset_format() !== 'format_image' && get_asset_format() !== 'format_document' ) {
 				$attachments = get_attached_media( '' );
 				$attachment  = reset( $attachments );
-				$filesize = wp_get_attachment_metadata( $attachment->ID )['filesize'];
+				$filesize = @wp_get_attachment_metadata( $attachment->ID )['filesize'];
 
 				$readout  = size_format( $filesize );
 			}
