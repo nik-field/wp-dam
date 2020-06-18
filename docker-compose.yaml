@@ -34,6 +34,7 @@ services:
         define( 'QM_ENABLE_CAPS_PANEL', true );
         define('WP_HOME','http://${DOMAIN}');
         define('WP_SITEURL','http://${DOMAIN}');
+        define('ALLOW_UNFILTERED_UPLOADS', true);
     volumes:
       - wpdata:/var/www/html
       - ./:/var/www/html/wp-content
@@ -45,15 +46,12 @@ services:
       - wordpress
       - wpdb
     image: wordpress:cli
-    restart: always
     command: >
       /bin/sh -c '
       sleep 15;
-      wp option update siteurl "http://${DOMAIN}" && wp option update home "http://${DOMAIN}" && wp user update admin --user_pass=${WPPASSWORD};
       wp theme activate wp-dam;
       wp plugin activate debug-bar;
       wp plugin activate query-monitor;
-      echo ${DOMAIN};
       '
     volumes:
       - wpdata:/var/www/html

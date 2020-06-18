@@ -12,10 +12,10 @@
   @include mdc-text-field-ink-color($mdc-theme-background);
   @include mdc-text-field-label-color($mdc-theme-background);
   @include mdc-text-field-caret-color($mdc-theme-background);
-  @include mdc-text-field-icon-color($mdc-theme-background, $styleSecondIcon: false);
-  @include mdc-text-field-focused-outline-color(rgba($white, .5));
+  @include mdc-text-field-leading-icon-color($mdc-theme-background);
+  @include mdc-text-field-focused-outline-color(rgba($white, 0.5));
   @include mdc-text-field-outline-color(rgba($white, 0));
-  @include mdc-text-field-hover-outline-color(rgba($white, .25));
+  @include mdc-text-field-hover-outline-color(rgba($white, 0.25));
   @include mdc-text-field-fill-color(rgba($mdc-theme-background, 0.25));
 
   &:not(.mdc-text-field--focused) {
@@ -49,7 +49,7 @@
 }
 .large-asset-card__actions-link {
   width: 100%;
-  display:flex;
+  display: flex;
   justify-content: space-between;
   align-items: center;
   padding-right: 0;
@@ -61,15 +61,15 @@
   min-width: 0;
   white-space: nowrap;
   flex: 1 1 auto;
-  display:flex;
+  display: flex;
   input {
-    cursor:pointer;
+    cursor: pointer;
     border: 0;
     width: 100%;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    transition: .2s;
+    transition: 0.2s;
     &:hover {
       color: $lightgrey;
     }
@@ -80,7 +80,7 @@
 }
 .large-asset-card__link-download {
   flex-shrink: 0;
-  height:100%;
+  height: 100%;
   .mdc-button__ripple {
     border: 0;
   }
@@ -88,10 +88,10 @@
 
 @keyframes search-spinner {
   0% {
-    opacity: 1
+    opacity: 1;
   }
   100% {
-    opacity: 0
+    opacity: 0;
   }
 }
 
@@ -165,7 +165,7 @@
   width: 33px;
   height: 33px;
   overflow: hidden;
-  display:none;
+  display: none;
   background: none;
 }
 
@@ -196,16 +196,20 @@
   .mdc-dialog__container {
     flex-grow: 1;
     #frontend_add_asset_form {
-      display:flex;
+      display: flex;
       flex-wrap: wrap;
     }
+  }
+  .add-asset-dialog-surface,
+  .mdc-dialog__content {
+    overflow: visible;
   }
   .mdc-dialog__title {
     border-bottom: 1px solid $lightgrey;
     padding-bottom: 15px;
   }
   .add-asset-title-input {
-    flex-basis:100%;
+    flex-basis: 100%;
     .mdc-text-field__input {
       padding: 20px 6px 6px;
     }
@@ -217,10 +221,18 @@
     flex-basis: 100%;
     margin: 16px 0 16px;
   }
-  .add-asset__artist-project {
-    flex-basis: 100%;
-    width: 100%;
+  .add-asset__main {
+    display: flex;
+  }
+  .add-asset__sidebar {
+    display: flex;
 
+    .add-asset__category--artist {
+      justify-self: right;
+    }
+    .add-asset__category--project {
+      justify-self: right;
+    }
   }
 }
 

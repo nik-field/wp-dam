@@ -2,7 +2,6 @@
 @import "normalize-css/normalize";
 @import "theme";
 
-
 // Import styles for each MDC Web component
 @import "@material/button/mdc-button";
 @import "@material/card/mdc-card";
@@ -37,7 +36,7 @@
 @import "@material/textfield/helper-text/mdc-text-field-helper-text";
 @import "@material/theme/mdc-theme";
 
-@import"custom-top-app-bar";
+@import "custom-top-app-bar";
 
 @import "@material/top-app-bar/mdc-top-app-bar";
 @import "@material/typography/mdc-typography";
@@ -50,5 +49,5 @@
 @import "layout";
 @import "admin-customizer";
 
-@import 'tippy.js/dist/tippy';
-@import 'tippy.js/themes/material';
+@import "tippy.js/dist/tippy";
+@import "tippy.js/themes/material";

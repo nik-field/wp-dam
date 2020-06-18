@@ -94,7 +94,146 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _scss_admin_customizer_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../scss/admin-customizer.scss */ \"./src/scss/admin-customizer.scss\");\n\nvar $ = jQuery;\n$(document).ready(function () {\n  if (!$(\"input[name='is_artist_or_project_select_type']:checked\").val()) {\n    $('#tag-name').prop('disabled', true);\n    $('.term-project_type-wrap').hide();\n    $('.term-project_yearyear_select-wrap').hide();\n  } else {\n    $('#tag-name').prop('disabled', false);\n  }\n\n  $(\"input[name='is_artist_or_project_select_type']\").click(function () {\n    if (!$(\"#tag-name\").prop('disabled', false)) {\n      $('#tag-name').prop('disabled', false);\n    }\n\n    if ($(\"input[value='is_artist_or_project_project']:checked\").val()) {\n      $('.term-project_type-wrap').show().addClass(\"form-required\");\n      $('.term-project_yearyear_select-wrap').show().addClass(\"form-required\");\n    }\n\n    if ($(\"input[value='is_artist_or_project_artist']:checked\").val()) {\n      $('.term-project_type-wrap').hide();\n      $('.term-project_yearyear_select-wrap').hide();\n    }\n  });\n\n  if (!$(\"input[name='format']:checked\").val()) {\n    $('#add-asset').hide();\n    $('#postimagediv').hide();\n  } else {\n    var initial_selection = $(\"input[name='format']:checked\").val();\n\n    if (initial_selection === 'format_image') {\n      $('#add-asset').hide();\n      $('#postimagediv').show();\n    } else {\n      $('#postimagediv').hide();\n      $('#add-asset').show();\n      $('#add-asset tbody tr').first().show();\n\n      if (initial_selection === 'format_link') {\n        $('#add-asset tbody tr').first().hide();\n      }\n    }\n  }\n\n  $(\"input[name='format']\").change(function () {\n    var selection = $(\"input[name='format']:checked\").val();\n\n    if (selection === 'format_image') {\n      $('#add-asset').hide();\n      $('#postimagediv').show();\n    } else {\n      $('#postimagediv').hide();\n      $('#add-asset').show();\n      $('#add-asset tbody tr').first().show();\n\n      if (selection === 'format_link') {\n        $('#add-asset tbody tr').first().hide();\n      }\n    }\n  });\n}); //Creates slug from the Name\n\n$(document).ready(function () {\n  (function ($) {\n    $.fn.slugfromtitle = function (options) {\n      var $target = this;\n      var $source = options.source ? $(options.source) : false;\n      var $prefix = options.prefix ? options.prefix + \"-\" : \"\";\n      var $suffix = options.suffix ? \"-\" + options.suffix : \"\";\n      var $readonly = options.readonly || false;\n      var disableSource = null;\n\n      if ($source && $readonly === true) {\n        $target.attr('readonly', true);\n      }\n\n      if ($target.val()) {\n        disableSource = true;\n      }\n\n      var createSlug = function createSlug(str) {\n        str = str.toLowerCase();\n        var map = {\n          \" \": \"-\",\n          \"æ\": \"ae\",\n          \"á\": \"a\",\n          \"ð\": \"d\",\n          \"é\": \"e\",\n          \"í\": \"i\",\n          \"ó\": \"o\",\n          \"ú\": \"u\",\n          \"ö\": \"o\",\n          \"þ\": \"th\",\n          \"ø\": \"o\",\n          \"å\": \"a\",\n          \"/\": \"-\",\n          \"_\": \"-\"\n        };\n\n        for (var k in map) {\n          if (typeof map[k] !== 'function') str = str.replace(new RegExp(k, 'g'), map[k]);\n        } // return and remove invalid chars and colapse dashes\n\n\n        return str.replace(/[^a-z0-9 -]/g, '').replace(/-+/g, '-');\n      };\n\n      if ($source) {\n        $source.on('keyup change', function () {\n          if ($target.val() && disableSource === true) {\n            return;\n          }\n\n          disableSource = false;\n          var slug = createSlug($prefix + $(this).val() + $suffix);\n          $target.val(slug);\n        });\n      }\n\n      $target.on('keyup change', function () {\n        if (disableSource === false) {\n          disableSource = true;\n        }\n\n        var slug = createSlug($(this).val());\n        $target.val(slug);\n      });\n    };\n  })(jQuery);\n\n  $('#tag-slug').slugfromtitle({\n    source: '#tag-name',\n    readonly: true\n  });\n});\n\n//# sourceURL=webpack:///./src/js/admin-customizer.js?");
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _scss_admin_customizer_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../scss/admin-customizer.scss */ "./src/scss/admin-customizer.scss");
+
+var $ = jQuery;
+$(document).ready(function () {
+  if (!$("input[name='is_artist_or_project_select_type']:checked").val()) {
+    $('#tag-name').prop('disabled', true);
+    $('.term-project_type-wrap').hide();
+    $('.term-project_yearyear_select-wrap').hide();
+  } else {
+    $('#tag-name').prop('disabled', false);
+  }
+
+  $("input[name='is_artist_or_project_select_type']").click(function () {
+    if (!$("#tag-name").prop('disabled', false)) {
+      $('#tag-name').prop('disabled', false);
+    }
+
+    if ($("input[value='is_artist_or_project_project']:checked").val()) {
+      $('.term-project_type-wrap').show().addClass("form-required");
+      $('.term-project_yearyear_select-wrap').show().addClass("form-required");
+    }
+
+    if ($("input[value='is_artist_or_project_artist']:checked").val()) {
+      $('.term-project_type-wrap').hide();
+      $('.term-project_yearyear_select-wrap').hide();
+    }
+  });
+
+  if (!$("input[name='format']:checked").val()) {
+    $('#add-asset').hide();
+    $('#postimagediv').hide();
+  } else {
+    var initial_selection = $("input[name='format']:checked").val();
+
+    if (initial_selection === 'format_image') {
+      $('#add-asset').hide();
+      $('#postimagediv').show();
+    } else {
+      $('#postimagediv').hide();
+      $('#add-asset').show();
+      $('#add-asset tbody tr').first().show();
+
+      if (initial_selection === 'format_link') {
+        $('#add-asset tbody tr').first().hide();
+      }
+    }
+  }
+
+  $("input[name='format']").change(function () {
+    var selection = $("input[name='format']:checked").val();
+
+    if (selection === 'format_image') {
+      $('#add-asset').hide();
+      $('#postimagediv').show();
+    } else {
+      $('#postimagediv').hide();
+      $('#add-asset').show();
+      $('#add-asset tbody tr').first().show();
+
+      if (selection === 'format_link') {
+        $('#add-asset tbody tr').first().hide();
+      }
+    }
+  });
+}); //Creates slug from the Name
+
+$(document).ready(function () {
+  (function ($) {
+    $.fn.slugfromtitle = function (options) {
+      var $target = this;
+      var $source = options.source ? $(options.source) : false;
+      var $prefix = options.prefix ? options.prefix + "-" : "";
+      var $suffix = options.suffix ? "-" + options.suffix : "";
+      var $readonly = options.readonly || false;
+      var disableSource = null;
+
+      if ($source && $readonly === true) {
+        $target.attr('readonly', true);
+      }
+
+      if ($target.val()) {
+        disableSource = true;
+      }
+
+      var createSlug = function createSlug(str) {
+        str = str.toLowerCase();
+        var map = {
+          " ": "-",
+          "æ": "ae",
+          "á": "a",
+          "ð": "d",
+          "é": "e",
+          "í": "i",
+          "ó": "o",
+          "ú": "u",
+          "ö": "o",
+          "þ": "th",
+          "ø": "o",
+          "å": "a",
+          "/": "-",
+          "_": "-"
+        };
+
+        for (var k in map) {
+          if (typeof map[k] !== 'function') str = str.replace(new RegExp(k, 'g'), map[k]);
+        } // return and remove invalid chars and colapse dashes
+
+
+        return str.replace(/[^a-z0-9 -]/g, '').replace(/-+/g, '-');
+      };
+
+      if ($source) {
+        $source.on('keyup change', function () {
+          if ($target.val() && disableSource === true) {
+            return;
+          }
+
+          disableSource = false;
+          var slug = createSlug($prefix + $(this).val() + $suffix);
+          $target.val(slug);
+        });
+      }
+
+      $target.on('keyup change', function () {
+        if (disableSource === false) {
+          disableSource = true;
+        }
+
+        var slug = createSlug($(this).val());
+        $target.val(slug);
+      });
+    };
+  })(jQuery);
+
+  $('#tag-slug').slugfromtitle({
+    source: '#tag-name',
+    readonly: true
+  });
+});
 
 /***/ }),
 
@@ -106,8 +245,10 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _scs
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = (__webpack_require__.p + \"../css/admin-customizer.css\");\n\n//# sourceURL=webpack:///./src/scss/admin-customizer.scss?");
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "../css/admin-customizer.css");
 
 /***/ })
 
 /******/ });
+//# sourceMappingURL=customizer-min.js.map

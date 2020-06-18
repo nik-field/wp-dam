@@ -246,6 +246,8 @@
 		 * element when on single views.
 		 */
 
+// TODO: simplify thumbnails to 'has_thumbnail' key value pair
+
 		function wp_dam_asset_thumbnail() {
 			if ( post_password_required() || is_attachment() || ! asset_has_file() ) {
 				return;
@@ -266,6 +268,9 @@
 
 				case 'format_document':
 					$thumbnail = wp_get_attachment_image_src( get_asset_attachment_id(), 'full' )[0];
+					if ( get_asset_file_type() === 'docx' | get_asset_file_type() === 'doc' ) {
+						$thumbnail = 'text_snippet';
+					}
 					return $thumbnail;
 					break;
 

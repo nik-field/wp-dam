@@ -1,5 +1,5 @@
 const autoprefixer = require("autoprefixer");
-const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
 
 var path = require("path");
 
