@@ -8800,10 +8800,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_radio__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @material/radio */ "./node_modules/@material/radio/index.js");
 /* harmony import */ var _material_select__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material/select */ "./node_modules/@material/select/index.js");
 /* harmony import */ var _material_menu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material/menu */ "./node_modules/@material/menu/index.js");
+/* harmony import */ var _material_select_helper_text__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material/select/helper-text */ "./node_modules/@material/select/helper-text/index.js");
 
 
 
 
+
+var helperText = new _material_select_helper_text__WEBPACK_IMPORTED_MODULE_4__["MDCSelectHelperText"](document.querySelector('.mdc-select-helper-text'));
 var addAssetDialog = new _material_dialog__WEBPACK_IMPORTED_MODULE_0__["MDCDialog"](document.querySelector(".dam-add-asset-dialog"));
 var artistSelect = new _material_select__WEBPACK_IMPORTED_MODULE_2__["MDCSelect"](document.querySelector(".add-asset__category--artist"));
 var projectSelect = new _material_select__WEBPACK_IMPORTED_MODULE_2__["MDCSelect"](document.querySelector(".add-asset__category--project"));
@@ -8821,7 +8824,7 @@ var artistsMenu = new _material_menu__WEBPACK_IMPORTED_MODULE_3__["MDCMenu"](art
 artistSelect.listen("MDCSelect:change", function () {
   projectSelect.disabled = false;
   projectSelect.foundation_.setValue("");
-  var projectsMenuItems = projectsMenu.items.slice(2);
+  var projectsMenuItems = projectsMenu.items.slice(1);
 
   for (var item in projectsMenuItems) {
     var itemIndex = parseInt(item);

@@ -2,6 +2,8 @@ import { MDCDialog } from "@material/dialog";
 import { MDCRadio } from "@material/radio";
 import { MDCSelect } from "@material/select";
 import { MDCMenu } from "@material/menu";
+import {MDCSelectHelperText} from '@material/select/helper-text';
+const helperText = new MDCSelectHelperText(document.querySelector('.mdc-select-helper-text'));
 
 const addAssetDialog = new MDCDialog(
   document.querySelector(".dam-add-asset-dialog")
@@ -35,7 +37,7 @@ var artistsMenu = new MDCMenu(artistSelectMenuEl);
 artistSelect.listen("MDCSelect:change", () => {
   projectSelect.disabled = false;
   projectSelect.foundation_.setValue("");
-  var projectsMenuItems = projectsMenu.items.slice(2);
+  var projectsMenuItems = projectsMenu.items.slice(1);
   for (var item in projectsMenuItems) {
     var itemIndex = parseInt(item);
     debugger;

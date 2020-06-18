@@ -6529,6 +6529,55 @@ a.mdc-list-item {
     transform: translateX(calc(0 - -32px)) translateY(-130%) scale(0.75);
   }
 }
+.mdc-select-helper-text {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-family: Karla, sans-serif;
+  /* @alternate */
+  font-family: var(--mdc-typography-caption-font-family, var(--mdc-typography-font-family, Karla, sans-serif));
+  font-size: 0.75rem;
+  /* @alternate */
+  font-size: var(--mdc-typography-caption-font-size, 0.75rem);
+  line-height: 1.25rem;
+  /* @alternate */
+  line-height: var(--mdc-typography-caption-line-height, 1.25rem);
+  font-weight: 400;
+  /* @alternate */
+  font-weight: var(--mdc-typography-caption-font-weight, 400);
+  letter-spacing: 0.0333333333em;
+  /* @alternate */
+  letter-spacing: var(--mdc-typography-caption-letter-spacing, 0.0333333333em);
+  text-decoration: inherit;
+  /* @alternate */
+  -webkit-text-decoration: var(--mdc-typography-caption-text-decoration, inherit);
+          text-decoration: var(--mdc-typography-caption-text-decoration, inherit);
+  text-transform: inherit;
+  /* @alternate */
+  text-transform: var(--mdc-typography-caption-text-transform, inherit);
+  display: block;
+  margin-top: 0;
+  /* @alternate */
+  line-height: normal;
+  margin: 0;
+  transition: opacity 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  will-change: opacity;
+}
+
+.mdc-select-helper-text::before {
+  display: inline-block;
+  width: 0;
+  height: 16px;
+  content: "";
+  vertical-align: 0;
+}
+
+.mdc-select-helper-text--persistent {
+  transition: none;
+  opacity: 1;
+  will-change: initial;
+}
+
 @-webkit-keyframes mdc-slider-emphasize {
   0% {
     -webkit-animation-timing-function: ease-out;
@@ -6543,6 +6592,7 @@ a.mdc-list-item {
     transform: scale(0.571);
   }
 }
+
 @keyframes mdc-slider-emphasize {
   0% {
     -webkit-animation-timing-function: ease-out;
@@ -11974,15 +12024,39 @@ a.mdc-list-item {
 }
 .dam-add-asset-dialog .add-asset__main {
   display: flex;
+  flex-basis: 66%;
 }
 .dam-add-asset-dialog .add-asset__sidebar {
   display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+  min-height: 175px;
 }
 .dam-add-asset-dialog .add-asset__sidebar .add-asset__category--artist {
-  justify-self: right;
+  width: 100%;
+  padding-bottom: 20px;
+}
+.dam-add-asset-dialog .add-asset__sidebar .add-asset__category--artist .mdc-select__anchor {
+  width: 100%;
 }
 .dam-add-asset-dialog .add-asset__sidebar .add-asset__category--project {
-  justify-self: right;
+  width: 100%;
+}
+.dam-add-asset-dialog .add-asset__sidebar .add-asset__category--project .mdc-select__anchor {
+  width: 100%;
+}
+.dam-add-asset-dialog .add-asset__sidebar .mdc-select__selected-text {
+  position: absolute;
+}
+.dam-add-asset-dialog .add-asset__sidebar .mdc-select-helper-text {
+  text-align: right;
+  cursor: pointer;
+}
+.dam-add-asset-dialog .add-asset__sidebar .mdc-select-helper-text:hover {
+  text-decoration: underline;
+}
+.dam-add-asset-dialog .add-asset__sidebar:not(.mdc-select--disabled) .mdc-select__anchor + .mdc-select-helper-text {
+  color: #48BF91;
 }
 
 @media (min-width: 592px) {

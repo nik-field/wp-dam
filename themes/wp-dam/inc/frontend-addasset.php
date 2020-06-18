@@ -51,7 +51,7 @@
                             <div class="mdc-select mdc-select--outlined mdc-select--required add-asset__category--artist">
                                 <div class="mdc-select__anchor" aria-required="true" aria-labelledby="outlined-select-label">
                                     <i class="mdc-select__dropdown-icon"></i>
-                                    <div type="text" id="add-asset_category--artist-selected" readonly class="mdc-select__selected-text"></div>
+                                    <div type="text" id="add-asset_category--artist-selected" readonly class="mdc-select__selected-text" aria-controls="add-new-artist" aria-describedby="add-new-artist"></div>
                                     <span class="mdc-notched-outline">
                                         <span class="mdc-notched-outline__leading"></span>
                                         <span class="mdc-notched-outline__notch">
@@ -60,15 +60,11 @@
                                         <span class="mdc-notched-outline__trailing"></span>
                                     </span>
                                 </div>
+                                <a id="add-new-artist" class="mdc-select-helper-text mdc-select-helper-text--persistent">+ Add New Artist</a>
 
                                 <div class="mdc-select__menu add-asset__category--artist-select mdc-menu mdc-menu-surface">
                                     <ul class="mdc-list">
                                         <li class="mdc-list-item mdc-list-item--selected mdc-list-item--disabled" aria-selected="true" role="option" data-value="" style="display: none;"></li>
-                                        <li class="mdc-list-item" data-value="add-new-artist">
-                                            <span class="mdc-list-item__text">
-                                                ADD NEW ARTIST
-                                            </span>
-                                        </li>
                                         <?php
                                         $artists_terms = get_artist_terms();
                                         foreach ($artists_terms as $artist_term) {
@@ -91,7 +87,7 @@
                             <div class="mdc-select mdc-select--outlined mdc-select--disabled add-asset__category--project">
                                 <div class="mdc-select__anchor" ariaaria-labelledby="outlined-select-label">
                                     <i class="mdc-select__dropdown-icon"></i>
-                                    <div id="add-asset_category--project-selected" aria-disabled="true" class="mdc-select__selected-text"></div>
+                                    <div id="add-asset_category--project-selected" aria-disabled="true" class="mdc-select__selected-text" aria-controls="add-new-project" aria-describedby="add-new-project"></div>
                                     <span class="mdc-notched-outline">
                                         <span class="mdc-notched-outline__leading"></span>
                                         <span class="mdc-notched-outline__notch">
@@ -100,15 +96,11 @@
                                         <span class="mdc-notched-outline__trailing"></span>
                                     </span>
                                 </div>
+                                <a id="add-new-project" class="mdc-select-helper-text mdc-select-helper-text--persistent">+ Add New Project</a>
 
                                 <div class="mdc-select__menu add-asset__category--project-select mdc-menu mdc-menu-surface">
                                     <ul id="project_select_list" class="mdc-list">
                                         <li class="mdc-list-item mdc-list-item--selected " aria-selected="true" role="option" data-value="" style="display: none;"></li>
-                                        <li class="mdc-list-item" data-value="add-new-project">
-                                            <span class="mdc-list-item__text">
-                                                ADD NEW PROJECT
-                                            </span>
-                                        </li>
                                         <?php
                                         $projects = get_projects();
                                         foreach ($projects as $project) {

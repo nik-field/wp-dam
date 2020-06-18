@@ -223,16 +223,38 @@
   }
   .add-asset__main {
     display: flex;
+    flex-basis: 66%;
   }
   .add-asset__sidebar {
     display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    min-height: 175px;
 
     .add-asset__category--artist {
-      justify-self: right;
+      width: 100%;
+      padding-bottom: 20px;
+      .mdc-select__anchor {
+        width: 100%;
+      }
     }
     .add-asset__category--project {
-      justify-self: right;
+      width: 100%;
+      .mdc-select__anchor {
+        width: 100%;
+      }
     }
+    .mdc-select__selected-text {
+      position: absolute;
+    }
+    .mdc-select-helper-text {
+      text-align: right;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    @include mdc-select-helper-text-color($primary);
   }
 }
 

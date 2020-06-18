@@ -169,6 +169,7 @@ function wp_dam_scripts()
 
 	if (is_user_logged_in() && current_user_can('edit_posts')) {
 		wp_enqueue_script('wp-dam-frontend-addasset', get_template_directory_uri() . '/dist/scripts/frontend-addasset-min.js', array('wp-dam-js'), date("H:i:s"), true);
+		wp_enqueue_script('plupload-handlers');
 		// wp_localize_script('wp-dam-frontend-addasset', 'ajax_url', admin_url('admin-ajax.php'));
 	}
 
