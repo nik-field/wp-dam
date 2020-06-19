@@ -14,7 +14,8 @@
             </h2>
             <section class="dam-add-asset-dialog_form">
                 <div class="mdc-dialog__content">
-                    <form id="frontend_add_asset_form" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="post">
+                    <!-- <form id="frontend_add_asset_form" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="post"> -->
+                    <form id="frontend_add_asset_form" action="https://www.w3schools.com/action_page.php" method="post">
 
                         <div class="add-asset-title-input mdc-text-field mdc-text-field--re mdc-text-field--fullwidth mdc-ripple">
                             <input name="asset_title" class="mdc-text-field__input" id="text-field-hero-input" required>
@@ -45,7 +46,12 @@
                             ?>
 
                         </div>
-                        <div class="add-asset__main"></div>
+                        <div class="add-asset__main">
+
+                            <input id="upload_file" type="hidden" name="upload_file">
+                            <button id="upload_button" type="button" class="mdc-button mdc-button--raised button-primary"><span class="mdc-button__label">Add File</span></button>
+
+                        </div>
                         <div class="add-asset__sidebar">
                             <!-- ARTIST SELECT -->
                             <div class="mdc-select mdc-select--outlined mdc-select--required add-asset__category--artist">
@@ -88,6 +94,7 @@
                                 <div class="mdc-select__anchor" ariaaria-labelledby="outlined-select-label">
                                     <i class="mdc-select__dropdown-icon"></i>
                                     <div id="add-asset_category--project-selected" aria-disabled="true" class="mdc-select__selected-text" aria-controls="add-new-project" aria-describedby="add-new-project"></div>
+                                    <input type="hidden" name="cat_project_id" value="">
                                     <span class="mdc-notched-outline">
                                         <span class="mdc-notched-outline__leading"></span>
                                         <span class="mdc-notched-outline__notch">
@@ -126,13 +133,13 @@
                 </div>
             </section>
             <footer class="mdc-dialog__actions">
-                <button type="reset" form="frontend_add_asset_form" class="mdc-button mdc-dialog__button mdc-ripple" data-mdc-dialog-action="close"><span class="mdc-button__ripple"></span>Cancel</button>
+                <button id="add-asset_reset-form" type="reset" form="frontend_add_asset_form" class="mdc-button mdc-dialog__button mdc-ripple" data-mdc-dialog-action="reset"><span class="mdc-button__ripple"></span>Cancel</button>
                 <button type="submit" form="frontend_add_asset_form" class="mdc-button mdc-dialog__button mdc-dialog__button--default mdc-ripple" data-mdc-dialog-action="accept"><span class="mdc-button__ripple"></span>SAVE</button>
             </footer>
         </div>
     </div>
 </div>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     addLoadEvent = function(func) {
         if (typeof jQuery != "undefined") jQuery(document).ready(func);
         else if (typeof wpOnload != 'function') {
@@ -152,4 +159,4 @@
         thousandsSeparator = ',',
         decimalPoint = '.',
         isRtl = 0;
-</script>
+</script> -->

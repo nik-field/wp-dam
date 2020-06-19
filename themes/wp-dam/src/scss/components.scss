@@ -224,12 +224,20 @@
   .add-asset__main {
     display: flex;
     flex-basis: 66%;
+    border: 4px dashed #b4b9be;
+    #upload_button {
+      margin: auto;
+    }
   }
   .add-asset__sidebar {
     display: flex;
     flex-wrap: wrap;
     flex: 1;
     min-height: 175px;
+
+    .mdc-select__menu {
+      width: 100%;
+    }
 
     .add-asset__category--artist {
       width: 100%;

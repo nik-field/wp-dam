@@ -4727,63 +4727,6 @@ function (_super) {
 
 /***/ }),
 
-/***/ "./node_modules/@material/menu/index.js":
-/*!**********************************************!*\
-  !*** ./node_modules/@material/menu/index.js ***!
-  \**********************************************/
-/*! exports provided: Corner, MDCMenu, cssClasses, strings, numbers, DefaultFocusState, MDCMenuFoundation */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _material_menu_surface_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @material/menu-surface/constants */ "./node_modules/@material/menu-surface/constants.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Corner", function() { return _material_menu_surface_constants__WEBPACK_IMPORTED_MODULE_0__["Corner"]; });
-
-/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./component */ "./node_modules/@material/menu/component.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MDCMenu", function() { return _component__WEBPACK_IMPORTED_MODULE_1__["MDCMenu"]; });
-
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./constants */ "./node_modules/@material/menu/constants.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "cssClasses", function() { return _constants__WEBPACK_IMPORTED_MODULE_2__["cssClasses"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "strings", function() { return _constants__WEBPACK_IMPORTED_MODULE_2__["strings"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "numbers", function() { return _constants__WEBPACK_IMPORTED_MODULE_2__["numbers"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DefaultFocusState", function() { return _constants__WEBPACK_IMPORTED_MODULE_2__["DefaultFocusState"]; });
-
-/* harmony import */ var _foundation__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./foundation */ "./node_modules/@material/menu/foundation.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MDCMenuFoundation", function() { return _foundation__WEBPACK_IMPORTED_MODULE_3__["MDCMenuFoundation"]; });
-
-/**
- * @license
- * Copyright 2019 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
- // for backward compatibility
-
-
-
-
-
-/***/ }),
-
 /***/ "./node_modules/@material/notched-outline/component.js":
 /*!*************************************************************!*\
   !*** ./node_modules/@material/notched-outline/component.js ***!
@@ -8799,44 +8742,53 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_dialog__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @material/dialog */ "./node_modules/@material/dialog/index.js");
 /* harmony import */ var _material_radio__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @material/radio */ "./node_modules/@material/radio/index.js");
 /* harmony import */ var _material_select__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material/select */ "./node_modules/@material/select/index.js");
-/* harmony import */ var _material_menu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material/menu */ "./node_modules/@material/menu/index.js");
-/* harmony import */ var _material_select_helper_text__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material/select/helper-text */ "./node_modules/@material/select/helper-text/index.js");
+/* harmony import */ var _material_select_helper_text__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material/select/helper-text */ "./node_modules/@material/select/helper-text/index.js");
 
 
 
 
+var counter = 1;
 
-var helperText = new _material_select_helper_text__WEBPACK_IMPORTED_MODULE_4__["MDCSelectHelperText"](document.querySelector('.mdc-select-helper-text'));
+function count() {
+  console.log(counter);
+  counter++;
+}
+
+var helperText = new _material_select_helper_text__WEBPACK_IMPORTED_MODULE_3__["MDCSelectHelperText"](document.querySelector('.mdc-select-helper-text'));
 var addAssetDialog = new _material_dialog__WEBPACK_IMPORTED_MODULE_0__["MDCDialog"](document.querySelector(".dam-add-asset-dialog"));
 var artistSelect = new _material_select__WEBPACK_IMPORTED_MODULE_2__["MDCSelect"](document.querySelector(".add-asset__category--artist"));
 var projectSelect = new _material_select__WEBPACK_IMPORTED_MODULE_2__["MDCSelect"](document.querySelector(".add-asset__category--project"));
 $(".dam-add-asset__button").on("click", function () {
   addAssetDialog.open();
 });
+addAssetDialog.listen("MDCDialog:closing", function (e) {
+  if (e.detail.action === "reset") {
+    var formInputs = addAssetDialog.root_.querySelectorAll("input");
+
+    for (var input in formInputs) {
+      var inputIndex = parseInt(input);
+      var inputEl = formInputs[inputIndex];
+      if (inputEl !== undefined && inputEl.type !== "radio") inputEl.value = "";
+    }
+  }
+});
 var artistSelectMenuEl = document.querySelector(".add-asset__category--artist-select");
 var projectSelectList = document.querySelector("#project_select_list");
-var projectSelectMenuEl = document.querySelector(".add-asset__category--project-select");
-var projectsMenu = new _material_menu__WEBPACK_IMPORTED_MODULE_3__["MDCMenu"](projectSelectMenuEl);
-projectsMenu.listen("click", function () {
-  console.log(projectSelect.value);
-});
-var artistsMenu = new _material_menu__WEBPACK_IMPORTED_MODULE_3__["MDCMenu"](artistSelectMenuEl);
+var projectsMenu = projectSelect.menu_;
 artistSelect.listen("MDCSelect:change", function () {
+  count();
   projectSelect.disabled = false;
   projectSelect.foundation_.setValue("");
   var projectsMenuItems = projectsMenu.items.slice(1);
 
   for (var item in projectsMenuItems) {
     var itemIndex = parseInt(item);
-    debugger;
     var projectParentID = parseInt(projectsMenuItems[itemIndex].attributes.parent.value);
     projectsMenuItems[itemIndex].style.display = "none";
 
     if (projectParentID === parseInt(artistSelect.value)) {
       projectsMenuItems[itemIndex].style.display = "flex";
     }
-
-    debugger;
   }
 }); // var newHandle = function getProjects(event) {
 //   var data = {
@@ -8884,7 +8836,28 @@ radios.forEach(function (radio) {
 
 function radioChange(radio) {
   console.log(radio.value);
-}
+} //Uploader
+
+
+var mediaUploader;
+var uploadButton = document.querySelector("#upload_button");
+var uploadFileInput = document.querySelector("#upload_file");
+uploadButton.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  if (mediaUploader) {
+    mediaUploader.open();
+    return;
+  }
+
+  mediaUploader = wp.media(wp.media.view.MediaFrame.Select);
+  mediaUploader.on('select', function () {
+    var attachment = mediaUploader.state().get('selection').first().toJSON();
+    uploadFileInput.setAttribute('value', attachment.url);
+  });
+  mediaUploader.open();
+  debugger;
+});
 
 /***/ })
 

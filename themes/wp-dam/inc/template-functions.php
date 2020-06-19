@@ -406,6 +406,61 @@ add_action('admin_post_nopriv_frontend_add_asset', 'damAddNewAsset_nopriv');
 //
 //	add_action( 'init', 'change_permalinks' );
 
+function my_upload_new_media_html()
+{
+
+	require_once(dirname(dirname(dirname(dirname(__DIR__)))) . '/wp-admin/includes/template.php');
+	/* everything is copied from media-new.php */
+	/* translated, and old browser option is there as well */
+
+	$title = __('Upload New Media');
+
+	$post_id = 0;
+	if (isset($_REQUEST['post_id'])) {
+		$post_id = absint($_REQUEST['post_id']);
+		if (!get_post($post_id) || !current_user_can('edit_post', $post_id)) $post_id = 0;
+	}
+
+	if ($_POST) {
+		if (isset($_POST['html-upload']) && !empty($_FILES)) {
+			check_admin_referer('media-form');
+			// Upload File button was clicked
+			$upload_id = media_handle_upload('async-upload', $post_id);
+			if (is_wp_error($upload_id)) {
+				wp_die($upload_id);
+			}
+		}
+		wp_redirect(admin_url('upload.php'));
+		exit;
+	}
+
+	$form_class = 'media-upload-form type-form validate';
+	if (get_user_setting('uploader') || isset($_GET['browser-uploader']))
+		$form_class .= ' html-uploader';
+
+?>
+
+	<div class="wrap">
+		<h1><?php echo esc_html($title); ?></h1>
+
+		<form enctype="multipart/form-data" method="post" action="<?php echo admin_url('media-new.php'); ?>" class="<?php echo esc_attr($form_class); ?>" id="file-form">
+
+			<?php media_upload_form(); ?>
+
+			<script type="text/javascript">
+				var post_id = <?php echo $post_id; ?>,
+					shortform = 3;
+			</script>
+			<input type="hidden" name="post_id" id="post_id" value="<?php echo $post_id; ?>" />
+			<?php wp_nonce_field('media-form'); ?>
+			<div id="media-items" class="hide-if-no-js"></div>
+		</form>
+	</div>
+
+<?php
+}
+add_action('wp_dam_frontend_addasset_uploader', 'my_upload_new_media_html');
+
 
 require get_template_directory() . '/inc/ajax-search.php';
 require get_template_directory() . '/inc/custom-taxonomies.php';
