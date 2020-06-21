@@ -196,7 +196,6 @@
 		return (bool) apply_filters( 'asset_has_file', $has_file, $post, $asset_id );
 	}
 
-	/** TODO: add all filters for asset format */
 	function asset_is_audio( $post = null ) {
 		$asset_id = get_the_id();
 		$is_audio = false;
