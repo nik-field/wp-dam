@@ -11115,6 +11115,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_textfield_helper_text__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material/textfield/helper-text */ "./node_modules/@material/textfield/helper-text/index.js");
 /* harmony import */ var _material_textfield_index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material/textfield/index */ "./node_modules/@material/textfield/index.js");
 /* harmony import */ var _scss_frontend_media_uploader_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../scss/frontend-media-uploader.scss */ "./src/scss/frontend-media-uploader.scss");
+/*
+
+* Grouping Assets For Sharing *
+  // TODO: [feat] Checkbox on cards and button to copy link that will show you all of them as a single query
+
+* Asset Permissions *
+  // TODO: [feat] Restrict viewable assets for certain users (david can only see david's assets)
+
+* Frontend Add Assets *
+  // TODO: [feat] Link and Creator field
+  // TODO: [feat] Thumbnails for attachments with generated thumbnails (docs, videos)
+  // TODO: [feat] Icon thumbnails for attachments that can not be processed into thumbnails (links, docx)
+  // TODO: [feat] Project Type/Year labels and menu options
+  // TODO: [feat] More hidden fields for attachment data (attachment ID, upload_dir/file_path,)
+  // TODO: [feat] Construct wp_insert_post from form _POST data
+  // TODO: [fix] Project Type/Year should be required only when New Project text field has input
+
+* Frontend Edit Tags *
+  // TODO: [feat] Tags: Just make them editable on the card by clicking them. Convert div to input and validate.
+
+*/
 
 
 
@@ -11128,11 +11149,21 @@ function count() {
   console.log(counter);
   counter++;
 }
+/* ------------------------- Variable Instantiation ------------------------- */
+
 
 var addAssetDialog = new _material_dialog__WEBPACK_IMPORTED_MODULE_0__["MDCDialog"](document.querySelector(".dam-add-asset-dialog"));
 var addAssetFormEl = document.getElementById("frontend_add_asset_form");
 var addAssetSidebar = document.getElementById("add-asset__sidebar");
 var addAssetTitle = new _material_textfield_index__WEBPACK_IMPORTED_MODULE_5__["MDCTextField"](document.querySelector(".add-asset-title-input"));
+var formatRadios = [].map.call(document.querySelectorAll(".mdc-radio"), function (el) {
+  return new _material_radio__WEBPACK_IMPORTED_MODULE_1__["MDCRadio"](el);
+});
+var uploadButton = document.querySelector("#upload_button");
+var uploadFileInput = document.querySelector("#upload_file");
+var previewImageEl = document.querySelector(".add-asset__preview-image");
+var previewContainerEl = document.querySelector(".add-asset__preview");
+var previewAreaEl = document.querySelector(".add-asset__main");
 var artistSelect = new _material_select__WEBPACK_IMPORTED_MODULE_2__["MDCSelect"](document.querySelector(".add-asset__category--artist"));
 var artistSelectHelperText = new _material_select_helper_text__WEBPACK_IMPORTED_MODULE_3__["MDCSelectHelperText"](document.querySelector('.add-asset__new-artist--helper-text'));
 var artistSelectInput = document.getElementById("add-asset__category--artist-input");
@@ -11149,8 +11180,21 @@ var projectSelect = new _material_select__WEBPACK_IMPORTED_MODULE_2__["MDCSelect
 var projectSelectHelperText = new _material_select_helper_text__WEBPACK_IMPORTED_MODULE_3__["MDCSelectHelperText"](document.querySelector('.add-asset__new-project--helper-text'));
 var projectSelectList = document.querySelector("#project_select_list");
 var projectsMenu = projectSelect.menu_;
-console.log('Instatiation Breakpoint');
-debugger; //Form Validation
+debugger;
+/* -------------------------------------------------------------------------- */
+
+/*                                   ACTIONS                                  */
+
+/* -------------------------------------------------------------------------- */
+
+$(".dam-add-asset__button").on("click", function () {
+  addAssetDialog.open();
+});
+/* -------------------------------------------------------------------------- */
+
+/*                               FORM VALIDATION                              */
+
+/* -------------------------------------------------------------------------- */
 
 var changeEvent = new Event('change', {
   bubbles: true
@@ -11166,17 +11210,35 @@ function checkSaveButton() {
 
 addAssetFormEl.addEventListener('change', function (e) {
   checkSaveButton();
+
+  if (addAssetFormEl.elements.format.value === 'format_link') {
+    uploadButton.disabled = true;
+    $(uploadButton).animate({
+      opacity: '0'
+    });
+  } else {
+    uploadButton.disabled = false;
+    $(uploadButton).animate({
+      opacity: '100'
+    });
+  }
 });
 addAssetTitle.listen("input", function (e) {
   checkSaveButton();
 });
 newArtistField.listen("input", function (e) {
   checkSaveButton();
-}); // Sidebar Swaps
+});
+/* -------------------------------------------------------------------------- */
+
+/*                           SIDEBAR FIELD HANDLING                           */
+
+/* -------------------------------------------------------------------------- */
 
 function isHidden(el) {
   return el.offsetParent === null;
-} // DOWN = SHOW, UP = HIDE
+}
+/* ------------------------ DOWN = SHOW | UP = HIDE ----------------------- */
 
 
 function swapProjectField() {
@@ -11234,9 +11296,8 @@ projectSelectHelperText.root_.addEventListener("click", function (e) {
 cancelProjectHelperText.root_.addEventListener("click", function (e) {
   swapProjectField('cancel');
 });
-$(".dam-add-asset__button").on("click", function () {
-  addAssetDialog.open();
-});
+/* ---------------------- HANDLE "HIDDEN" INPUT FIELDS ---------------------- */
+
 artistSelect.listen("MDCSelect:change", function (e) {
   if (artistSelectInput.value !== e.detail.value) {
     artistSelectInput.value = e.detail.value;
@@ -11264,22 +11325,13 @@ projectSelect.listen("MDCSelect:change", function (e) {
   var projectInputEl = document.querySelector("#cat_project_id");
   projectInputEl.value = e.detail.value;
 });
-var radios = [].map.call(document.querySelectorAll(".mdc-radio"), function (el) {
-  return new _material_radio__WEBPACK_IMPORTED_MODULE_1__["MDCRadio"](el);
-}); // radios.forEach((radio) =>
-//   radio.root_.addEventListener("change", () => radioChange(radio))
-// );
-// function radioChange(radio) {
-//   console.log(radio.value);
-// }
-//Uploader
+/* -------------------------------------------------------------------------- */
+
+/*                          WORDPRESS MEDIA UPLOADER                          */
+
+/* -------------------------------------------------------------------------- */
 
 var mediaUploader;
-var uploadButton = document.querySelector("#upload_button");
-var uploadFileInput = document.querySelector("#upload_file");
-var previewImageEl = document.querySelector(".add-asset__preview-image");
-var previewContainerEl = document.querySelector(".add-asset__preview");
-var previewAreaEl = document.querySelector(".add-asset__main");
 uploadButton.addEventListener("click", function (e) {
   e.preventDefault();
 
@@ -11292,6 +11344,7 @@ uploadButton.addEventListener("click", function (e) {
   mediaUploader.on('select', function () {
     var attachment = mediaUploader.state().get('selection').first().toJSON();
     uploadFileInput.setAttribute('value', attachment.url);
+    debugger;
     previewAreaEl.style = "border: none";
     previewImageEl.src = attachment.sizes.medium.url;
     previewContainerEl.style = "display: flex";
@@ -11299,7 +11352,12 @@ uploadButton.addEventListener("click", function (e) {
     uploadButton.firstChild.innerHTML = "Change File";
   });
   mediaUploader.open();
-}); //Reset Uploader input and preview
+});
+/* -------------------------------------------------------------------------- */
+
+/*                           RESET FIELDS ON CANCEL                           */
+
+/* -------------------------------------------------------------------------- */
 
 addAssetDialog.listen("MDCDialog:closing", function (e) {
   if (e.detail.action === "reset") {

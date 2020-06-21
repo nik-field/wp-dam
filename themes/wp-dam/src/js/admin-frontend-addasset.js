@@ -1,3 +1,25 @@
+/*
+
+* Grouping Assets For Sharing *
+  // TODO: [feat] Checkbox on cards and button to copy link that will show you all of them as a single query
+
+* Asset Permissions *
+  // TODO: [feat] Restrict viewable assets for certain users (david can only see david's assets)
+
+* Frontend Add Assets *
+  // TODO: [feat] Link and Creator field
+  // TODO: [feat] Thumbnails for attachments with generated thumbnails (docs, videos)
+  // TODO: [feat] Icon thumbnails for attachments that can not be processed into thumbnails (links, docx)
+  // TODO: [feat] Project Type/Year labels and menu options
+  // TODO: [feat] More hidden fields for attachment data (attachment ID, upload_dir/file_path,)
+  // TODO: [feat] Construct wp_insert_post from form _POST data
+  // TODO: [fix] Project Type/Year should be required only when New Project text field has input
+
+* Frontend Edit Tags *
+  // TODO: [feat] Tags: Just make them editable on the card by clicking them. Convert div to input and validate.
+
+*/
+
 import { MDCDialog } from "@material/dialog";
 import { MDCRadio } from "@material/radio";
 import { MDCSelect } from "@material/select";
@@ -12,15 +34,21 @@ function count() {
   counter++;
 }
 
-
-
-
+/* ------------------------- Variable Instantiation ------------------------- */
 
 var addAssetDialog = new MDCDialog(document.querySelector(".dam-add-asset-dialog"));
 var addAssetFormEl = document.getElementById("frontend_add_asset_form");
 var addAssetSidebar = document.getElementById("add-asset__sidebar");
 
 var addAssetTitle = new MDCTextField(document.querySelector(".add-asset-title-input"));
+
+var formatRadios = [].map.call(document.querySelectorAll(".mdc-radio"), function (el) { return new MDCRadio(el); });
+
+var uploadButton = document.querySelector("#upload_button");
+var uploadFileInput = document.querySelector("#upload_file");
+var previewImageEl = document.querySelector(".add-asset__preview-image");
+var previewContainerEl = document.querySelector(".add-asset__preview");
+var previewAreaEl = document.querySelector(".add-asset__main");
 
 var artistSelect = new MDCSelect(document.querySelector(".add-asset__category--artist"));
 var artistSelectHelperText = new MDCSelectHelperText(document.querySelector('.add-asset__new-artist--helper-text'));
@@ -41,11 +69,22 @@ var projectSelect = new MDCSelect(document.querySelector(".add-asset__category--
 var projectSelectHelperText = new MDCSelectHelperText(document.querySelector('.add-asset__new-project--helper-text'));
 var projectSelectList = document.querySelector("#project_select_list");
 var projectsMenu = projectSelect.menu_;
-console.log('Instatiation Breakpoint');
 debugger;
 
+/* -------------------------------------------------------------------------- */
+/*                                   ACTIONS                                  */
+/* -------------------------------------------------------------------------- */
 
-//Form Validation
+$(".dam-add-asset__button").on("click", function () {
+  addAssetDialog.open();
+
+});
+
+
+/* -------------------------------------------------------------------------- */
+/*                               FORM VALIDATION                              */
+/* -------------------------------------------------------------------------- */
+
 var changeEvent = new Event('change', { bubbles: true });
 
 function checkSaveButton() {
@@ -56,18 +95,30 @@ function checkSaveButton() {
   }
 }
 
-addAssetFormEl.addEventListener('change', (e) => { checkSaveButton(); });
+
+addAssetFormEl.addEventListener('change', (e) => {
+  checkSaveButton();
+  if (addAssetFormEl.elements.format.value === 'format_link') {
+    uploadButton.disabled = true;
+    $(uploadButton).animate({ opacity: '0' });
+  } else {
+    uploadButton.disabled = false;
+    $(uploadButton).animate({ opacity: '100' });
+  }
+});
 addAssetTitle.listen("input", (e) => { checkSaveButton() });
 newArtistField.listen("input", (e) => { checkSaveButton() });
 
-// Sidebar Swaps
+/* -------------------------------------------------------------------------- */
+/*                           SIDEBAR FIELD HANDLING                           */
+/* -------------------------------------------------------------------------- */
 
 function isHidden(el) {
   return (el.offsetParent === null)
 }
 
+/* ------------------------ DOWN = SHOW | UP = HIDE ----------------------- */
 
-// DOWN = SHOW, UP = HIDE
 function swapProjectField() {
   if (!isHidden(projectSelect.root_)) {
     $(projectSelect.root_).slideUp(150);
@@ -122,19 +173,7 @@ cancelProjectHelperText.root_.addEventListener("click", (e) => {
   swapProjectField('cancel');
 });
 
-
-
-
-$(".dam-add-asset__button").on("click", function () {
-  addAssetDialog.open();
-
-});
-
-
-
-
-
-
+/* ---------------------- HANDLE "HIDDEN" INPUT FIELDS ---------------------- */
 
 artistSelect.listen("MDCSelect:change", (e) => {
   if (artistSelectInput.value !== e.detail.value) {
@@ -164,28 +203,12 @@ projectSelect.listen("MDCSelect:change", (e) => {
 });
 
 
-
-var radios = [].map.call(document.querySelectorAll(".mdc-radio"), function (el) {
-  return new MDCRadio(el);
-});
-
-// radios.forEach((radio) =>
-//   radio.root_.addEventListener("change", () => radioChange(radio))
-// );
-// function radioChange(radio) {
-//   console.log(radio.value);
-// }
-
-
-//Uploader
+/* -------------------------------------------------------------------------- */
+/*                          WORDPRESS MEDIA UPLOADER                          */
+/* -------------------------------------------------------------------------- */
 
 
 var mediaUploader;
-var uploadButton = document.querySelector("#upload_button");
-var uploadFileInput = document.querySelector("#upload_file");
-var previewImageEl = document.querySelector(".add-asset__preview-image");
-var previewContainerEl = document.querySelector(".add-asset__preview");
-var previewAreaEl = document.querySelector(".add-asset__main");
 uploadButton.addEventListener("click", (e) => {
   e.preventDefault();
   if (mediaUploader) {
@@ -196,7 +219,7 @@ uploadButton.addEventListener("click", (e) => {
   mediaUploader.on('select', function () {
     var attachment = mediaUploader.state().get('selection').first().toJSON();
     uploadFileInput.setAttribute('value', attachment.url);
-
+    debugger;
     previewAreaEl.style = "border: none";
     previewImageEl.src = attachment.sizes.medium.url;
     previewContainerEl.style = "display: flex";
@@ -207,7 +230,10 @@ uploadButton.addEventListener("click", (e) => {
   mediaUploader.open();
 });
 
-//Reset Uploader input and preview
+/* -------------------------------------------------------------------------- */
+/*                           RESET FIELDS ON CANCEL                           */
+/* -------------------------------------------------------------------------- */
+
 addAssetDialog.listen("MDCDialog:closing", (e) => {
   if (e.detail.action === "reset") {
     var formInputs = addAssetDialog.root_.querySelectorAll("input");
