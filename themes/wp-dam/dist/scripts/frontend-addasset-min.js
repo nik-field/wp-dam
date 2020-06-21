@@ -11124,13 +11124,14 @@ __webpack_require__.r(__webpack_exports__);
   // TODO: [feat] Restrict viewable assets for certain users (david can only see david's assets)
 
 * Frontend Add Assets *
+  // TODO: [feat] Project Type/Year labels and menu options
+  // TODO: [fix] Project Type/Year should be required only when New Project text field has input
   // TODO: [feat] Link and Creator field
   // TODO: [feat] Thumbnails for attachments with generated thumbnails (docs, videos)
   // TODO: [feat] Icon thumbnails for attachments that can not be processed into thumbnails (links, docx)
-  // TODO: [feat] Project Type/Year labels and menu options
   // TODO: [feat] More hidden fields for attachment data (attachment ID, upload_dir/file_path,)
   // TODO: [feat] Construct wp_insert_post from form _POST data
-  // TODO: [fix] Project Type/Year should be required only when New Project text field has input
+
 
 * Frontend Edit Tags *
   // TODO: [feat] Tags: Just make them editable on the card by clicking them. Convert div to input and validate.
