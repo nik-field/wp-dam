@@ -10,9 +10,6 @@ module.exports = [
       path: path.resolve(__dirname, "dist/scripts"),
       filename: "script.js",
     },
-    watchOptions: {
-      ignored: /node_modules/,
-    },
     module: {
       rules: [
         {
@@ -35,14 +32,14 @@ module.exports = [
             {
               loader: "sass-loader",
               options: {
+                sassOptions: {
+                  includePaths: ['./node_modules']
+                },
                 // Prefer Dart Sass
-                implementation: require("sass"),
+                implementation: require('sass'),
 
                 // See https://github.com/webpack-contrib/sass-loader/issues/804
                 webpackImporter: false,
-                sassOptions: {
-                  includePaths: ["./node_modules"],
-                },
               },
             },
           ],
@@ -74,7 +71,7 @@ module.exports = [
             {
               loader: "file-loader",
               options: {
-                name: "../css/admin-customizer.css",
+                name: "../css/[name].css",
               },
             },
             { loader: "extract-loader" },
@@ -90,9 +87,8 @@ module.exports = [
               options: {
                 // Prefer Dart Sass
                 implementation: require("sass"),
-
                 // See https://github.com/webpack-contrib/sass-loader/issues/804
-                webpackImporter: false,
+                // webpackImporter: false,
                 sassOptions: {
                   includePaths: ["./node_modules"],
                 },
@@ -109,22 +105,5 @@ module.exports = [
         },
       ],
     },
-    // plugins: [
-    //   new BrowserSyncPlugin({
-    //     proxy: 'http://192.168.99.103',
-    //     files: [
-    //       "./../",
-    //       "./../api/**/*.php",
-    //       "./../api/*.php",
-    //       "./",
-    //       "!./node_modules",
-    //       "!./yarn-error.log",
-    //       "!./package.json",
-    //       "!./style.css.map",
-    //       "!./app.js.map",
-    //     ],
-    //     reloadDelay: 0,
-    //   }),
-    // ],
   },
 ];

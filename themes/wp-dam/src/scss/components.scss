@@ -224,30 +224,90 @@
   .add-asset__main {
     display: flex;
     flex-basis: 66%;
+    flex-wrap: wrap;
+    margin: 0 1rem;
     border: 4px dashed #b4b9be;
     #upload_button {
       margin: auto;
     }
+    .add-asset__preview {
+      width: 100%;
+      .add-asset__preview-image {
+        border: solid 1px #c8ccca;
+        border-radius: 3px;
+        max-width: 260px;
+        margin: auto;
+      }
+    }
   }
-  .add-asset__sidebar {
+  #add-asset__sidebar {
+    max-height: 315px;
+    height: 315px;
+  }
+  #add-asset__sidebar,
+  #add-asset__new-project--container {
     display: flex;
     flex-wrap: wrap;
     flex: 1;
-    min-height: 175px;
+
+    align-content: start;
+    .mdc-select.mdc-select--outlined .mdc-floating-label {
+      top: 14px;
+    }
 
     .mdc-select__menu {
+      width: 100%;
+    }
+    #add-asset__new-artist--container,
+    #add-asset__new-project--container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 20px;
+      justify-content: space-between;
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .mdc-text-field-helper-text {
+      margin: 8px 16px 0px;
+      color: $primary;
+      min-width: 115px;
+      flex-basis: 100%;
+      text-align: center;
+    }
+    .mdc-text-field--full-width {
       width: 100%;
     }
 
     .add-asset__category--artist {
       width: 100%;
       padding-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: start;
       .mdc-select__anchor {
         width: 100%;
       }
     }
+    .add-asset__new-project--year,
+    .add-asset__new-project--type {
+      width: 47%;
+      margin-top: 20px;
+      .mdc-select__anchor {
+        width: 100%;
+      }
+    }
+    .mdc-select-helper-text {
+      padding-top: 8px;
+      min-width: 115px;
+      flex-basis: 100%;
+      text-align: center;
+    }
     .add-asset__category--project {
       width: 100%;
+      padding-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: right;
       .mdc-select__anchor {
         width: 100%;
       }
@@ -255,9 +315,10 @@
     .mdc-select__selected-text {
       position: absolute;
     }
-    .mdc-select-helper-text {
+    a {
       text-align: right;
       cursor: pointer;
+      display: inline-block;
       &:hover {
         text-decoration: underline;
       }

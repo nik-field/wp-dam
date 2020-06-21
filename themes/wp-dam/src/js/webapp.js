@@ -10,7 +10,7 @@ import { MDCRipple } from "@material/ripple/index";
 const buttons = document.querySelectorAll(".mdc-ripple");
 buttons.forEach((button) => MDCRipple.attachTo(button));
 
-$(document).ajaxSuccess(function() {
+$(document).ajaxSuccess(function () {
   const buttons = document.querySelectorAll(".mdc-ripple");
   buttons.forEach((button) => MDCRipple.attachTo(button));
 });
@@ -24,15 +24,12 @@ $(document).ajaxSuccess(function() {
 =            Include Text Field            =
 ==========================================*/
 
-import { MDCTextField } from "@material/textfield/index";
+import { MDCTextField } from "@material/textfield";
 
 //Instantiation
 //const textField = new MDCTextField(document.querySelector('.mdc-text-field'));
 const searchTextField = new MDCTextField(
   document.querySelector(".dam-search-input")
-);
-const titleTextField = new MDCTextField(
-  document.querySelector(".add-asset-title-input")
 );
 
 /*===========================================
@@ -41,12 +38,10 @@ const titleTextField = new MDCTextField(
 
 import { MDCFormField } from "@material/form-field";
 
-// mdcAutoInit.register('MDCRadio', MDCRadio);
-// mdcAutoInit.register('MDCFormField', MDCFormField);
 
 const formFields = [].map.call(
   document.querySelectorAll(".mdc-form-field"),
-  function(el) {
+  function (el) {
     return new MDCFormField(el);
   }
 );
@@ -76,13 +71,13 @@ tippy.setDefaultProps({
 import { MDCMenu, Corner } from "@material/menu";
 import { MDCMenuSurface } from "@material/menu-surface";
 
-$(document).ajaxSuccess(function() {
+$(document).ajaxSuccess(function () {
   const menuEls = Array.from(document.querySelectorAll(".mdc-card-menu"));
 
-  menuEls.forEach(function(menuEl) {
+  menuEls.forEach(function (menuEl) {
     const menu = new MDCMenu(menuEl);
     const menuToggle = menuEl.parentElement.querySelector(".mdc-menu-toggle");
-    menuToggle.addEventListener("click", function() {
+    menuToggle.addEventListener("click", function () {
       menu.open = !menu.open;
     });
     menu.setAnchorCorner(Corner.BOTTOM_RIGHT);
@@ -91,3 +86,5 @@ $(document).ajaxSuccess(function() {
 
 import "./asset-search";
 import "./asset-access";
+
+

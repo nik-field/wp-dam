@@ -12030,44 +12030,124 @@ a.mdc-list-item {
 .dam-add-asset-dialog .add-asset__main {
   display: flex;
   flex-basis: 66%;
+  flex-wrap: wrap;
+  margin: 0 1rem;
   border: 4px dashed #b4b9be;
 }
 .dam-add-asset-dialog .add-asset__main #upload_button {
   margin: auto;
 }
-.dam-add-asset-dialog .add-asset__sidebar {
+.dam-add-asset-dialog .add-asset__main .add-asset__preview {
+  width: 100%;
+}
+.dam-add-asset-dialog .add-asset__main .add-asset__preview .add-asset__preview-image {
+  border: solid 1px #c8ccca;
+  border-radius: 3px;
+  max-width: 260px;
+  margin: auto;
+}
+.dam-add-asset-dialog #add-asset__sidebar {
+  max-height: 315px;
+  height: 315px;
+}
+.dam-add-asset-dialog #add-asset__sidebar,
+.dam-add-asset-dialog #add-asset__new-project--container {
   display: flex;
   flex-wrap: wrap;
   flex: 1;
-  min-height: 175px;
+  align-content: start;
 }
-.dam-add-asset-dialog .add-asset__sidebar .mdc-select__menu {
+.dam-add-asset-dialog #add-asset__sidebar .mdc-select.mdc-select--outlined .mdc-floating-label,
+.dam-add-asset-dialog #add-asset__new-project--container .mdc-select.mdc-select--outlined .mdc-floating-label {
+  top: 14px;
+}
+.dam-add-asset-dialog #add-asset__sidebar .mdc-select__menu,
+.dam-add-asset-dialog #add-asset__new-project--container .mdc-select__menu {
   width: 100%;
 }
-.dam-add-asset-dialog .add-asset__sidebar .add-asset__category--artist {
+.dam-add-asset-dialog #add-asset__sidebar #add-asset__new-artist--container,
+.dam-add-asset-dialog #add-asset__sidebar #add-asset__new-project--container,
+.dam-add-asset-dialog #add-asset__new-project--container #add-asset__new-artist--container,
+.dam-add-asset-dialog #add-asset__new-project--container #add-asset__new-project--container {
+  position: relative;
   width: 100%;
   padding-bottom: 20px;
+  justify-content: space-between;
+  display: flex;
+  flex-wrap: wrap;
 }
-.dam-add-asset-dialog .add-asset__sidebar .add-asset__category--artist .mdc-select__anchor {
+.dam-add-asset-dialog #add-asset__sidebar .mdc-text-field-helper-text,
+.dam-add-asset-dialog #add-asset__new-project--container .mdc-text-field-helper-text {
+  margin: 8px 16px 0px;
+  color: #48bf91;
+  min-width: 115px;
+  flex-basis: 100%;
+  text-align: center;
+}
+.dam-add-asset-dialog #add-asset__sidebar .mdc-text-field--full-width,
+.dam-add-asset-dialog #add-asset__new-project--container .mdc-text-field--full-width {
   width: 100%;
 }
-.dam-add-asset-dialog .add-asset__sidebar .add-asset__category--project {
+.dam-add-asset-dialog #add-asset__sidebar .add-asset__category--artist,
+.dam-add-asset-dialog #add-asset__new-project--container .add-asset__category--artist {
+  width: 100%;
+  padding-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: start;
+}
+.dam-add-asset-dialog #add-asset__sidebar .add-asset__category--artist .mdc-select__anchor,
+.dam-add-asset-dialog #add-asset__new-project--container .add-asset__category--artist .mdc-select__anchor {
   width: 100%;
 }
-.dam-add-asset-dialog .add-asset__sidebar .add-asset__category--project .mdc-select__anchor {
+.dam-add-asset-dialog #add-asset__sidebar .add-asset__new-project--year,
+.dam-add-asset-dialog #add-asset__sidebar .add-asset__new-project--type,
+.dam-add-asset-dialog #add-asset__new-project--container .add-asset__new-project--year,
+.dam-add-asset-dialog #add-asset__new-project--container .add-asset__new-project--type {
+  width: 47%;
+  margin-top: 20px;
+}
+.dam-add-asset-dialog #add-asset__sidebar .add-asset__new-project--year .mdc-select__anchor,
+.dam-add-asset-dialog #add-asset__sidebar .add-asset__new-project--type .mdc-select__anchor,
+.dam-add-asset-dialog #add-asset__new-project--container .add-asset__new-project--year .mdc-select__anchor,
+.dam-add-asset-dialog #add-asset__new-project--container .add-asset__new-project--type .mdc-select__anchor {
   width: 100%;
 }
-.dam-add-asset-dialog .add-asset__sidebar .mdc-select__selected-text {
+.dam-add-asset-dialog #add-asset__sidebar .mdc-select-helper-text,
+.dam-add-asset-dialog #add-asset__new-project--container .mdc-select-helper-text {
+  padding-top: 8px;
+  min-width: 115px;
+  flex-basis: 100%;
+  text-align: center;
+}
+.dam-add-asset-dialog #add-asset__sidebar .add-asset__category--project,
+.dam-add-asset-dialog #add-asset__new-project--container .add-asset__category--project {
+  width: 100%;
+  padding-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: right;
+}
+.dam-add-asset-dialog #add-asset__sidebar .add-asset__category--project .mdc-select__anchor,
+.dam-add-asset-dialog #add-asset__new-project--container .add-asset__category--project .mdc-select__anchor {
+  width: 100%;
+}
+.dam-add-asset-dialog #add-asset__sidebar .mdc-select__selected-text,
+.dam-add-asset-dialog #add-asset__new-project--container .mdc-select__selected-text {
   position: absolute;
 }
-.dam-add-asset-dialog .add-asset__sidebar .mdc-select-helper-text {
+.dam-add-asset-dialog #add-asset__sidebar a,
+.dam-add-asset-dialog #add-asset__new-project--container a {
   text-align: right;
   cursor: pointer;
+  display: inline-block;
 }
-.dam-add-asset-dialog .add-asset__sidebar .mdc-select-helper-text:hover {
+.dam-add-asset-dialog #add-asset__sidebar a:hover,
+.dam-add-asset-dialog #add-asset__new-project--container a:hover {
   text-decoration: underline;
 }
-.dam-add-asset-dialog .add-asset__sidebar:not(.mdc-select--disabled) .mdc-select__anchor + .mdc-select-helper-text {
+.dam-add-asset-dialog #add-asset__sidebar:not(.mdc-select--disabled) .mdc-select__anchor + .mdc-select-helper-text,
+.dam-add-asset-dialog #add-asset__new-project--container:not(.mdc-select--disabled) .mdc-select__anchor + .mdc-select-helper-text {
   color: #48bf91;
 }
 

@@ -1,0 +1,413 @@
+/*! CSS Used from: http://dam.local/wp-includes/css/buttons.css?ver=5.4.2 ; media=all */
+@media all {
+  .wp-core-ui .button,
+.wp-core-ui .button-primary {
+    display: inline-block;
+    text-decoration: none;
+    font-size: 13px;
+    line-height: 2.15384615;
+    min-height: 30px;
+    margin: 0;
+    padding: 0 10px;
+    cursor: pointer;
+    border-width: 1px;
+    border-style: solid;
+    -webkit-appearance: none;
+    border-radius: 3px;
+    white-space: nowrap;
+    box-sizing: border-box;
+  }
+
+  .wp-core-ui button::-moz-focus-inner {
+    border-width: 0;
+    border-style: none;
+    padding: 0;
+  }
+
+  .wp-core-ui .button.button-large {
+    min-height: 32px;
+    line-height: 2.30769231;
+    padding: 0 12px;
+  }
+
+  .wp-core-ui .button.button-hero {
+    font-size: 14px;
+    min-height: 46px;
+    line-height: 3.14285714;
+    padding: 0 36px;
+  }
+
+  .wp-core-ui .button {
+    color: #0071a1;
+    border-color: #0071a1;
+    background: #f3f5f6;
+    vertical-align: top;
+  }
+
+  .wp-core-ui .button:hover {
+    background: #f1f1f1;
+    border-color: #016087;
+    color: #016087;
+  }
+
+  .wp-core-ui .button:focus {
+    background: #f3f5f6;
+    border-color: #007cba;
+    color: #016087;
+    box-shadow: 0 0 0 1px #007cba;
+    outline: 2px solid transparent;
+    outline-offset: 0;
+  }
+
+  .wp-core-ui .button:active {
+    background: #f3f5f6;
+    border-color: #7e8993;
+    box-shadow: none;
+  }
+
+  .wp-core-ui .button[disabled],
+.wp-core-ui .button:disabled {
+    color: #a0a5aa !important;
+    border-color: #ddd !important;
+    background: #f7f7f7 !important;
+    box-shadow: none !important;
+    text-shadow: 0 1px 0 #fff !important;
+    cursor: default;
+    transform: none !important;
+  }
+
+  .wp-core-ui .button-link {
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    color: #0073aa;
+    text-decoration: underline;
+    transition-property: border, background, color;
+    transition-duration: 0.05s;
+    transition-timing-function: ease-in-out;
+  }
+
+  .wp-core-ui .button-link:hover,
+.wp-core-ui .button-link:active {
+    color: #00a0d2;
+  }
+
+  .wp-core-ui .button-link:focus {
+    color: #124964;
+    box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+    outline: 1px solid transparent;
+  }
+
+  .wp-core-ui .button-primary {
+    background: #007cba;
+    border-color: #007cba;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: none;
+  }
+
+  .wp-core-ui .button-primary:hover,
+.wp-core-ui .button-primary:focus {
+    background: #0071a1;
+    border-color: #0071a1;
+    color: #fff;
+  }
+
+  .wp-core-ui .button-primary:focus {
+    box-shadow: 0 0 0 1px #fff, 0 0 0 3px #007cba;
+  }
+
+  .wp-core-ui .button-primary:active {
+    background: #00669b;
+    border-color: #00669b;
+    box-shadow: none;
+    color: #fff;
+  }
+
+  .wp-core-ui .button-primary[disabled],
+.wp-core-ui .button-primary:disabled {
+    color: #66c6e4 !important;
+    background: #008ec2 !important;
+    border-color: #008ec2 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    cursor: default;
+  }
+}
+@media screen and (max-width: 782px) {
+  .wp-core-ui .button,
+.wp-core-ui .button.button-large {
+    padding: 0 14px;
+    line-height: 2.71428571;
+    font-size: 14px;
+    vertical-align: middle;
+    min-height: 40px;
+    margin-bottom: 4px;
+  }
+
+  .media-modal-content .media-toolbar-primary .media-button {
+    margin-top: 10px;
+    margin-left: 5px;
+  }
+}
+/*! CSS Used from: http://dam.local/wp-admin/css/common.css?ver=5.4.2 ; media=all */
+@media all {
+  .screen-reader-text {
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    -webkit-clip-path: inset(50%);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    word-wrap: normal !important;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  img {
+    border: 0;
+  }
+
+  div {
+    outline: 0;
+  }
+
+  .screen-reader-text:focus {
+    box-shadow: none;
+    outline: none;
+  }
+
+  p {
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 1em 0;
+  }
+
+  li {
+    margin-bottom: 6px;
+  }
+
+  h1,
+h2 {
+    display: block;
+    font-weight: 600;
+  }
+
+  h1 {
+    color: #23282d;
+    font-size: 2em;
+    margin: 0.67em 0;
+  }
+
+  h2 {
+    color: #23282d;
+    font-size: 1.3em;
+    margin: 1em 0;
+  }
+
+  ul {
+    padding: 0;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  .spinner {
+    background: url(http://dam.local/wp-admin/images/spinner.gif) no-repeat;
+    background-size: 20px 20px;
+    display: inline-block;
+    visibility: hidden;
+    float: right;
+    vertical-align: middle;
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+    width: 20px;
+    height: 20px;
+    margin: 4px 10px 0;
+  }
+
+  img {
+    border: none;
+  }
+}
+@media print, (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
+  .spinner {
+    background-image: url(http://dam.local/wp-admin/images/spinner-2x.gif);
+  }
+}
+@media screen and (max-width: 782px) {
+  body * {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+  }
+}
+/*! CSS Used from: http://dam.local/wp-admin/css/forms.css?ver=5.4.2 ; media=all */
+@media all {
+  input,
+select,
+button {
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
+  input {
+    font-size: 14px;
+  }
+
+  label {
+    cursor: pointer;
+  }
+
+  input,
+select {
+    margin: 0 1px;
+  }
+
+  input[type=search],
+select {
+    box-shadow: 0 0 0 transparent;
+    border-radius: 4px;
+    border: 1px solid #7e8993;
+    background-color: #fff;
+    color: #32373c;
+  }
+
+  input[type=search] {
+    padding: 0 8px;
+    line-height: 2;
+    min-height: 30px;
+  }
+
+  input[type=search]:focus,
+select:focus {
+    border-color: #007cba;
+    box-shadow: 0 0 0 1px #007cba;
+    outline: 2px solid transparent;
+  }
+
+  input[type=search] {
+    -webkit-appearance: textfield;
+  }
+
+  .wp-admin input[type=file] {
+    padding: 3px 0;
+    cursor: pointer;
+  }
+
+  ::-webkit-input-placeholder {
+    color: #72777c;
+  }
+
+  ::-moz-placeholder {
+    color: #72777c;
+    opacity: 1;
+  }
+
+  :-ms-input-placeholder {
+    color: #72777c;
+  }
+
+  input:disabled,
+select:disabled {
+    background: rgba(255, 255, 255, 0.5);
+    border-color: rgba(222, 222, 222, 0.75);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+    color: rgba(51, 51, 51, 0.5);
+  }
+
+  input[type=file]:disabled {
+    background: none;
+    box-shadow: none;
+    cursor: default;
+  }
+
+  .wp-core-ui select {
+    font-size: 14px;
+    line-height: 2;
+    color: #32373c;
+    border-color: #7e8993;
+    box-shadow: none;
+    border-radius: 3px;
+    padding: 0 24px 0 8px;
+    min-height: 30px;
+    max-width: 25rem;
+    -webkit-appearance: none;
+    background: #fff url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E") no-repeat right 5px top 55%;
+    background-size: 16px 16px;
+    cursor: pointer;
+    vertical-align: middle;
+  }
+
+  .wp-core-ui select:focus {
+    border-color: #007cba;
+    color: #016087;
+    box-shadow: 0 0 0 1px #007cba;
+  }
+
+  .wp-core-ui select:active {
+    border-color: #999;
+    box-shadow: none;
+  }
+
+  .wp-core-ui select:disabled {
+    color: #a0a5aa;
+    border-color: #ddd;
+    background-color: #f7f7f7;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23a0a5aa%22%2F%3E%3C%2Fsvg%3E");
+    box-shadow: none;
+    text-shadow: 0 1px 0 #fff;
+    cursor: default;
+    transform: none;
+  }
+
+  .wp-core-ui select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #016087;
+  }
+
+  .wp-core-ui select::-ms-expand {
+    display: none;
+  }
+
+  label {
+    vertical-align: middle;
+  }
+}
+@media screen and (max-width: 782px) {
+  input[type=search] {
+    -webkit-appearance: none;
+    padding: 3px 10px;
+    min-height: 40px;
+  }
+
+  .wp-core-ui select {
+    min-height: 40px;
+    font-size: 16px;
+    line-height: 1.625;
+    padding: 5px 24px 5px 8px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+}
+/*! CSS Used from: http://dam.local/wp-admin/css/media.css?ver=5.4.2 ; media=all */
+@media all {
+  .media-search-input-label {
+    margin: 0 0.2em 0 0;
+    vertical-align: baseline;
+  }
+}

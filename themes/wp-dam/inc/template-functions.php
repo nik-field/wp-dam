@@ -388,7 +388,7 @@ function damAddNewAsset()
 				'format' => $format,
 			),
 		);
-		print_r($asset);
+		print("<pre>" . print_r($_POST, true) . "</pre>");
 	}
 }
 function damAddNewAsset_nopriv()

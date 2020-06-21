@@ -16221,7 +16221,7 @@ createDialog();
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_base_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @material/base/index */ "./node_modules/@material/base/index.js");
 /* harmony import */ var _material_ripple_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @material/ripple/index */ "./node_modules/@material/ripple/index.js");
-/* harmony import */ var _material_textfield_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material/textfield/index */ "./node_modules/@material/textfield/index.js");
+/* harmony import */ var _material_textfield__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material/textfield */ "./node_modules/@material/textfield/index.js");
 /* harmony import */ var _material_form_field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material/form-field */ "./node_modules/@material/form-field/index.js");
 /* harmony import */ var clipboard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! clipboard */ "./node_modules/clipboard/dist/clipboard.js");
 /* harmony import */ var clipboard__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(clipboard__WEBPACK_IMPORTED_MODULE_4__);
@@ -16260,14 +16260,11 @@ $(document).ajaxSuccess(function () {
  //Instantiation
 //const textField = new MDCTextField(document.querySelector('.mdc-text-field'));
 
-var searchTextField = new _material_textfield_index__WEBPACK_IMPORTED_MODULE_2__["MDCTextField"](document.querySelector(".dam-search-input"));
-var titleTextField = new _material_textfield_index__WEBPACK_IMPORTED_MODULE_2__["MDCTextField"](document.querySelector(".add-asset-title-input"));
+var searchTextField = new _material_textfield__WEBPACK_IMPORTED_MODULE_2__["MDCTextField"](document.querySelector(".dam-search-input"));
 /*===========================================
 =            Include Line Ripple            =
 ===========================================*/
 
- // mdcAutoInit.register('MDCRadio', MDCRadio);
-// mdcAutoInit.register('MDCFormField', MDCFormField);
 
 var formFields = [].map.call(document.querySelectorAll(".mdc-form-field"), function (el) {
   return new _material_form_field__WEBPACK_IMPORTED_MODULE_3__["MDCFormField"](el);
