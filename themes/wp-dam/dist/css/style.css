@@ -12037,6 +12037,9 @@ a.mdc-list-item {
 .dam-add-asset-dialog .add-asset__main #upload_button {
   margin: auto;
 }
+.dam-add-asset-dialog .add-asset__main #upload_file {
+  display: none;
+}
 .dam-add-asset-dialog .add-asset__main .add-asset__preview {
   width: 100%;
 }
