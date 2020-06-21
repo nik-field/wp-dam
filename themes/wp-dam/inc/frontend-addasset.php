@@ -48,7 +48,7 @@
                         </div>
                         <div class="add-asset__main">
                             <div style="display:none" class="add-asset__preview"><img class="add-asset__preview-image" src=""></div>
-                            <input id="upload_file" type="hidden" name="upload_file">
+                            <input id="upload_file" name="upload_file">
                             <button id="upload_button" type="button" class="mdc-button mdc-button--raised button-primary"><span class="mdc-button__label">Add File</span></button>
 
                         </div>
@@ -244,5 +244,3 @@
         decimalPoint = '.',
         isRtl = 0;
 </script> -->
-
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
