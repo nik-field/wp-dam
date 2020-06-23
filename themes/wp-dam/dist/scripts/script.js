@@ -16050,7 +16050,8 @@ var loading = $(".loading-bars");
 var searchForm = assetSearch.find("form");
 var results = $("#search-results");
 var initial = $("#initial-results");
-var message = "<span class='search-message'>Search results for: </span>";
+var exactMessage = "<span class='search-message'>Exact Matches for: </span>";
+var approxMessage = "<span class='search-message'>Approximate Matches for: </span>";
 var index;
 var elastic_results;
 
@@ -16060,6 +16061,7 @@ function ajaxExec() {
     artist: $artist //Defined on artist tax pages
 
   };
+  typeof $project !== 'undefined' ? data.project = $project : null;
   $.ajax({
     url: ajax_url,
     data: data,
@@ -16135,11 +16137,29 @@ function ajaxExec() {
         elastic_results = index.search(search_query);
 
         if (search_query) {
-          results.append(message + '<span class="search-query">' + search_query + "</span>");
+          var first_approx_match = true;
+          var first_exact_match = true;
+          var divider = '<hr>';
 
           for (var j = 0; j < elastic_results.length; j++) {
             var parsed = elastic_results[j].doc;
+            var parsed_values = Object.values(parsed);
+            var parsed_values_lower = parsed_values.map(function (item) {
+              return typeof item == 'string' ? item.toLowerCase() : item;
+            });
+            var exact_match = Boolean(parsed_values_lower.includes(search_query.toLowerCase()));
             var html = template.render(lg_card_tpl, parsed);
+
+            if (!exact_match && first_approx_match) {
+              results.append(divider + approxMessage + '<span class="search-query">' + search_query + "</span>");
+              first_approx_match = false;
+            }
+
+            if (exact_match && first_exact_match) {
+              results.append(exactMessage + '<span class="search-query">' + search_query + "</span>");
+              first_exact_match = false;
+            }
+
             $(html).appendTo(results).hide();
           }
         } else {

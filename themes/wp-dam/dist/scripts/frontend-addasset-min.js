@@ -11116,6 +11116,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_textfield_index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material/textfield/index */ "./node_modules/@material/textfield/index.js");
 /* harmony import */ var _scss_frontend_media_uploader_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../scss/frontend-media-uploader.scss */ "./src/scss/frontend-media-uploader.scss");
 /*
+* Projects Sidebar *
+  // TODO: [feat] Clicking project should filter search results
 
 * Grouping Assets For Sharing *
   // TODO: [feat] Checkbox on cards and button to copy link that will show you all of them as a single query

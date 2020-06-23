@@ -1,4 +1,6 @@
 /*
+* Projects Sidebar *
+  // TODO: [feat] Clicking project should filter search results
 
 * Grouping Assets For Sharing *
   // TODO: [feat] Checkbox on cards and button to copy link that will show you all of them as a single query

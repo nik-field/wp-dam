@@ -43,6 +43,8 @@ function asset_search_callback()
 
 	$assetsQuery = new WP_Query($args);
 
+	$result = null;
+
 	while ($assetsQuery->have_posts()) {
 		$assetsQuery->the_post();
 

@@ -68,6 +68,33 @@ function get_artist_terms()
 	return get_terms($get_artists_args);
 }
 
+function get_artist_slug($artist_id)
+{
+	return get_term($artist_id, 'artist_project')->slug;
+}
+
+function get_project($project)
+{
+	if (is_numeric($project)) {
+		return get_term($project, 'artist_project');
+	} else if (is_string($project)) {
+		$project_args = array(
+			'taxonomy' => 'artist_project',
+			'slug' => $project
+		);
+		return get_terms($project_args)[0];
+	}
+	return;
+}
+
+function filter_page_check($menu_item_link)
+{
+	$current_page = get_term_link(get_queried_object());
+	if ($current_page == $menu_item_link) {
+		return true;
+	}
+}
+
 function get_artist_id($artist_slug)
 {
 	$get_artists_args = array(
@@ -318,7 +345,8 @@ function asset_download_callback()
 	if ($assetsQuery->have_posts()) {
 		$assetsQuery->the_post();
 		$download_link     = get_asset_url();
-		$attachment        = reset(get_attached_media(''));
+		$attached_media = get_attached_media('');
+		$attachment        = reset($attached_media);
 		$download_path     = get_attached_file($attachment->ID);
 		$download_filename = get_asset_url(true);
 		$download_format   = get_asset_format();
@@ -333,7 +361,7 @@ function asset_download_callback()
 	if ($download_format === 'format_image') {
 		$download_path = wp_get_original_image_path(get_post_thumbnail_id());
 	}
-	write_log($download_path);
+	//write_log($download_path);
 	if ($download_path) {
 		header('X-Sendfile: ' . $download_path);
 	} else {
@@ -377,6 +405,74 @@ function theme_setup()
 	}
 }
 
+add_action('show_user_profile', 'wp_dam_artist_user_extra_field');
+add_action('edit_user_profile', 'wp_dam_artist_user_extra_field');
+function wp_dam_artist_user_extra_field($user)
+{
+	if (current_user_can('create_users')) {
+		$artists = get_artist_terms();
+		if (null !== get_the_author_meta('allow_access_to', $user->ID)) {
+			$selected = intval(get_the_author_meta('allow_access_to', $user->ID));
+		}
+?>
+		<h3>Allow Access To Specific Artist</h3>
+		<table class="form-table">
+			<tr>
+				<th><label for="allow_access_to">Artist</label></th>
+				<td>
+					<select id="allow_access_to" name="allow_access_to">
+						<option value="0">All</option>
+						<?php foreach ($artists as $artist) {
+						?>
+							<option value="<?php echo $artist->term_id; ?>" <?php if ($artist->term_id === $selected) {
+																				echo "selected";
+																			} ?>>
+								<?php echo $artist->name; ?>
+							</option>
+						<?php
+						} ?>
+						<span class="description"><?php _e("Please choose Artist to allow access to."); ?></span>
+				</td>
+			</tr>
+		</table>
+	<?php
+	}
+}
+
+add_action('personal_options_update', 'save_wp_dam_artist_user_extra_field');
+add_action('edit_user_profile_update', 'save_wp_dam_artist_user_extra_field');
+
+function wp_dam_artist_redirect()
+{
+	$user = wp_get_current_user();
+	$user_can_access = intval(get_the_author_meta('allow_access_to', $user->ID));
+	if (is_front_page() and $user_can_access > 0) {
+		$artists = get_artist_terms();
+		$artist = array_filter($artists, function ($obj) use ($user_can_access) {
+			if ($obj->term_id === $user_can_access) {
+				return true;
+			}
+		});
+		wp_redirect(home_url('/' . $artist[key($artist)]->slug));
+		die;
+	}
+}
+add_action('template_redirect', 'wp_dam_artist_redirect');
+
+function save_wp_dam_artist_user_extra_field($user_id)
+{
+	if (!current_user_can('edit_user', $user_id)) {
+		return false;
+	} else {
+
+		if (isset($_POST['allow_access_to']) && $_POST['allow_access_to'] != "") {
+			update_usermeta($user_id, 'allow_access_to', $_POST['allow_access_to']);
+		}
+	}
+}
+
+
+
 function damAddNewAsset()
 {
 	if (!empty($_POST)) {
@@ -398,13 +494,6 @@ function damAddNewAsset_nopriv()
 add_action('admin_post_frontend_add_asset', 'damAddNewAsset');
 add_action('admin_post_nopriv_frontend_add_asset', 'damAddNewAsset_nopriv');
 
-//	function change_permalinks() {
-//		global $wp_rewrite;
-//		$wp_rewrite->set_permalink_structure( '/%postname%/' );
-//		$wp_rewrite->flush_rules();
-//	}
-//
-//	add_action( 'init', 'change_permalinks' );
 
 function my_upload_new_media_html()
 {
@@ -438,7 +527,7 @@ function my_upload_new_media_html()
 	if (get_user_setting('uploader') || isset($_GET['browser-uploader']))
 		$form_class .= ' html-uploader';
 
-?>
+	?>
 
 	<div class="wrap">
 		<h1><?php echo esc_html($title); ?></h1>
@@ -460,6 +549,17 @@ function my_upload_new_media_html()
 <?php
 }
 add_action('wp_dam_frontend_addasset_uploader', 'my_upload_new_media_html');
+
+/* ------------------ ALLOW UNFILTERED UPLOADS FOR EDITORS ------------------ */
+
+function wp_dam_editor_role_caps()
+{
+	$role = get_role('editor');
+
+	// Add a new capability.
+	$role->add_cap('unfiltered_upload', true);
+}
+add_action('init', 'wp_dam_editor_role_caps', 11);
 
 
 require get_template_directory() . '/inc/ajax-search.php';

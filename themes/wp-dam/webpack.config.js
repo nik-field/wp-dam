@@ -21,8 +21,18 @@ module.exports = [
                 name: "../css/style.css",
               },
             },
-            { loader: "extract-loader" },
-            { loader: "css-loader" },
+            {
+              loader: "extract-loader",
+              options: {
+                sourceMap: true
+              }
+            },
+            {
+              loader: "css-loader",
+              options: {
+                sourceMap: true
+              }
+            },
             {
               loader: "postcss-loader",
               options: {
@@ -32,6 +42,7 @@ module.exports = [
             {
               loader: "sass-loader",
               options: {
+                sourceMap: true,
                 sassOptions: {
                   includePaths: ['./node_modules']
                 },

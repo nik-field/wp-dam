@@ -10,7 +10,8 @@ var searchForm = assetSearch.find("form");
 var results = $("#search-results");
 var initial = $("#initial-results");
 
-var message = "<span class='search-message'>Search results for: </span>";
+var exactMessage = "<span class='search-message'>Exact Matches for: </span>";
+var approxMessage = "<span class='search-message'>Approximate Matches for: </span>";
 
 var index;
 var elastic_results;
@@ -20,15 +21,16 @@ function ajaxExec() {
     action: "asset_search",
     artist: $artist, //Defined on artist tax pages
   };
+  typeof $project !== 'undefined' ? data.project = $project : null;
 
   $.ajax({
     url: ajax_url,
     data: data,
-    error: function(errorThrown) {
+    error: function (errorThrown) {
       console.log(errorThrown);
       console.log("There is an error with AJAX!");
     },
-    success: function(response) {
+    success: function (response) {
       if (!$.trim(response)) {
         results.html(
           'There aren\'t any assets! Add one by clicking <a href="./wp-admin/post-new.php?post_type=asset" class="mdc-theme-primary" style="text-decoration: underline;">here.</a>'
@@ -39,7 +41,7 @@ function ajaxExec() {
 
         var props = Object.keys(response[0]);
 
-        index = elasticlunr(function() {
+        index = elasticlunr(function () {
           this.setRef("addedon");
           for (var i = 0; i < props.length; i++) {
             this.addField(props[i]);
@@ -89,10 +91,11 @@ function ajaxExec() {
 
         elastic_results = index.search(search_query);
 
+
         function allDocs() {
           results.empty();
           var elastic_docs = index.documentStore.docs;
-          $.each(elastic_docs, function(index) {
+          $.each(elastic_docs, function (index) {
             var single_doc = elastic_docs[index];
             var html = template.render(lg_card_tpl, single_doc);
             $(html)
@@ -102,30 +105,47 @@ function ajaxExec() {
         }
 
         if (search_query) {
-          results.append(
-            message + '<span class="search-query">' + search_query + "</span>"
-          );
 
+          var first_approx_match = true;
+          var first_exact_match = true;
+          var divider = '<hr>';
           for (var j = 0; j < elastic_results.length; j++) {
             var parsed = elastic_results[j].doc;
+            var parsed_values = Object.values(parsed);
+            var parsed_values_lower = parsed_values.map(item => typeof item == 'string' ? item.toLowerCase() : item);
+            var exact_match = Boolean(parsed_values_lower.includes(search_query.toLowerCase()));
 
             var html = template.render(lg_card_tpl, parsed);
+
+            if (!exact_match && first_approx_match) {
+              results.append(divider + approxMessage + '<span class="search-query">' + search_query + "</span>");
+              first_approx_match = false;
+            }
+            if (exact_match && first_exact_match) {
+              results.append(
+                exactMessage + '<span class="search-query">' + search_query + "</span>"
+              );
+              first_exact_match = false;
+            }
+
+
             $(html)
               .appendTo(results)
               .hide();
+
           }
         } else {
           loading.show();
           allDocs();
           results.prepend(
             '<span class="sort-label">Sorted by: </span>' +
-              '<span class="sort-order">Most Recent</span>'
+            '<span class="sort-order">Most Recent</span>'
           );
         }
         var delay = 0;
         $("#search-results")
           .children("article")
-          .each(function() {
+          .each(function () {
             $(this)
               .delay(delay)
               .fadeToggle();
@@ -138,11 +158,11 @@ function ajaxExec() {
   });
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
   ajaxExec();
 });
 
-searchForm.submit(function(e) {
+searchForm.submit(function (e) {
   e.preventDefault();
   searching.show();
   ajaxExec();
@@ -153,7 +173,7 @@ import { MDCFloatingLabel } from "@material/floating-label/index";
 
 const assetDialog = new MDCDialog(document.querySelector(".dam-asset-dialog"));
 
-$(".site-main").on("click", ".open-dialog", function() {
+$(".site-main").on("click", ".open-dialog", function () {
   var asset = $(this)
     .closest("article")
     .attr("asset-id");
@@ -164,7 +184,7 @@ function createDialog(identifier) {
   if (identifier) {
     var tpl_dialog = $("#tpl-dialog").html();
     var docs = index.documentStore.docs;
-    var doc = Object.values(docs).find(function(set) {
+    var doc = Object.values(docs).find(function (set) {
       return set.id == identifier;
     });
     var html = template.render(tpl_dialog, doc);
@@ -178,13 +198,13 @@ function createDialog(identifier) {
 
 function dialogOpen() {
   assetDialog.open();
-  assetDialog.listen("MDCDialog:opened", function() {
+  assetDialog.listen("MDCDialog:opened", function () {
     var diagMenuEl = this.querySelector(".mdc-dialog-menu");
     var menu = new MDCMenu(diagMenuEl);
     var diagMenuToggle = diagMenuEl.parentElement.querySelector(
       ".mdc-menu-toggle"
     );
-    diagMenuToggle.addEventListener("click", function() {
+    diagMenuToggle.addEventListener("click", function () {
       menu.open = !menu.open;
     });
     menu.setAnchorCorner(Corner.BOTTOM_RIGHT);
