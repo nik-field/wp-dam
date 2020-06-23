@@ -11117,13 +11117,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _scss_frontend_media_uploader_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../scss/frontend-media-uploader.scss */ "./src/scss/frontend-media-uploader.scss");
 /*
 * Projects Sidebar *
-  // TODO: [feat] Clicking project should filter search results
+  // DONE: [feat] Clicking project should filter search results
 
 * Grouping Assets For Sharing *
   // TODO: [feat] Checkbox on cards and button to copy link that will show you all of them as a single query
 
 * Asset Permissions *
-  // TODO: [feat] Restrict viewable assets for certain users (david can only see david's assets)
+  // DONE: [feat] Restrict viewable assets for certain users (david can only see david's assets)
 
 * Frontend Add Assets *
   // TODO: [feat] Project Type/Year labels and menu options
