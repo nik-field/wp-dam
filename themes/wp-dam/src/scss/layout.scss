@@ -4,6 +4,7 @@ body {
 
 .site-header {
   min-height: 220px;
+  display: flex;
 }
 
 .site-header,
@@ -153,9 +154,6 @@ main
   flex: 1 1 100%;
   min-width: 0;
   padding-left: 0;
-}
-
-.large-asset-card__actions {
 }
 
 .large-asset-card__primary-action {
@@ -541,4 +539,20 @@ audio {
 
 .asset-dialog-surface {
   overflow: visible;
+}
+
+#dam-no-search {
+  .mdc-layout-grid__cell:nth-child(3) {
+    display: none;
+  }
+
+  .mdc-top-app-bar__row {
+    height: unset !important;
+  }
+  .site-main {
+    grid-column: 3 / span 8;
+  }
+  .card-menu-container {
+    display: none;
+  }
 }

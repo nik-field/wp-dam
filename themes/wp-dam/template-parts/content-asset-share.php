@@ -50,9 +50,9 @@
                         <div class="large-asset-card__actions-link">
                             <div class="large-asset-card__link-copy">
 								<?php $fileLink = get_site_url() . '/download/' . get_the_ID(); ?>
-                                <i asset-id="<?php the_ID(); ?>" class="access-trigger large-asset-card__link-copy-button mdc-icon-button material-icons mdc-card__action mdc-card__action--icon--unbounded copy" data-clipboard-text="<?php echo $fileLink; ?>">link</i><input data-clipboard-text="<?php echo $fileLink; ?>" asset-id="<?php the_ID(); ?>" class="access-trigger copy" type="text" value="<?php echo $fileLink; ?>" readonly></input>
+                                <i asset-id="<?php the_ID(); ?>" class=" large-asset-card__link-copy-button mdc-icon-button material-icons mdc-card__action mdc-card__action--icon--unbounded copy" data-clipboard-text="<?php echo $fileLink; ?>">link</i><input data-clipboard-text="<?php echo $fileLink; ?>" asset-id="<?php the_ID(); ?>" class=" copy" type="text" value="<?php echo $fileLink; ?>" readonly></input>
                             </div>
-                            <div asset-id="<?php the_ID(); ?>" class="access-trigger large-asset-card__link-download mdc-button mdc-ripple"><a href="<?php echo $fileLink; ?>" download><span class="mdc-button__ripple"></span><?php if ( get_asset_format() !== 'format_link' ) : echo 'Download'; else : echo 'Go to link'; endif; ?></a></div>
+                            <div asset-id="<?php the_ID(); ?>" class=" large-asset-card__link-download mdc-button mdc-ripple"><a href="<?php echo $fileLink; ?>" download><span class="mdc-button__ripple"></span><?php if ( get_asset_format() !== 'format_link' ) : echo 'Download'; else : echo 'Go to link'; endif; ?></a></div>
 
                         </div>
                         <div class="card-menu-container">

@@ -76,7 +76,7 @@
 
 					foreach ($project_terms as $project_term) {
 						$project_name = $project_term->name;
-						$project_page = home_url() . '/' . get_artist_slug($project_term->parent) . '/?project=' . $project_term->slug;
+						$project_page = home_url() . '/assets/' . get_artist_slug($project_term->parent) . '/?project=' . $project_term->slug;
 					?>
 						<li <?php if (!empty($_GET['project']) && $_GET['project'] === $project_term->slug) {
 								echo 'id="current-page"';

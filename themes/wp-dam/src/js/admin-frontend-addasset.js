@@ -1,12 +1,7 @@
 /*
-* Projects Sidebar *
-  // DONE: [feat] Clicking project should filter search results
 
 * Grouping Assets For Sharing *
   // TODO: [feat] Checkbox on cards and button to copy link that will show you all of them as a single query
-
-* Asset Permissions *
-  // DONE: [feat] Restrict viewable assets for certain users (david can only see david's assets)
 
 * Frontend Add Assets *
   // TODO: [feat] Project Type/Year labels and menu options
@@ -72,7 +67,6 @@ var projectSelect = new MDCSelect(document.querySelector(".add-asset__category--
 var projectSelectHelperText = new MDCSelectHelperText(document.querySelector('.add-asset__new-project--helper-text'));
 var projectSelectList = document.querySelector("#project_select_list");
 var projectsMenu = projectSelect.menu_;
-debugger;
 
 /* -------------------------------------------------------------------------- */
 /*                                   ACTIONS                                  */

@@ -11116,14 +11116,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_textfield_index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material/textfield/index */ "./node_modules/@material/textfield/index.js");
 /* harmony import */ var _scss_frontend_media_uploader_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../scss/frontend-media-uploader.scss */ "./src/scss/frontend-media-uploader.scss");
 /*
-* Projects Sidebar *
-  // DONE: [feat] Clicking project should filter search results
 
 * Grouping Assets For Sharing *
   // TODO: [feat] Checkbox on cards and button to copy link that will show you all of them as a single query
-
-* Asset Permissions *
-  // DONE: [feat] Restrict viewable assets for certain users (david can only see david's assets)
 
 * Frontend Add Assets *
   // TODO: [feat] Project Type/Year labels and menu options
@@ -11183,7 +11178,6 @@ var projectSelect = new _material_select__WEBPACK_IMPORTED_MODULE_2__["MDCSelect
 var projectSelectHelperText = new _material_select_helper_text__WEBPACK_IMPORTED_MODULE_3__["MDCSelectHelperText"](document.querySelector('.add-asset__new-project--helper-text'));
 var projectSelectList = document.querySelector("#project_select_list");
 var projectsMenu = projectSelect.menu_;
-debugger;
 /* -------------------------------------------------------------------------- */
 
 /*                                   ACTIONS                                  */

@@ -162,7 +162,7 @@ function wp_dam_scripts()
 	wp_enqueue_script('jquery', get_template_directory_uri() . '/dist/static/jquery-3.4.1.min.js', array(), date("H:i:s"), true);
 
 
-	wp_enqueue_style('material-icons', get_template_directory_uri() . "/dist/assets/fonts/material/material-icons.css", array(), date("H:i:s"));
+	//wp_enqueue_style('material-icons', get_template_directory_uri() . "/dist/assets/fonts/material/material-icons.css", array(), date("H:i:s"));
 
 	wp_enqueue_script('wp-dam-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true);
 

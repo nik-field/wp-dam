@@ -53,7 +53,7 @@ new Clipboard(".copy");
 import { delegate } from "tippy.js";
 import tippy from "tippy.js";
 
-delegate(".site-main, .mdc-dialog", {
+delegate(".site-main, .mdc-dialog, .mdc-snackbar, #dam-floating-actions", {
   target: ".copy",
 });
 
@@ -86,5 +86,5 @@ $(document).ajaxSuccess(function () {
 
 import "./asset-search";
 import "./asset-access";
-
+import "./group-assets";
 

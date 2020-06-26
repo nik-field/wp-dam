@@ -86,6 +86,108 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./node_modules/@material/animation/util.js":
+/*!**************************************************!*\
+  !*** ./node_modules/@material/animation/util.js ***!
+  \**************************************************/
+/*! exports provided: getCorrectPropertyName, getCorrectEventName */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCorrectPropertyName", function() { return getCorrectPropertyName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCorrectEventName", function() { return getCorrectEventName; });
+/**
+ * @license
+ * Copyright 2016 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+var cssPropertyNameMap = {
+  animation: {
+    prefixed: '-webkit-animation',
+    standard: 'animation'
+  },
+  transform: {
+    prefixed: '-webkit-transform',
+    standard: 'transform'
+  },
+  transition: {
+    prefixed: '-webkit-transition',
+    standard: 'transition'
+  }
+};
+var jsEventTypeMap = {
+  animationend: {
+    cssProperty: 'animation',
+    prefixed: 'webkitAnimationEnd',
+    standard: 'animationend'
+  },
+  animationiteration: {
+    cssProperty: 'animation',
+    prefixed: 'webkitAnimationIteration',
+    standard: 'animationiteration'
+  },
+  animationstart: {
+    cssProperty: 'animation',
+    prefixed: 'webkitAnimationStart',
+    standard: 'animationstart'
+  },
+  transitionend: {
+    cssProperty: 'transition',
+    prefixed: 'webkitTransitionEnd',
+    standard: 'transitionend'
+  }
+};
+
+function isWindow(windowObj) {
+  return Boolean(windowObj.document) && typeof windowObj.document.createElement === 'function';
+}
+
+function getCorrectPropertyName(windowObj, cssProperty) {
+  if (isWindow(windowObj) && cssProperty in cssPropertyNameMap) {
+    var el = windowObj.document.createElement('div');
+    var _a = cssPropertyNameMap[cssProperty],
+        standard = _a.standard,
+        prefixed = _a.prefixed;
+    var isStandard = (standard in el.style);
+    return isStandard ? standard : prefixed;
+  }
+
+  return cssProperty;
+}
+function getCorrectEventName(windowObj, eventType) {
+  if (isWindow(windowObj) && eventType in jsEventTypeMap) {
+    var el = windowObj.document.createElement('div');
+    var _a = jsEventTypeMap[eventType],
+        standard = _a.standard,
+        prefixed = _a.prefixed,
+        cssProperty = _a.cssProperty;
+    var isStandard = (cssProperty in el.style);
+    return isStandard ? standard : prefixed;
+  }
+
+  return eventType;
+}
+
+/***/ }),
+
 /***/ "./node_modules/@material/base/component.js":
 /*!**************************************************!*\
   !*** ./node_modules/@material/base/component.js ***!
@@ -355,6 +457,659 @@ __webpack_require__.r(__webpack_exports__);
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@material/checkbox/component.js":
+/*!******************************************************!*\
+  !*** ./node_modules/@material/checkbox/component.js ***!
+  \******************************************************/
+/*! exports provided: MDCCheckbox */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MDCCheckbox", function() { return MDCCheckbox; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _material_animation_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @material/animation/util */ "./node_modules/@material/animation/util.js");
+/* harmony import */ var _material_base_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material/base/component */ "./node_modules/@material/base/component.js");
+/* harmony import */ var _material_dom_events__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material/dom/events */ "./node_modules/@material/dom/events.js");
+/* harmony import */ var _material_dom_ponyfill__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material/dom/ponyfill */ "./node_modules/@material/dom/ponyfill.js");
+/* harmony import */ var _material_ripple_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material/ripple/component */ "./node_modules/@material/ripple/component.js");
+/* harmony import */ var _material_ripple_foundation__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material/ripple/foundation */ "./node_modules/@material/ripple/foundation.js");
+/* harmony import */ var _foundation__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./foundation */ "./node_modules/@material/checkbox/foundation.js");
+/**
+ * @license
+ * Copyright 2016 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+
+
+
+
+
+
+
+var CB_PROTO_PROPS = ['checked', 'indeterminate'];
+
+var MDCCheckbox =
+/** @class */
+function (_super) {
+  tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"](MDCCheckbox, _super);
+
+  function MDCCheckbox() {
+    var _this = _super !== null && _super.apply(this, arguments) || this;
+
+    _this.ripple_ = _this.createRipple_();
+    return _this;
+  }
+
+  MDCCheckbox.attachTo = function (root) {
+    return new MDCCheckbox(root);
+  };
+
+  Object.defineProperty(MDCCheckbox.prototype, "ripple", {
+    get: function get() {
+      return this.ripple_;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCCheckbox.prototype, "checked", {
+    get: function get() {
+      return this.nativeControl_.checked;
+    },
+    set: function set(checked) {
+      this.nativeControl_.checked = checked;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCCheckbox.prototype, "indeterminate", {
+    get: function get() {
+      return this.nativeControl_.indeterminate;
+    },
+    set: function set(indeterminate) {
+      this.nativeControl_.indeterminate = indeterminate;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCCheckbox.prototype, "disabled", {
+    get: function get() {
+      return this.nativeControl_.disabled;
+    },
+    set: function set(disabled) {
+      this.foundation_.setDisabled(disabled);
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCCheckbox.prototype, "value", {
+    get: function get() {
+      return this.nativeControl_.value;
+    },
+    set: function set(value) {
+      this.nativeControl_.value = value;
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  MDCCheckbox.prototype.initialSyncWithDOM = function () {
+    var _this = this;
+
+    this.handleChange_ = function () {
+      return _this.foundation_.handleChange();
+    };
+
+    this.handleAnimationEnd_ = function () {
+      return _this.foundation_.handleAnimationEnd();
+    };
+
+    this.nativeControl_.addEventListener('change', this.handleChange_);
+    this.listen(Object(_material_animation_util__WEBPACK_IMPORTED_MODULE_1__["getCorrectEventName"])(window, 'animationend'), this.handleAnimationEnd_);
+    this.installPropertyChangeHooks_();
+  };
+
+  MDCCheckbox.prototype.destroy = function () {
+    this.ripple_.destroy();
+    this.nativeControl_.removeEventListener('change', this.handleChange_);
+    this.unlisten(Object(_material_animation_util__WEBPACK_IMPORTED_MODULE_1__["getCorrectEventName"])(window, 'animationend'), this.handleAnimationEnd_);
+    this.uninstallPropertyChangeHooks_();
+
+    _super.prototype.destroy.call(this);
+  };
+
+  MDCCheckbox.prototype.getDefaultFoundation = function () {
+    var _this = this; // DO NOT INLINE this variable. For backward compatibility, foundations take a Partial<MDCFooAdapter>.
+    // To ensure we don't accidentally omit any methods, we need a separate, strongly typed adapter variable.
+
+
+    var adapter = {
+      addClass: function addClass(className) {
+        return _this.root_.classList.add(className);
+      },
+      forceLayout: function forceLayout() {
+        return _this.root_.offsetWidth;
+      },
+      hasNativeControl: function hasNativeControl() {
+        return !!_this.nativeControl_;
+      },
+      isAttachedToDOM: function isAttachedToDOM() {
+        return Boolean(_this.root_.parentNode);
+      },
+      isChecked: function isChecked() {
+        return _this.checked;
+      },
+      isIndeterminate: function isIndeterminate() {
+        return _this.indeterminate;
+      },
+      removeClass: function removeClass(className) {
+        return _this.root_.classList.remove(className);
+      },
+      removeNativeControlAttr: function removeNativeControlAttr(attr) {
+        return _this.nativeControl_.removeAttribute(attr);
+      },
+      setNativeControlAttr: function setNativeControlAttr(attr, value) {
+        return _this.nativeControl_.setAttribute(attr, value);
+      },
+      setNativeControlDisabled: function setNativeControlDisabled(disabled) {
+        return _this.nativeControl_.disabled = disabled;
+      }
+    };
+    return new _foundation__WEBPACK_IMPORTED_MODULE_7__["MDCCheckboxFoundation"](adapter);
+  };
+
+  MDCCheckbox.prototype.createRipple_ = function () {
+    var _this = this; // DO NOT INLINE this variable. For backward compatibility, foundations take a Partial<MDCFooAdapter>.
+    // To ensure we don't accidentally omit any methods, we need a separate, strongly typed adapter variable.
+
+
+    var adapter = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, _material_ripple_component__WEBPACK_IMPORTED_MODULE_5__["MDCRipple"].createAdapter(this), {
+      deregisterInteractionHandler: function deregisterInteractionHandler(evtType, handler) {
+        return _this.nativeControl_.removeEventListener(evtType, handler, Object(_material_dom_events__WEBPACK_IMPORTED_MODULE_3__["applyPassive"])());
+      },
+      isSurfaceActive: function isSurfaceActive() {
+        return Object(_material_dom_ponyfill__WEBPACK_IMPORTED_MODULE_4__["matches"])(_this.nativeControl_, ':active');
+      },
+      isUnbounded: function isUnbounded() {
+        return true;
+      },
+      registerInteractionHandler: function registerInteractionHandler(evtType, handler) {
+        return _this.nativeControl_.addEventListener(evtType, handler, Object(_material_dom_events__WEBPACK_IMPORTED_MODULE_3__["applyPassive"])());
+      }
+    });
+
+    return new _material_ripple_component__WEBPACK_IMPORTED_MODULE_5__["MDCRipple"](this.root_, new _material_ripple_foundation__WEBPACK_IMPORTED_MODULE_6__["MDCRippleFoundation"](adapter));
+  };
+
+  MDCCheckbox.prototype.installPropertyChangeHooks_ = function () {
+    var _this = this;
+
+    var nativeCb = this.nativeControl_;
+    var cbProto = Object.getPrototypeOf(nativeCb);
+    CB_PROTO_PROPS.forEach(function (controlState) {
+      var desc = Object.getOwnPropertyDescriptor(cbProto, controlState); // We have to check for this descriptor, since some browsers (Safari) don't support its return.
+      // See: https://bugs.webkit.org/show_bug.cgi?id=49739
+
+      if (!validDescriptor(desc)) {
+        return;
+      } // Type cast is needed for compatibility with Closure Compiler.
+
+
+      var nativeGetter = desc.get;
+      var nativeCbDesc = {
+        configurable: desc.configurable,
+        enumerable: desc.enumerable,
+        get: nativeGetter,
+        set: function set(state) {
+          desc.set.call(nativeCb, state);
+
+          _this.foundation_.handleChange();
+        }
+      };
+      Object.defineProperty(nativeCb, controlState, nativeCbDesc);
+    });
+  };
+
+  MDCCheckbox.prototype.uninstallPropertyChangeHooks_ = function () {
+    var nativeCb = this.nativeControl_;
+    var cbProto = Object.getPrototypeOf(nativeCb);
+    CB_PROTO_PROPS.forEach(function (controlState) {
+      var desc = Object.getOwnPropertyDescriptor(cbProto, controlState);
+
+      if (!validDescriptor(desc)) {
+        return;
+      }
+
+      Object.defineProperty(nativeCb, controlState, desc);
+    });
+  };
+
+  Object.defineProperty(MDCCheckbox.prototype, "nativeControl_", {
+    get: function get() {
+      var NATIVE_CONTROL_SELECTOR = _foundation__WEBPACK_IMPORTED_MODULE_7__["MDCCheckboxFoundation"].strings.NATIVE_CONTROL_SELECTOR;
+      var el = this.root_.querySelector(NATIVE_CONTROL_SELECTOR);
+
+      if (!el) {
+        throw new Error("Checkbox component requires a " + NATIVE_CONTROL_SELECTOR + " element");
+      }
+
+      return el;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  return MDCCheckbox;
+}(_material_base_component__WEBPACK_IMPORTED_MODULE_2__["MDCComponent"]);
+
+
+
+function validDescriptor(inputPropDesc) {
+  return !!inputPropDesc && typeof inputPropDesc.set === 'function';
+}
+
+/***/ }),
+
+/***/ "./node_modules/@material/checkbox/constants.js":
+/*!******************************************************!*\
+  !*** ./node_modules/@material/checkbox/constants.js ***!
+  \******************************************************/
+/*! exports provided: cssClasses, strings, numbers */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cssClasses", function() { return cssClasses; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "strings", function() { return strings; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "numbers", function() { return numbers; });
+/**
+ * @license
+ * Copyright 2016 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+var cssClasses = {
+  ANIM_CHECKED_INDETERMINATE: 'mdc-checkbox--anim-checked-indeterminate',
+  ANIM_CHECKED_UNCHECKED: 'mdc-checkbox--anim-checked-unchecked',
+  ANIM_INDETERMINATE_CHECKED: 'mdc-checkbox--anim-indeterminate-checked',
+  ANIM_INDETERMINATE_UNCHECKED: 'mdc-checkbox--anim-indeterminate-unchecked',
+  ANIM_UNCHECKED_CHECKED: 'mdc-checkbox--anim-unchecked-checked',
+  ANIM_UNCHECKED_INDETERMINATE: 'mdc-checkbox--anim-unchecked-indeterminate',
+  BACKGROUND: 'mdc-checkbox__background',
+  CHECKED: 'mdc-checkbox--checked',
+  CHECKMARK: 'mdc-checkbox__checkmark',
+  CHECKMARK_PATH: 'mdc-checkbox__checkmark-path',
+  DISABLED: 'mdc-checkbox--disabled',
+  INDETERMINATE: 'mdc-checkbox--indeterminate',
+  MIXEDMARK: 'mdc-checkbox__mixedmark',
+  NATIVE_CONTROL: 'mdc-checkbox__native-control',
+  ROOT: 'mdc-checkbox',
+  SELECTED: 'mdc-checkbox--selected',
+  UPGRADED: 'mdc-checkbox--upgraded'
+};
+var strings = {
+  ARIA_CHECKED_ATTR: 'aria-checked',
+  ARIA_CHECKED_INDETERMINATE_VALUE: 'mixed',
+  NATIVE_CONTROL_SELECTOR: '.mdc-checkbox__native-control',
+  TRANSITION_STATE_CHECKED: 'checked',
+  TRANSITION_STATE_INDETERMINATE: 'indeterminate',
+  TRANSITION_STATE_INIT: 'init',
+  TRANSITION_STATE_UNCHECKED: 'unchecked'
+};
+var numbers = {
+  ANIM_END_LATCH_MS: 250
+};
+
+/***/ }),
+
+/***/ "./node_modules/@material/checkbox/foundation.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@material/checkbox/foundation.js ***!
+  \*******************************************************/
+/*! exports provided: MDCCheckboxFoundation, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MDCCheckboxFoundation", function() { return MDCCheckboxFoundation; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _material_base_foundation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @material/base/foundation */ "./node_modules/@material/base/foundation.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./constants */ "./node_modules/@material/checkbox/constants.js");
+/**
+ * @license
+ * Copyright 2016 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+
+
+
+var MDCCheckboxFoundation =
+/** @class */
+function (_super) {
+  tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"](MDCCheckboxFoundation, _super);
+
+  function MDCCheckboxFoundation(adapter) {
+    var _this = _super.call(this, tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, MDCCheckboxFoundation.defaultAdapter, adapter)) || this;
+
+    _this.currentCheckState_ = _constants__WEBPACK_IMPORTED_MODULE_2__["strings"].TRANSITION_STATE_INIT;
+    _this.currentAnimationClass_ = '';
+    _this.animEndLatchTimer_ = 0;
+    _this.enableAnimationEndHandler_ = false;
+    return _this;
+  }
+
+  Object.defineProperty(MDCCheckboxFoundation, "cssClasses", {
+    get: function get() {
+      return _constants__WEBPACK_IMPORTED_MODULE_2__["cssClasses"];
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCCheckboxFoundation, "strings", {
+    get: function get() {
+      return _constants__WEBPACK_IMPORTED_MODULE_2__["strings"];
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCCheckboxFoundation, "numbers", {
+    get: function get() {
+      return _constants__WEBPACK_IMPORTED_MODULE_2__["numbers"];
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCCheckboxFoundation, "defaultAdapter", {
+    get: function get() {
+      return {
+        addClass: function addClass() {
+          return undefined;
+        },
+        forceLayout: function forceLayout() {
+          return undefined;
+        },
+        hasNativeControl: function hasNativeControl() {
+          return false;
+        },
+        isAttachedToDOM: function isAttachedToDOM() {
+          return false;
+        },
+        isChecked: function isChecked() {
+          return false;
+        },
+        isIndeterminate: function isIndeterminate() {
+          return false;
+        },
+        removeClass: function removeClass() {
+          return undefined;
+        },
+        removeNativeControlAttr: function removeNativeControlAttr() {
+          return undefined;
+        },
+        setNativeControlAttr: function setNativeControlAttr() {
+          return undefined;
+        },
+        setNativeControlDisabled: function setNativeControlDisabled() {
+          return undefined;
+        }
+      };
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  MDCCheckboxFoundation.prototype.init = function () {
+    this.currentCheckState_ = this.determineCheckState_();
+    this.updateAriaChecked_();
+    this.adapter_.addClass(_constants__WEBPACK_IMPORTED_MODULE_2__["cssClasses"].UPGRADED);
+  };
+
+  MDCCheckboxFoundation.prototype.destroy = function () {
+    clearTimeout(this.animEndLatchTimer_);
+  };
+
+  MDCCheckboxFoundation.prototype.setDisabled = function (disabled) {
+    this.adapter_.setNativeControlDisabled(disabled);
+
+    if (disabled) {
+      this.adapter_.addClass(_constants__WEBPACK_IMPORTED_MODULE_2__["cssClasses"].DISABLED);
+    } else {
+      this.adapter_.removeClass(_constants__WEBPACK_IMPORTED_MODULE_2__["cssClasses"].DISABLED);
+    }
+  };
+  /**
+   * Handles the animationend event for the checkbox
+   */
+
+
+  MDCCheckboxFoundation.prototype.handleAnimationEnd = function () {
+    var _this = this;
+
+    if (!this.enableAnimationEndHandler_) {
+      return;
+    }
+
+    clearTimeout(this.animEndLatchTimer_);
+    this.animEndLatchTimer_ = setTimeout(function () {
+      _this.adapter_.removeClass(_this.currentAnimationClass_);
+
+      _this.enableAnimationEndHandler_ = false;
+    }, _constants__WEBPACK_IMPORTED_MODULE_2__["numbers"].ANIM_END_LATCH_MS);
+  };
+  /**
+   * Handles the change event for the checkbox
+   */
+
+
+  MDCCheckboxFoundation.prototype.handleChange = function () {
+    this.transitionCheckState_();
+  };
+
+  MDCCheckboxFoundation.prototype.transitionCheckState_ = function () {
+    if (!this.adapter_.hasNativeControl()) {
+      return;
+    }
+
+    var oldState = this.currentCheckState_;
+    var newState = this.determineCheckState_();
+
+    if (oldState === newState) {
+      return;
+    }
+
+    this.updateAriaChecked_();
+    var TRANSITION_STATE_UNCHECKED = _constants__WEBPACK_IMPORTED_MODULE_2__["strings"].TRANSITION_STATE_UNCHECKED;
+    var SELECTED = _constants__WEBPACK_IMPORTED_MODULE_2__["cssClasses"].SELECTED;
+
+    if (newState === TRANSITION_STATE_UNCHECKED) {
+      this.adapter_.removeClass(SELECTED);
+    } else {
+      this.adapter_.addClass(SELECTED);
+    } // Check to ensure that there isn't a previously existing animation class, in case for example
+    // the user interacted with the checkbox before the animation was finished.
+
+
+    if (this.currentAnimationClass_.length > 0) {
+      clearTimeout(this.animEndLatchTimer_);
+      this.adapter_.forceLayout();
+      this.adapter_.removeClass(this.currentAnimationClass_);
+    }
+
+    this.currentAnimationClass_ = this.getTransitionAnimationClass_(oldState, newState);
+    this.currentCheckState_ = newState; // Check for parentNode so that animations are only run when the element is attached
+    // to the DOM.
+
+    if (this.adapter_.isAttachedToDOM() && this.currentAnimationClass_.length > 0) {
+      this.adapter_.addClass(this.currentAnimationClass_);
+      this.enableAnimationEndHandler_ = true;
+    }
+  };
+
+  MDCCheckboxFoundation.prototype.determineCheckState_ = function () {
+    var TRANSITION_STATE_INDETERMINATE = _constants__WEBPACK_IMPORTED_MODULE_2__["strings"].TRANSITION_STATE_INDETERMINATE,
+        TRANSITION_STATE_CHECKED = _constants__WEBPACK_IMPORTED_MODULE_2__["strings"].TRANSITION_STATE_CHECKED,
+        TRANSITION_STATE_UNCHECKED = _constants__WEBPACK_IMPORTED_MODULE_2__["strings"].TRANSITION_STATE_UNCHECKED;
+
+    if (this.adapter_.isIndeterminate()) {
+      return TRANSITION_STATE_INDETERMINATE;
+    }
+
+    return this.adapter_.isChecked() ? TRANSITION_STATE_CHECKED : TRANSITION_STATE_UNCHECKED;
+  };
+
+  MDCCheckboxFoundation.prototype.getTransitionAnimationClass_ = function (oldState, newState) {
+    var TRANSITION_STATE_INIT = _constants__WEBPACK_IMPORTED_MODULE_2__["strings"].TRANSITION_STATE_INIT,
+        TRANSITION_STATE_CHECKED = _constants__WEBPACK_IMPORTED_MODULE_2__["strings"].TRANSITION_STATE_CHECKED,
+        TRANSITION_STATE_UNCHECKED = _constants__WEBPACK_IMPORTED_MODULE_2__["strings"].TRANSITION_STATE_UNCHECKED;
+    var _a = MDCCheckboxFoundation.cssClasses,
+        ANIM_UNCHECKED_CHECKED = _a.ANIM_UNCHECKED_CHECKED,
+        ANIM_UNCHECKED_INDETERMINATE = _a.ANIM_UNCHECKED_INDETERMINATE,
+        ANIM_CHECKED_UNCHECKED = _a.ANIM_CHECKED_UNCHECKED,
+        ANIM_CHECKED_INDETERMINATE = _a.ANIM_CHECKED_INDETERMINATE,
+        ANIM_INDETERMINATE_CHECKED = _a.ANIM_INDETERMINATE_CHECKED,
+        ANIM_INDETERMINATE_UNCHECKED = _a.ANIM_INDETERMINATE_UNCHECKED;
+
+    switch (oldState) {
+      case TRANSITION_STATE_INIT:
+        if (newState === TRANSITION_STATE_UNCHECKED) {
+          return '';
+        }
+
+        return newState === TRANSITION_STATE_CHECKED ? ANIM_INDETERMINATE_CHECKED : ANIM_INDETERMINATE_UNCHECKED;
+
+      case TRANSITION_STATE_UNCHECKED:
+        return newState === TRANSITION_STATE_CHECKED ? ANIM_UNCHECKED_CHECKED : ANIM_UNCHECKED_INDETERMINATE;
+
+      case TRANSITION_STATE_CHECKED:
+        return newState === TRANSITION_STATE_UNCHECKED ? ANIM_CHECKED_UNCHECKED : ANIM_CHECKED_INDETERMINATE;
+
+      default:
+        // TRANSITION_STATE_INDETERMINATE
+        return newState === TRANSITION_STATE_CHECKED ? ANIM_INDETERMINATE_CHECKED : ANIM_INDETERMINATE_UNCHECKED;
+    }
+  };
+
+  MDCCheckboxFoundation.prototype.updateAriaChecked_ = function () {
+    // Ensure aria-checked is set to mixed if checkbox is in indeterminate state.
+    if (this.adapter_.isIndeterminate()) {
+      this.adapter_.setNativeControlAttr(_constants__WEBPACK_IMPORTED_MODULE_2__["strings"].ARIA_CHECKED_ATTR, _constants__WEBPACK_IMPORTED_MODULE_2__["strings"].ARIA_CHECKED_INDETERMINATE_VALUE);
+    } else {
+      // The on/off state does not need to keep track of aria-checked, since
+      // the screenreader uses the checked property on the checkbox element.
+      this.adapter_.removeNativeControlAttr(_constants__WEBPACK_IMPORTED_MODULE_2__["strings"].ARIA_CHECKED_ATTR);
+    }
+  };
+
+  return MDCCheckboxFoundation;
+}(_material_base_foundation__WEBPACK_IMPORTED_MODULE_1__["MDCFoundation"]);
+
+ // tslint:disable-next-line:no-default-export Needed for backward compatibility with MDC Web v0.44.0 and earlier.
+
+/* harmony default export */ __webpack_exports__["default"] = (MDCCheckboxFoundation);
+
+/***/ }),
+
+/***/ "./node_modules/@material/checkbox/index.js":
+/*!**************************************************!*\
+  !*** ./node_modules/@material/checkbox/index.js ***!
+  \**************************************************/
+/*! exports provided: MDCCheckbox, cssClasses, strings, numbers, MDCCheckboxFoundation */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./component */ "./node_modules/@material/checkbox/component.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MDCCheckbox", function() { return _component__WEBPACK_IMPORTED_MODULE_0__["MDCCheckbox"]; });
+
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants */ "./node_modules/@material/checkbox/constants.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "cssClasses", function() { return _constants__WEBPACK_IMPORTED_MODULE_1__["cssClasses"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "strings", function() { return _constants__WEBPACK_IMPORTED_MODULE_1__["strings"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "numbers", function() { return _constants__WEBPACK_IMPORTED_MODULE_1__["numbers"]; });
+
+/* harmony import */ var _foundation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./foundation */ "./node_modules/@material/checkbox/foundation.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MDCCheckboxFoundation", function() { return _foundation__WEBPACK_IMPORTED_MODULE_2__["MDCCheckboxFoundation"]; });
+
+/**
+ * @license
+ * Copyright 2019 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 
 
 
@@ -6574,6 +7329,741 @@ function getNormalizedEventCoords(evt, pageOffset, clientRect) {
     y: normalizedY
   };
 }
+
+/***/ }),
+
+/***/ "./node_modules/@material/snackbar/component.js":
+/*!******************************************************!*\
+  !*** ./node_modules/@material/snackbar/component.js ***!
+  \******************************************************/
+/*! exports provided: MDCSnackbar */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MDCSnackbar", function() { return MDCSnackbar; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _material_base_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @material/base/component */ "./node_modules/@material/base/component.js");
+/* harmony import */ var _material_dom_ponyfill__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material/dom/ponyfill */ "./node_modules/@material/dom/ponyfill.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./constants */ "./node_modules/@material/snackbar/constants.js");
+/* harmony import */ var _foundation__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./foundation */ "./node_modules/@material/snackbar/foundation.js");
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./util */ "./node_modules/@material/snackbar/util.js");
+/**
+ * @license
+ * Copyright 2018 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+
+
+
+
+
+var SURFACE_SELECTOR = _constants__WEBPACK_IMPORTED_MODULE_3__["strings"].SURFACE_SELECTOR,
+    LABEL_SELECTOR = _constants__WEBPACK_IMPORTED_MODULE_3__["strings"].LABEL_SELECTOR,
+    ACTION_SELECTOR = _constants__WEBPACK_IMPORTED_MODULE_3__["strings"].ACTION_SELECTOR,
+    DISMISS_SELECTOR = _constants__WEBPACK_IMPORTED_MODULE_3__["strings"].DISMISS_SELECTOR,
+    OPENING_EVENT = _constants__WEBPACK_IMPORTED_MODULE_3__["strings"].OPENING_EVENT,
+    OPENED_EVENT = _constants__WEBPACK_IMPORTED_MODULE_3__["strings"].OPENED_EVENT,
+    CLOSING_EVENT = _constants__WEBPACK_IMPORTED_MODULE_3__["strings"].CLOSING_EVENT,
+    CLOSED_EVENT = _constants__WEBPACK_IMPORTED_MODULE_3__["strings"].CLOSED_EVENT;
+
+var MDCSnackbar =
+/** @class */
+function (_super) {
+  tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"](MDCSnackbar, _super);
+
+  function MDCSnackbar() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  MDCSnackbar.attachTo = function (root) {
+    return new MDCSnackbar(root);
+  };
+
+  MDCSnackbar.prototype.initialize = function (announcerFactory) {
+    if (announcerFactory === void 0) {
+      announcerFactory = function announcerFactory() {
+        return _util__WEBPACK_IMPORTED_MODULE_5__["announce"];
+      };
+    }
+
+    this.announce_ = announcerFactory();
+  };
+
+  MDCSnackbar.prototype.initialSyncWithDOM = function () {
+    var _this = this;
+
+    this.surfaceEl_ = this.root_.querySelector(SURFACE_SELECTOR);
+    this.labelEl_ = this.root_.querySelector(LABEL_SELECTOR);
+    this.actionEl_ = this.root_.querySelector(ACTION_SELECTOR);
+
+    this.handleKeyDown_ = function (evt) {
+      return _this.foundation_.handleKeyDown(evt);
+    };
+
+    this.handleSurfaceClick_ = function (evt) {
+      var target = evt.target;
+
+      if (_this.isActionButton_(target)) {
+        _this.foundation_.handleActionButtonClick(evt);
+      } else if (_this.isActionIcon_(target)) {
+        _this.foundation_.handleActionIconClick(evt);
+      }
+    };
+
+    this.registerKeyDownHandler_(this.handleKeyDown_);
+    this.registerSurfaceClickHandler_(this.handleSurfaceClick_);
+  };
+
+  MDCSnackbar.prototype.destroy = function () {
+    _super.prototype.destroy.call(this);
+
+    this.deregisterKeyDownHandler_(this.handleKeyDown_);
+    this.deregisterSurfaceClickHandler_(this.handleSurfaceClick_);
+  };
+
+  MDCSnackbar.prototype.open = function () {
+    this.foundation_.open();
+  };
+  /**
+   * @param reason Why the snackbar was closed. Value will be passed to CLOSING_EVENT and CLOSED_EVENT via the
+   *     `event.detail.reason` property. Standard values are REASON_ACTION and REASON_DISMISS, but custom
+   *     client-specific values may also be used if desired.
+   */
+
+
+  MDCSnackbar.prototype.close = function (reason) {
+    if (reason === void 0) {
+      reason = '';
+    }
+
+    this.foundation_.close(reason);
+  };
+
+  MDCSnackbar.prototype.getDefaultFoundation = function () {
+    var _this = this; // DO NOT INLINE this variable. For backward compatibility, foundations take a Partial<MDCFooAdapter>.
+    // To ensure we don't accidentally omit any methods, we need a separate, strongly typed adapter variable.
+
+
+    var adapter = {
+      addClass: function addClass(className) {
+        return _this.root_.classList.add(className);
+      },
+      announce: function announce() {
+        return _this.announce_(_this.labelEl_);
+      },
+      notifyClosed: function notifyClosed(reason) {
+        return _this.emit(CLOSED_EVENT, reason ? {
+          reason: reason
+        } : {});
+      },
+      notifyClosing: function notifyClosing(reason) {
+        return _this.emit(CLOSING_EVENT, reason ? {
+          reason: reason
+        } : {});
+      },
+      notifyOpened: function notifyOpened() {
+        return _this.emit(OPENED_EVENT, {});
+      },
+      notifyOpening: function notifyOpening() {
+        return _this.emit(OPENING_EVENT, {});
+      },
+      removeClass: function removeClass(className) {
+        return _this.root_.classList.remove(className);
+      }
+    };
+    return new _foundation__WEBPACK_IMPORTED_MODULE_4__["MDCSnackbarFoundation"](adapter);
+  };
+
+  Object.defineProperty(MDCSnackbar.prototype, "timeoutMs", {
+    get: function get() {
+      return this.foundation_.getTimeoutMs();
+    },
+    set: function set(timeoutMs) {
+      this.foundation_.setTimeoutMs(timeoutMs);
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCSnackbar.prototype, "closeOnEscape", {
+    get: function get() {
+      return this.foundation_.getCloseOnEscape();
+    },
+    set: function set(closeOnEscape) {
+      this.foundation_.setCloseOnEscape(closeOnEscape);
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCSnackbar.prototype, "isOpen", {
+    get: function get() {
+      return this.foundation_.isOpen();
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCSnackbar.prototype, "labelText", {
+    get: function get() {
+      // This property only returns null if the node is a document, DOCTYPE, or notation.
+      // On Element nodes, it always returns a string.
+      return this.labelEl_.textContent;
+    },
+    set: function set(labelText) {
+      this.labelEl_.textContent = labelText;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCSnackbar.prototype, "actionButtonText", {
+    get: function get() {
+      return this.actionEl_.textContent;
+    },
+    set: function set(actionButtonText) {
+      this.actionEl_.textContent = actionButtonText;
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  MDCSnackbar.prototype.registerKeyDownHandler_ = function (handler) {
+    this.listen('keydown', handler);
+  };
+
+  MDCSnackbar.prototype.deregisterKeyDownHandler_ = function (handler) {
+    this.unlisten('keydown', handler);
+  };
+
+  MDCSnackbar.prototype.registerSurfaceClickHandler_ = function (handler) {
+    this.surfaceEl_.addEventListener('click', handler);
+  };
+
+  MDCSnackbar.prototype.deregisterSurfaceClickHandler_ = function (handler) {
+    this.surfaceEl_.removeEventListener('click', handler);
+  };
+
+  MDCSnackbar.prototype.isActionButton_ = function (target) {
+    return Boolean(Object(_material_dom_ponyfill__WEBPACK_IMPORTED_MODULE_2__["closest"])(target, ACTION_SELECTOR));
+  };
+
+  MDCSnackbar.prototype.isActionIcon_ = function (target) {
+    return Boolean(Object(_material_dom_ponyfill__WEBPACK_IMPORTED_MODULE_2__["closest"])(target, DISMISS_SELECTOR));
+  };
+
+  return MDCSnackbar;
+}(_material_base_component__WEBPACK_IMPORTED_MODULE_1__["MDCComponent"]);
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@material/snackbar/constants.js":
+/*!******************************************************!*\
+  !*** ./node_modules/@material/snackbar/constants.js ***!
+  \******************************************************/
+/*! exports provided: cssClasses, strings, numbers */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cssClasses", function() { return cssClasses; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "strings", function() { return strings; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "numbers", function() { return numbers; });
+/**
+ * @license
+ * Copyright 2018 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+var cssClasses = {
+  CLOSING: 'mdc-snackbar--closing',
+  OPEN: 'mdc-snackbar--open',
+  OPENING: 'mdc-snackbar--opening'
+};
+var strings = {
+  ACTION_SELECTOR: '.mdc-snackbar__action',
+  ARIA_LIVE_LABEL_TEXT_ATTR: 'data-mdc-snackbar-label-text',
+  CLOSED_EVENT: 'MDCSnackbar:closed',
+  CLOSING_EVENT: 'MDCSnackbar:closing',
+  DISMISS_SELECTOR: '.mdc-snackbar__dismiss',
+  LABEL_SELECTOR: '.mdc-snackbar__label',
+  OPENED_EVENT: 'MDCSnackbar:opened',
+  OPENING_EVENT: 'MDCSnackbar:opening',
+  REASON_ACTION: 'action',
+  REASON_DISMISS: 'dismiss',
+  SURFACE_SELECTOR: '.mdc-snackbar__surface'
+};
+var numbers = {
+  DEFAULT_AUTO_DISMISS_TIMEOUT_MS: 5000,
+  INDETERMINATE: -1,
+  MAX_AUTO_DISMISS_TIMEOUT_MS: 10000,
+  MIN_AUTO_DISMISS_TIMEOUT_MS: 4000,
+  // These variables need to be kept in sync with the values in _variables.scss.
+  SNACKBAR_ANIMATION_CLOSE_TIME_MS: 75,
+  SNACKBAR_ANIMATION_OPEN_TIME_MS: 150,
+
+  /**
+   * Number of milliseconds to wait between temporarily clearing the label text
+   * in the DOM and subsequently restoring it. This is necessary to force IE 11
+   * to pick up the `aria-live` content change and announce it to the user.
+   */
+  ARIA_LIVE_DELAY_MS: 1000
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@material/snackbar/foundation.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@material/snackbar/foundation.js ***!
+  \*******************************************************/
+/*! exports provided: MDCSnackbarFoundation, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MDCSnackbarFoundation", function() { return MDCSnackbarFoundation; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _material_base_foundation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @material/base/foundation */ "./node_modules/@material/base/foundation.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./constants */ "./node_modules/@material/snackbar/constants.js");
+/**
+ * @license
+ * Copyright 2018 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+
+
+var OPENING = _constants__WEBPACK_IMPORTED_MODULE_2__["cssClasses"].OPENING,
+    OPEN = _constants__WEBPACK_IMPORTED_MODULE_2__["cssClasses"].OPEN,
+    CLOSING = _constants__WEBPACK_IMPORTED_MODULE_2__["cssClasses"].CLOSING;
+var REASON_ACTION = _constants__WEBPACK_IMPORTED_MODULE_2__["strings"].REASON_ACTION,
+    REASON_DISMISS = _constants__WEBPACK_IMPORTED_MODULE_2__["strings"].REASON_DISMISS;
+
+var MDCSnackbarFoundation =
+/** @class */
+function (_super) {
+  tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"](MDCSnackbarFoundation, _super);
+
+  function MDCSnackbarFoundation(adapter) {
+    var _this = _super.call(this, tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, MDCSnackbarFoundation.defaultAdapter, adapter)) || this;
+
+    _this.isOpen_ = false;
+    _this.animationFrame_ = 0;
+    _this.animationTimer_ = 0;
+    _this.autoDismissTimer_ = 0;
+    _this.autoDismissTimeoutMs_ = _constants__WEBPACK_IMPORTED_MODULE_2__["numbers"].DEFAULT_AUTO_DISMISS_TIMEOUT_MS;
+    _this.closeOnEscape_ = true;
+    return _this;
+  }
+
+  Object.defineProperty(MDCSnackbarFoundation, "cssClasses", {
+    get: function get() {
+      return _constants__WEBPACK_IMPORTED_MODULE_2__["cssClasses"];
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCSnackbarFoundation, "strings", {
+    get: function get() {
+      return _constants__WEBPACK_IMPORTED_MODULE_2__["strings"];
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCSnackbarFoundation, "numbers", {
+    get: function get() {
+      return _constants__WEBPACK_IMPORTED_MODULE_2__["numbers"];
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCSnackbarFoundation, "defaultAdapter", {
+    get: function get() {
+      return {
+        addClass: function addClass() {
+          return undefined;
+        },
+        announce: function announce() {
+          return undefined;
+        },
+        notifyClosed: function notifyClosed() {
+          return undefined;
+        },
+        notifyClosing: function notifyClosing() {
+          return undefined;
+        },
+        notifyOpened: function notifyOpened() {
+          return undefined;
+        },
+        notifyOpening: function notifyOpening() {
+          return undefined;
+        },
+        removeClass: function removeClass() {
+          return undefined;
+        }
+      };
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  MDCSnackbarFoundation.prototype.destroy = function () {
+    this.clearAutoDismissTimer_();
+    cancelAnimationFrame(this.animationFrame_);
+    this.animationFrame_ = 0;
+    clearTimeout(this.animationTimer_);
+    this.animationTimer_ = 0;
+    this.adapter_.removeClass(OPENING);
+    this.adapter_.removeClass(OPEN);
+    this.adapter_.removeClass(CLOSING);
+  };
+
+  MDCSnackbarFoundation.prototype.open = function () {
+    var _this = this;
+
+    this.clearAutoDismissTimer_();
+    this.isOpen_ = true;
+    this.adapter_.notifyOpening();
+    this.adapter_.removeClass(CLOSING);
+    this.adapter_.addClass(OPENING);
+    this.adapter_.announce(); // Wait a frame once display is no longer "none", to establish basis for animation
+
+    this.runNextAnimationFrame_(function () {
+      _this.adapter_.addClass(OPEN);
+
+      _this.animationTimer_ = setTimeout(function () {
+        var timeoutMs = _this.getTimeoutMs();
+
+        _this.handleAnimationTimerEnd_();
+
+        _this.adapter_.notifyOpened();
+
+        if (timeoutMs !== _constants__WEBPACK_IMPORTED_MODULE_2__["numbers"].INDETERMINATE) {
+          _this.autoDismissTimer_ = setTimeout(function () {
+            _this.close(REASON_DISMISS);
+          }, timeoutMs);
+        }
+      }, _constants__WEBPACK_IMPORTED_MODULE_2__["numbers"].SNACKBAR_ANIMATION_OPEN_TIME_MS);
+    });
+  };
+  /**
+   * @param reason Why the snackbar was closed. Value will be passed to CLOSING_EVENT and CLOSED_EVENT via the
+   *     `event.detail.reason` property. Standard values are REASON_ACTION and REASON_DISMISS, but custom
+   *     client-specific values may also be used if desired.
+   */
+
+
+  MDCSnackbarFoundation.prototype.close = function (reason) {
+    var _this = this;
+
+    if (reason === void 0) {
+      reason = '';
+    }
+
+    if (!this.isOpen_) {
+      // Avoid redundant close calls (and events), e.g. repeated interactions as the snackbar is animating closed
+      return;
+    }
+
+    cancelAnimationFrame(this.animationFrame_);
+    this.animationFrame_ = 0;
+    this.clearAutoDismissTimer_();
+    this.isOpen_ = false;
+    this.adapter_.notifyClosing(reason);
+    this.adapter_.addClass(_constants__WEBPACK_IMPORTED_MODULE_2__["cssClasses"].CLOSING);
+    this.adapter_.removeClass(_constants__WEBPACK_IMPORTED_MODULE_2__["cssClasses"].OPEN);
+    this.adapter_.removeClass(_constants__WEBPACK_IMPORTED_MODULE_2__["cssClasses"].OPENING);
+    clearTimeout(this.animationTimer_);
+    this.animationTimer_ = setTimeout(function () {
+      _this.handleAnimationTimerEnd_();
+
+      _this.adapter_.notifyClosed(reason);
+    }, _constants__WEBPACK_IMPORTED_MODULE_2__["numbers"].SNACKBAR_ANIMATION_CLOSE_TIME_MS);
+  };
+
+  MDCSnackbarFoundation.prototype.isOpen = function () {
+    return this.isOpen_;
+  };
+
+  MDCSnackbarFoundation.prototype.getTimeoutMs = function () {
+    return this.autoDismissTimeoutMs_;
+  };
+
+  MDCSnackbarFoundation.prototype.setTimeoutMs = function (timeoutMs) {
+    // Use shorter variable names to make the code more readable
+    var minValue = _constants__WEBPACK_IMPORTED_MODULE_2__["numbers"].MIN_AUTO_DISMISS_TIMEOUT_MS;
+    var maxValue = _constants__WEBPACK_IMPORTED_MODULE_2__["numbers"].MAX_AUTO_DISMISS_TIMEOUT_MS;
+    var indeterminateValue = _constants__WEBPACK_IMPORTED_MODULE_2__["numbers"].INDETERMINATE;
+
+    if (timeoutMs === _constants__WEBPACK_IMPORTED_MODULE_2__["numbers"].INDETERMINATE || timeoutMs <= maxValue && timeoutMs >= minValue) {
+      this.autoDismissTimeoutMs_ = timeoutMs;
+    } else {
+      throw new Error("\n        timeoutMs must be an integer in the range " + minValue + "\u2013" + maxValue + "\n        (or " + indeterminateValue + " to disable), but got '" + timeoutMs + "'");
+    }
+  };
+
+  MDCSnackbarFoundation.prototype.getCloseOnEscape = function () {
+    return this.closeOnEscape_;
+  };
+
+  MDCSnackbarFoundation.prototype.setCloseOnEscape = function (closeOnEscape) {
+    this.closeOnEscape_ = closeOnEscape;
+  };
+
+  MDCSnackbarFoundation.prototype.handleKeyDown = function (evt) {
+    var isEscapeKey = evt.key === 'Escape' || evt.keyCode === 27;
+
+    if (isEscapeKey && this.getCloseOnEscape()) {
+      this.close(REASON_DISMISS);
+    }
+  };
+
+  MDCSnackbarFoundation.prototype.handleActionButtonClick = function (_evt) {
+    this.close(REASON_ACTION);
+  };
+
+  MDCSnackbarFoundation.prototype.handleActionIconClick = function (_evt) {
+    this.close(REASON_DISMISS);
+  };
+
+  MDCSnackbarFoundation.prototype.clearAutoDismissTimer_ = function () {
+    clearTimeout(this.autoDismissTimer_);
+    this.autoDismissTimer_ = 0;
+  };
+
+  MDCSnackbarFoundation.prototype.handleAnimationTimerEnd_ = function () {
+    this.animationTimer_ = 0;
+    this.adapter_.removeClass(_constants__WEBPACK_IMPORTED_MODULE_2__["cssClasses"].OPENING);
+    this.adapter_.removeClass(_constants__WEBPACK_IMPORTED_MODULE_2__["cssClasses"].CLOSING);
+  };
+  /**
+   * Runs the given logic on the next animation frame, using setTimeout to factor in Firefox reflow behavior.
+   */
+
+
+  MDCSnackbarFoundation.prototype.runNextAnimationFrame_ = function (callback) {
+    var _this = this;
+
+    cancelAnimationFrame(this.animationFrame_);
+    this.animationFrame_ = requestAnimationFrame(function () {
+      _this.animationFrame_ = 0;
+      clearTimeout(_this.animationTimer_);
+      _this.animationTimer_ = setTimeout(callback, 0);
+    });
+  };
+
+  return MDCSnackbarFoundation;
+}(_material_base_foundation__WEBPACK_IMPORTED_MODULE_1__["MDCFoundation"]);
+
+ // tslint:disable-next-line:no-default-export Needed for backward compatibility with MDC Web v0.44.0 and earlier.
+
+/* harmony default export */ __webpack_exports__["default"] = (MDCSnackbarFoundation);
+
+/***/ }),
+
+/***/ "./node_modules/@material/snackbar/index.js":
+/*!**************************************************!*\
+  !*** ./node_modules/@material/snackbar/index.js ***!
+  \**************************************************/
+/*! exports provided: util, MDCSnackbar, cssClasses, strings, numbers, MDCSnackbarFoundation */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./util */ "./node_modules/@material/snackbar/util.js");
+/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "util", function() { return _util__WEBPACK_IMPORTED_MODULE_0__; });
+/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./component */ "./node_modules/@material/snackbar/component.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MDCSnackbar", function() { return _component__WEBPACK_IMPORTED_MODULE_1__["MDCSnackbar"]; });
+
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./constants */ "./node_modules/@material/snackbar/constants.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "cssClasses", function() { return _constants__WEBPACK_IMPORTED_MODULE_2__["cssClasses"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "strings", function() { return _constants__WEBPACK_IMPORTED_MODULE_2__["strings"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "numbers", function() { return _constants__WEBPACK_IMPORTED_MODULE_2__["numbers"]; });
+
+/* harmony import */ var _foundation__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./foundation */ "./node_modules/@material/snackbar/foundation.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MDCSnackbarFoundation", function() { return _foundation__WEBPACK_IMPORTED_MODULE_3__["MDCSnackbarFoundation"]; });
+
+/**
+ * @license
+ * Copyright 2019 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@material/snackbar/util.js":
+/*!*************************************************!*\
+  !*** ./node_modules/@material/snackbar/util.js ***!
+  \*************************************************/
+/*! exports provided: announce */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "announce", function() { return announce; });
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./node_modules/@material/snackbar/constants.js");
+/**
+ * @license
+ * Copyright 2018 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+var ARIA_LIVE_DELAY_MS = _constants__WEBPACK_IMPORTED_MODULE_0__["numbers"].ARIA_LIVE_DELAY_MS;
+var ARIA_LIVE_LABEL_TEXT_ATTR = _constants__WEBPACK_IMPORTED_MODULE_0__["strings"].ARIA_LIVE_LABEL_TEXT_ATTR;
+
+function announce(ariaEl, labelEl) {
+  if (labelEl === void 0) {
+    labelEl = ariaEl;
+  }
+
+  var priority = ariaEl.getAttribute('aria-live'); // Trim text to ignore `&nbsp;` (see below).
+  // textContent is only null if the node is a document, DOCTYPE, or notation.
+
+  var labelText = labelEl.textContent.trim();
+
+  if (!labelText || !priority) {
+    return;
+  } // Temporarily disable `aria-live` to prevent JAWS+Firefox from announcing the message twice.
+
+
+  ariaEl.setAttribute('aria-live', 'off'); // Temporarily clear `textContent` to force a DOM mutation event that will be detected by screen readers.
+  // `aria-live` elements are only announced when the element's `textContent` *changes*, so snackbars
+  // sent to the browser in the initial HTML response won't be read unless we clear the element's `textContent` first.
+  // Similarly, displaying the same snackbar message twice in a row doesn't trigger a DOM mutation event,
+  // so screen readers won't announce the second message unless we first clear `textContent`.
+  //
+  // We have to clear the label text two different ways to make it work in all browsers and screen readers:
+  //
+  //   1. `textContent = ''` is required for IE11 + JAWS
+  //   2. `innerHTML = '&nbsp;'` is required for Chrome + JAWS and NVDA
+  //
+  // All other browser/screen reader combinations support both methods.
+  //
+  // The wrapper `<span>` visually hides the space character so that it doesn't cause jank when added/removed.
+  // N.B.: Setting `position: absolute`, `opacity: 0`, or `height: 0` prevents Chrome from detecting the DOM change.
+  //
+  // This technique has been tested in:
+  //
+  //   * JAWS 2019:
+  //       - Chrome 70
+  //       - Firefox 60 (ESR)
+  //       - IE 11
+  //   * NVDA 2018:
+  //       - Chrome 70
+  //       - Firefox 60 (ESR)
+  //       - IE 11
+  //   * ChromeVox 53
+
+  labelEl.textContent = '';
+  labelEl.innerHTML = '<span style="display: inline-block; width: 0; height: 1px;">&nbsp;</span>'; // Prevent visual jank by temporarily displaying the label text in the ::before pseudo-element.
+  // CSS generated content is normally announced by screen readers
+  // (except in IE 11; see https://tink.uk/accessibility-support-for-css-generated-content/);
+  // however, `aria-live` is turned off, so this DOM update will be ignored by screen readers.
+
+  labelEl.setAttribute(ARIA_LIVE_LABEL_TEXT_ATTR, labelText);
+  setTimeout(function () {
+    // Allow screen readers to announce changes to the DOM again.
+    ariaEl.setAttribute('aria-live', priority); // Remove the message from the ::before pseudo-element.
+
+    labelEl.removeAttribute(ARIA_LIVE_LABEL_TEXT_ATTR); // Restore the original label text, which will be announced by screen readers.
+
+    labelEl.textContent = labelText;
+  }, ARIA_LIVE_DELAY_MS);
+}
+
+
 
 /***/ }),
 
@@ -16044,6 +17534,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_dialog__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @material/dialog */ "./node_modules/@material/dialog/index.js");
 /* harmony import */ var _material_floating_label_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material/floating-label/index */ "./node_modules/@material/floating-label/index.js");
 
+
+
 var assetSearch = $("#asset-search");
 var searching = $(".loading-spinner");
 var loading = $(".loading-bars");
@@ -16054,6 +17546,9 @@ var exactMessage = "<span class='search-message'>Exact Matches for: </span>";
 var approxMessage = "<span class='search-message'>Approximate Matches for: </span>";
 var index;
 var elastic_results;
+var searchDone = new Event('searchdone', {
+  bubbles: true
+});
 
 function ajaxExec() {
   var data = {
@@ -16166,10 +17661,14 @@ function ajaxExec() {
           loading.show();
           allDocs();
           results.prepend('<span class="sort-label">Sorted by: </span>' + '<span class="sort-order">Most Recent</span>');
+
+          if (window.location.pathname !== '/share/') {
+            document.getElementById("search-results").dispatchEvent(searchDone);
+          }
         }
 
         var delay = 0;
-        $("#search-results").children("article").each(function () {
+        $("#search-results").children("article").each(function (index) {
           $(this).delay(delay).fadeToggle();
           delay += 100;
         });
@@ -16188,8 +17687,6 @@ searchForm.submit(function (e) {
   searching.show();
   ajaxExec();
 });
-
-
 var assetDialog = new _material_dialog__WEBPACK_IMPORTED_MODULE_1__["MDCDialog"](document.querySelector(".dam-asset-dialog"));
 $(".site-main").on("click", ".open-dialog", function () {
   var asset = $(this).closest("article").attr("asset-id");
@@ -16230,6 +17727,103 @@ createDialog();
 
 /***/ }),
 
+/***/ "./src/js/group-assets.js":
+/*!********************************!*\
+  !*** ./src/js/group-assets.js ***!
+  \********************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _material_checkbox__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @material/checkbox */ "./node_modules/@material/checkbox/index.js");
+/* harmony import */ var _material_snackbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @material/snackbar */ "./node_modules/@material/snackbar/index.js");
+/* harmony import */ var _material_menu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material/menu */ "./node_modules/@material/menu/index.js");
+
+
+
+
+if (window.location.pathname !== '/share/') {
+  var groupMenu;
+  var snackbar = new _material_snackbar__WEBPACK_IMPORTED_MODULE_1__["MDCSnackbar"](document.querySelector('.mdc-snackbar'));
+  snackbar.timeoutMs = -1;
+  var snackbarAction = snackbar.root_.querySelector('.mdc-snackbar__action');
+  var checkboxGroup;
+  var groupAssetButton = document.querySelector('.dam-group-asset__button');
+  document.getElementById("search-results").addEventListener('searchdone', function (e) {
+    checkboxGroup = [].map.call(document.querySelectorAll(".group-asset__checkbox"), function (el) {
+      return new _material_checkbox__WEBPACK_IMPORTED_MODULE_0__["MDCCheckbox"](el);
+    });
+    groupMenu = new _material_menu__WEBPACK_IMPORTED_MODULE_2__["MDCMenu"](document.querySelector('.group-asset__menu'));
+    var assetCards = document.querySelector("#search-results");
+    var selectedAssets = [];
+
+    function snackbarChangeHandler() {
+      if (selectedAssets.length >= 1) {
+        var selected = selectedAssets.length;
+        snackbar.labelText = 'There' + (selected !== 1 ? " are ".concat(selected, " assets ") : " is ".concat(selected, " asset ")) + 'selected. Do you want to copy a link to them?';
+        snackbar.actionButtonText = 'Copy';
+        groupAssetButton.classList.add("copy");
+        snackbarAction.classList.add("copy");
+        snackbarAction.setAttribute("data-clipboard-text", $homeUrl + '/share/?id=' + selectedAssets.join('+'));
+        groupAssetButton.setAttribute("data-clipboard-text", $homeUrl + '/share/?id=' + selectedAssets.join('+'));
+        var ripple = document.createElement("div");
+        ripple.classList.add("mdc-button__ripple");
+        snackbarAction.append(ripple);
+        debugger;
+      } else if (selectedAssets.length == 0) {
+        snackbar.labelText = 'No assets selected! Use the checkboxes on asset cards to select them.';
+        snackbar.actionButtonText = 'Show Me';
+        var ripple = document.createElement("div");
+        ripple.classList.add("mdc-button__ripple");
+        groupAssetButton.classList.remove("copy");
+        snackbarAction.classList.remove("copy");
+        snackbarAction.setAttribute("data-clipboard-text", "No assets were selected");
+        groupAssetButton.setAttribute("data-clipboard-text", "No assets were selected");
+        snackbarAction.append(ripple);
+      }
+    }
+
+    assetCards.addEventListener('change', function (e) {
+      if (e.target.checked) {
+        selectedAssets.push(e.target.value);
+        console.log(selectedAssets);
+        snackbarChangeHandler();
+        debugger;
+
+        if (!snackbar.isOpen) {
+          snackbar.open();
+        }
+      } else {
+        selectedAssets = selectedAssets.filter(function (value) {
+          return value !== e.target.value;
+        });
+        console.log(selectedAssets);
+        snackbarChangeHandler();
+      }
+    });
+    groupAssetButton.addEventListener('click', function (e) {
+      snackbar.open();
+      checkboxGroup.forEach(function (element) {
+        element.ripple_.activate();
+        element.ripple_.deactivate();
+      });
+      snackbar.listen('MDCSnackbar:opened', snackbarChangeHandler());
+    });
+    snackbar.listen('MDCSnackbar:closing', function (e) {
+      if (e.detail.reason === 'action') {
+        snackbar.open();
+        checkboxGroup.forEach(function (element) {
+          element.ripple_.activate();
+          element.ripple_.deactivate();
+        });
+      }
+    });
+  });
+}
+
+/***/ }),
+
 /***/ "./src/js/webapp.js":
 /*!**************************!*\
   !*** ./src/js/webapp.js ***!
@@ -16251,6 +17845,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _asset_search__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./asset-search */ "./src/js/asset-search.js");
 /* harmony import */ var _asset_access__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./asset-access */ "./src/js/asset-access.js");
 /* harmony import */ var _asset_access__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_asset_access__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _group_assets__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./group-assets */ "./src/js/group-assets.js");
 
 /*=============================================
 =            Include Ripple Effect            =
@@ -16293,7 +17888,7 @@ var formFields = [].map.call(document.querySelectorAll(".mdc-form-field"), funct
 new clipboard__WEBPACK_IMPORTED_MODULE_4___default.a(".copy");
 
 
-Object(tippy_js__WEBPACK_IMPORTED_MODULE_5__["delegate"])(".site-main, .mdc-dialog", {
+Object(tippy_js__WEBPACK_IMPORTED_MODULE_5__["delegate"])(".site-main, .mdc-dialog, .mdc-snackbar, #dam-floating-actions", {
   target: ".copy"
 });
 tippy_js__WEBPACK_IMPORTED_MODULE_5__["default"].setDefaultProps({
@@ -16318,6 +17913,7 @@ $(document).ajaxSuccess(function () {
     menu.setAnchorCorner(_material_menu__WEBPACK_IMPORTED_MODULE_6__["Corner"].BOTTOM_RIGHT);
   });
 });
+
 
 
 

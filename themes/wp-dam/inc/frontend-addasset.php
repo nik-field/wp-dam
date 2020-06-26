@@ -1,10 +1,3 @@
-<div id="dam-floating-actions">
-    <button class="mdc-fab mdc-ripple dam-add-asset__button" aria-label="Add New Asset">
-        <div class="mdc-fab__ripple"></div>
-        <span class="mdc-fab__icon material-icons">add</span>
-    </button>
-</div>
-
 <div class="dam-add-asset-dialog mdc-dialog">
     <div class="mdc-dialog__scrim"></div>
     <div class="mdc-dialog__container">

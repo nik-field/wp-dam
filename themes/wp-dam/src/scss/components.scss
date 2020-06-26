@@ -184,11 +184,21 @@
 
 #dam-floating-actions {
   position: fixed;
-  bottom: 25px;
-  right: 25px;
-  z-index: 999;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
+  align-content: end;
+  flex-direction: column;
+  z-index: 2;
   .mdc-fab {
     @include mdc-fab-container-color($primary);
+    margin-left: 1em;
+    margin-top: 1em;
+  }
+  @media (min-width: 592px) {
+    flex-direction: row;
   }
 }
 
@@ -335,4 +345,35 @@
     max-width: 60%;
     min-width: 592px;
   }
+}
+
+.group-asset__checkbox {
+  visibility: visible;
+}
+.mdc-snackbar {
+  @include mdc-snackbar-fill-color($darkgreen);
+  @include mdc-snackbar-label-ink-color($white);
+  .mdc-button {
+    @include mdc-button-ink-color($primary);
+  }
+  .mdc-icon-button {
+    @include mdc-icon-button-ink-color($white);
+  }
+}
+
+.asset-selected::before {
+  align-items: center;
+  background-color: $primary;
+  border-radius: 3px;
+  color: $yellow;
+  content: "check";
+  display: grid;
+  font-family: "Material Icons";
+  font-size: 6rem;
+  height: 100%;
+  justify-content: center;
+  opacity: 0.4;
+  position: absolute;
+  width: 100%;
+  z-index: 999;
 }

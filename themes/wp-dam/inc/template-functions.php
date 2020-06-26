@@ -42,6 +42,109 @@ function wp_dam_pingback_header()
 
 add_action('wp_head', 'wp_dam_pingback_header');
 
+function wp_dam_login_logo()
+{ ?>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karla:400,400i,700|Varela+Round&display=swap" type="text/css" media="all">
+	<style type="text/css">
+		body {
+			background: #48bf91 !important;
+			font-family: Karla, sans-serif !important;
+			font-weight: 400;
+			-moz-osx-font-smoothing: grayscale;
+		}
+
+		p a {
+			color: #f3f7f5 !important;
+		}
+
+		.login form {
+			border: unset !important;
+			box-shadow: unset !important;
+			background: #48bf91 !important;
+			margin-top: 0 !important;
+		}
+
+		label {
+			color: #fff;
+			font-size: 16px !important;
+			font-family: Karla, sans-serif !important;
+		}
+
+		#user_login,
+		#user_pass {
+			min-height: 48px;
+			padding: 0.1875rem 1rem !important;
+			min-height: 56px;
+			background-color: #73cdab !important;
+			border: none !important;
+			border-radius: 3px 3px 0 0 !important;
+			color: #fff;
+			font-size: 16px;
+			font-family: Karla, sans-serif !important;
+			transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+		}
+
+		#user_login:focus,
+		#user_pass:focus {
+			box-shadow: 0 0 0 2px #f3f7f5 !important;
+			border-radius: 3px 3px 0 0 !important;
+
+		}
+
+		#wp-submit {
+			font-family: Karla, sans-serif !important;
+			font-weight: 400 !important;
+			text-transform: uppercase;
+			background-color: #247ba0 !important;
+			letter-spacing: 1.25px;
+			border-width: 0;
+			box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+			transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+
+		}
+
+		#wp-submit:hover {
+			box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12) !important;
+		}
+
+		#wp-submit:active {
+			box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12) !important;
+		}
+
+		.login form input[type="checkbox"] {
+			background: transparent !important;
+			border: 1px solid #f3f7f5 !important;
+			box-shadow: none !important;
+			border-radius: 2px !important;
+		}
+
+		.login form input[type="checkbox"]:checked {
+			background: #247ba0 !important;
+			border: 1px solid #247ba0 !important;
+			color: #f3f7f5 !important;
+		}
+
+		.login form input[type="checkbox"]:checked:before {
+			content: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiIHdpZHRoPSIxOHB4IiBoZWlnaHQ9IjE4cHgiPjxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNOSAxNi4xN0w0LjgzIDEybC0xLjQyIDEuNDFMOSAxOSAyMSA3bC0xLjQxLTEuNDF6Ii8+PC9zdmc+");
+		}
+
+		.forgetmenot label {
+			font-size: 14px !important;
+		}
+
+		#login h1 a,
+		.login h1 a {
+			background-image: url("<?php echo get_template_directory_uri() . "/dist/assets/dam_full_logo.svg" ?>");
+			height: 80px;
+			width: unset;
+			background-size: unset;
+			background-repeat: no-repeat;
+			padding-bottom: 10px;
+		}
+	</style>
+	<?php }
+add_action('login_enqueue_scripts', 'wp_dam_login_logo');
+
 function damQuery($property)
 {
 	if ($property == 'assets') {
@@ -263,8 +366,7 @@ function delete_video_thumb($post_id)
 	}
 }
 
-function get_artist_project($post_id)
-{
+function get_artist_project( $post_id ) {
 	$term_objects   = wp_get_post_terms($post_id, 'artist_project');
 	$artist_project = array();
 	foreach ($term_objects as $term_object) {
@@ -347,7 +449,7 @@ function asset_download_callback()
 		$download_link     = get_asset_url();
 		$attached_media = get_attached_media('');
 		$attachment        = reset($attached_media);
-		$download_path     = get_attached_file($attachment->ID);
+		$download_path     = get_attached_file($attachment->ID) ? get_attached_file($attachment->ID) : false;
 		$download_filename = get_asset_url(true);
 		$download_format   = get_asset_format();
 		$download_mime     = get_asset_file_type('mime');
@@ -382,6 +484,29 @@ function download_url_handler()
 {
 	add_rewrite_rule('download/([^/]*)$', 'wp-content/themes/wp-dam/download.php?id=$1', 'top');
 }
+// add_action('wp-loaded', 'artist_project_handler');
+// function artist_project_handler() {
+// 	add_rewrite_rule('/([^/]*)$', 'artist_project/$1', 'top');
+// }
+
+function add_share_page()
+{
+	$check_page_exist = get_page_by_title('share', 'OBJECT', 'page');
+	if(empty($check_page_exist)) {
+		$share_page_args = array(
+			'comment_status' => 'close',
+			'ping_status'    => 'close',
+			'post_author'    => 1,
+			'post_title'     => 'Share',
+			'post_name'      => 'share',
+			'post_status'    => 'publish',
+			'post_type'      => 'page',
+			'page_template'  => 'page-share.php',
+		);
+		wp_insert_post($share_page_args);
+	}
+}
+
 
 
 add_action('after_setup_theme', 'theme_setup');
@@ -393,11 +518,14 @@ add_action('after_setup_theme', 'theme_setup');
 function theme_setup()
 {
 	download_url_handler();
+	add_share_page();
 	require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "/wp-admin/includes/misc.php");
 	if (function_exists('save_mod_rewrite_rules')) {
 		save_mod_rewrite_rules();
 	}
 	// $update_required = ( $new_rules !== $existing_rules );
+
+	
 	if (!get_option('acme_cleared_widgets')) {
 
 		update_option('sidebars_widgets', array());
@@ -414,7 +542,7 @@ function wp_dam_artist_user_extra_field($user)
 		if (null !== get_the_author_meta('allow_access_to', $user->ID)) {
 			$selected = intval(get_the_author_meta('allow_access_to', $user->ID));
 		}
-?>
+	?>
 		<h3>Allow Access To Specific Artist</h3>
 		<table class="form-table">
 			<tr>
@@ -458,6 +586,16 @@ function wp_dam_artist_redirect()
 	}
 }
 add_action('template_redirect', 'wp_dam_artist_redirect');
+
+function wp_dam_force_login()
+{
+	global $wp;
+	if (!is_user_logged_in() && $wp->request != "share" && $_SERVER['PHP_SELF']  !== "/wp-login.php") {
+		wp_redirect(home_url('/wp-login.php'));
+		die;
+	}
+}
+add_action('parse_request', 'wp_dam_force_login');
 
 function save_wp_dam_artist_user_extra_field($user_id)
 {

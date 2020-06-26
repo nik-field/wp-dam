@@ -3,10 +3,25 @@
     <div class="large-asset-card large-asset-basic-with-header">
         <div class="large-asset-card__content">
             <div class="large-asset-card__primary">
-                {{if is_link }}<a href="{{permalink}}">{{/if}}<h2 class="large-asset-card__title mdc-typography mdc-typography--headline4 {{if is_not_link}}open-dialog{{/if}}">{{ title }}</h2>{{if is_link }}</a>{{/if}}
-                <div class="entry-meta large-asset-card__subtitle mdc-typography mdc-typography--subtitle2">
-                    added on {{ displaydate }}
-                </div>
+                {{if is_link }}<a href="{{permalink}}">{{/if}}
+                    <h2 class="large-asset-card__title mdc-typography mdc-typography--headline4 {{if is_not_link}}open-dialog{{/if}}">{{ title }}</h2>{{if is_link }}
+                </a>{{/if}}
+                <?php if (is_user_logged_in()) { ?>
+                    <div class="mdc-form-field">
+                        <div class="mdc-touch-target-wrapper">
+                            <div class="mdc-checkbox mdc-checkbox--touch group-asset__checkbox">
+                                <input form="group-asset-form" value="{{id}}" type="checkbox" class="mdc-checkbox__native-control group-asset__checkbox-input" id="checkbox-{{id}}" />
+                                <div class="mdc-checkbox__background">
+                                    <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+                                        <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" />
+                                    </svg>
+                                    <div class="mdc-checkbox__mixedmark"></div>
+                                </div>
+                                <div class="mdc-checkbox__ripple"></div>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
             {{ if is_not_link}}
             {{ if is_image }}
@@ -37,49 +52,54 @@
                         </i>
                         <i class="asset-file-info__item"><span class="asset-file-info__item--label">Project:</span>
                             <span class="asset-file-info--typography">{{ project }}
-                </span>
+                            </span>
                         </i>
                         <i class="asset-file-info__item"><span class="asset-file-info__item--label">Creator:</span>
                             <span class="asset-file-info--typography">
-				{{creator}}
-                </span>
+                                {{creator}}
+                            </span>
                         </i>
                         {{if is_not_link}}
                         <i class="asset-file-info__item"><span class="asset-file-info__item--label">File Type:</span>
                             <span class="asset-file-info--typography">
-				{{filetype}}
-                </span>
+                                {{filetype}}
+                            </span>
                         </i>
                         <i class="asset-file-info__item"><span class="asset-file-info__item--label">File Size:</span>
                             <span class="asset-file-info--typography">
-				{{filesize}}
-                </span>
+                                {{filesize}}
+                            </span>
                         </i>
                         {{/if}}
                         {{if is_image}} {{if dimensions}}
                         <i class="asset-file-info__item"><span class="asset-file-info__item--label">Dimensions:</span>
                             <span class="asset-file-info--typography">
-				{{dimensions}}
-                </span>
+                                {{dimensions}}
+                            </span>
                         </i>{{/if}}{{/if}}
                         {{if is_video}}
                         <i class="asset-file-info__item"><span class="asset-file-info__item--label">Dimensions:</span>
                             <span class="asset-file-info--typography">
-				{{dimensions}}
-                </span>
+                                {{dimensions}}
+                            </span>
                         </i>{{/if}}
                         <i class="asset-file-info__item"><span class="asset-file-info__item--label">Tags:</span>
                             <span class="asset-file-info--typography">
-					{{tags}}
-                    </span>
+                                {{tags}}
+                            </span>
                         </i>
                         {{if duration}}
                         <i class="asset-file-info__item"><span class="asset-file-info__item--label">Duration:</span>
                             <span class="asset-file-info--typography">
-					{{duration}}
-                    </span>
+                                {{duration}}
+                            </span>
                         </i>
                         {{/if}}
+                        <i class="asset-file-info__item"><span class="asset-file-info__item--label">Added:</span>
+                            <span class="asset-file-info--typography">
+                                {{displaydate}}
+                            </span>
+                        </i>
                     </div>
                 </div>
                 <div class="large-asset-card__actions mdc-card__actions">
@@ -95,7 +115,7 @@
 
                         <div class="card-menu-container">
 
-                                <div class="mdc-menu-surface--anchor">
+                            <div class="mdc-menu-surface--anchor">
                                 <button class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon--unbounded mdc-menu-toggle" title="More options" data-mdc-ripple-is-unbounded="false">more_vert</button>
                                 <div class="mdc-menu mdc-menu-surface mdc-card-menu mdc-card-menu-surface" data-toggle="collapse" tabindex="-1" style="transform-origin: center bottom 0px; left: 0px; bottom: 0px; max-height: 900.8px;">
                                     <ul class="mdc-list" role="menu" aria-hidden="true">
@@ -105,11 +125,11 @@
                                         {{/if}}
                                         <a href="mailto:?subject={{title}}&body={{permalink}}" class="mdc-list-item mdc-ripple" role="menuitem" tabindex="-1">Send in email</a>
                                         <?php if (is_user_logged_in() && current_user_can('edit_posts')) : ?>
-                                        <a href="<?php echo get_site_url(); ?>/wp-admin/post.php?post={{id}}&action=edit" class="mdc-list-item mdc-ripple" role="menuitem" tabindex="-1">Edit Details</a>
+                                            <a href="<?php echo get_site_url(); ?>/wp-admin/post.php?post={{id}}&action=edit" class="mdc-list-item mdc-ripple" role="menuitem" tabindex="-1">Edit Details</a>
                                         <?php endif; ?>
                                     </ul>
                                 </div>
-                                </div>
+                            </div>
                         </div>
 
 

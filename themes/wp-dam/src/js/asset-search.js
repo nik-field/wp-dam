@@ -1,4 +1,7 @@
 import { Corner, MDCMenu } from "@material/menu";
+import { MDCDialog } from "@material/dialog";
+import { MDCFloatingLabel } from "@material/floating-label/index";
+
 
 var assetSearch = $("#asset-search");
 
@@ -15,6 +18,7 @@ var approxMessage = "<span class='search-message'>Approximate Matches for: </spa
 
 var index;
 var elastic_results;
+var searchDone = new Event('searchdone', { bubbles: true });
 
 function ajaxExec() {
   var data = {
@@ -134,6 +138,7 @@ function ajaxExec() {
               .hide();
 
           }
+
         } else {
           loading.show();
           allDocs();
@@ -141,15 +146,20 @@ function ajaxExec() {
             '<span class="sort-label">Sorted by: </span>' +
             '<span class="sort-order">Most Recent</span>'
           );
+
+          if (window.location.pathname !== '/share/') {
+            document.getElementById("search-results").dispatchEvent(searchDone);
+          }
         }
         var delay = 0;
         $("#search-results")
           .children("article")
-          .each(function () {
+          .each(function (index) {
             $(this)
               .delay(delay)
               .fadeToggle();
             delay += 100;
+
           });
         searching.hide();
         loading.hide();
@@ -168,8 +178,7 @@ searchForm.submit(function (e) {
   ajaxExec();
 });
 
-import { MDCDialog } from "@material/dialog";
-import { MDCFloatingLabel } from "@material/floating-label/index";
+
 
 const assetDialog = new MDCDialog(document.querySelector(".dam-asset-dialog"));
 
@@ -212,3 +221,4 @@ function dialogOpen() {
 }
 
 createDialog();
+

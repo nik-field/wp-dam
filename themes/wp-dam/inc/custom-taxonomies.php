@@ -33,7 +33,10 @@
 			'show_in_nav_menus' => true,
 			'show_tagcloud'     => true,
 			'show_in_rest'      => true,
-			'rewrite'           => array( 'slug' => '/', 'with_front' => false )
+			'rewrite'           => array(
+				'slug'       => '/assets',
+				'with_front' => false,
+			),
 		);
 		register_taxonomy( 'artist_project', array( 'asset' ), $args );
 
