@@ -168,13 +168,13 @@ function wp_dam_scripts()
 
 	wp_enqueue_script('wp-dam-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true);
 
-	if (is_user_logged_in() && current_user_can('edit_posts')) {
-		wp_enqueue_script('wp-dam-frontend-addasset', get_template_directory_uri() . '/dist/scripts/frontend-addasset-min.js', array('wp-dam-js'), date("H:i:s"), true);
-		wp_enqueue_style('frontend-media-uploader', get_template_directory_uri() . '/dist/css/frontend-media-uploader.css', array('wp-dam-style'), date("H:i:s"));
-		// wp_enqueue_script('plupload-handlers');
-		wp_enqueue_media();
-		// wp_localize_script('wp-dam-frontend-addasset', 'ajax_url', admin_url('admin-ajax.php'));
-	}
+	// if (is_user_logged_in() && current_user_can('edit_posts')) {
+	// 	wp_enqueue_script('wp-dam-frontend-addasset', get_template_directory_uri() . '/dist/scripts/frontend-addasset-min.js', array('wp-dam-js'), date("H:i:s"), true);
+	// 	wp_enqueue_style('frontend-media-uploader', get_template_directory_uri() . '/dist/css/frontend-media-uploader.css', array('wp-dam-style'), date("H:i:s"));
+
+	// 	wp_enqueue_media();
+
+	// }
 
 	if (is_singular() && comments_open() && get_option('thread_comments')) {
 		wp_enqueue_script('comment-reply');
