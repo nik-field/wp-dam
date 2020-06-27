@@ -115,20 +115,31 @@ get_header();
 		</main><!-- #main -->
 	</div>
 </div><!-- #primary -->
+<?php if (is_user_logged_in() && current_user_can('edit_posts')) {
+	?>
+	<div id="dam-floating-actions">
+	<button class="mdc-fab mdc-ripple dam-group-asset__button" aria-label="Group Assets For Sharing">
+        <div class="mdc-fab__ripple"></div>
+        <span class="mdc-fab__icon material-icons">dynamic_feed</span>
+    </button>
+    <!-- <button class="mdc-fab mdc-ripple dam-add-asset__button" aria-label="Add New Asset">
+        <div class="mdc-fab__ripple"></div>
+        <span class="mdc-fab__icon material-icons">add</span>
+	</button> -->
+	
+</div>
 <?php
-if (is_user_logged_in() && current_user_can('edit_posts')) {
-
-	require get_template_directory() . '/inc/frontend-addasset.php';
-}
-?>
-<?php $artist = get_queried_object();
+	//require get_template_directory() . '/inc/frontend-addasset.php';
+	require get_template_directory() . '/inc/group-assets.php';
+} 
+$artist = get_queried_object();
 if (!empty($_GET["project"])) {
 	$project_slug = $_GET["project"];
 }
 ?>
 <script id="definitions" type="text/javascript">
 	var $artist = "<?php echo $artist->slug; ?>";
-	var $project = "<?php echo $project_slug; ?>";
+	var $project = "<?php echo isset( $project_slug ) ? $project_slug : null; ?>";
 </script>
 <?php
 get_footer();
