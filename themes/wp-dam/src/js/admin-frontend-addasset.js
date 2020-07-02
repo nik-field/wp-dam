@@ -1,7 +1,7 @@
 /*
 
 * Grouping Assets For Sharing *
-  // TODO: [feat] Checkbox on cards and button to copy link that will show you all of them as a single query
+  // DONE: [feat] Checkbox on cards and button to copy link that will show you all of them as a single query
 
 * Frontend Add Assets *
   // TODO: [feat] Project Type/Year labels and menu options
@@ -12,9 +12,14 @@
   // TODO: [feat] More hidden fields for attachment data (attachment ID, upload_dir/file_path,)
   // TODO: [feat] Construct wp_insert_post from form _POST data
 
+* Thumbnails *
+  // TODO: [feat] Redo how thumbnails are displayed. Every thumb can have a background of grey, a background-image, and an icon. If there's no image (ex. docx) then just icon shows.
 
 * Frontend Edit Tags *
   // TODO: [feat] Tags: Just make them editable on the card by clicking them. Convert div to input and validate.
+
+* Sidebar *
+  // TODO: [feat] Sort Projects by Year with Current year expanded
 
 */
 
@@ -32,57 +37,9 @@ function count() {
   counter++;
 }
 
-/* ------------------------- Variable Instantiation ------------------------- */
-
-var addAssetDialog = new MDCDialog(document.querySelector(".dam-add-asset-dialog"));
-var addAssetFormEl = document.getElementById("frontend_add_asset_form");
-var addAssetSidebar = document.getElementById("add-asset__sidebar");
-
-var addAssetTitle = new MDCTextField(document.querySelector(".add-asset-title-input"));
-
-var formatRadios = [].map.call(document.querySelectorAll(".mdc-radio"), function (el) { return new MDCRadio(el); });
-
-var uploadButton = document.querySelector("#upload_button");
-var uploadFileInput = document.querySelector("#upload_file");
-var previewImageEl = document.querySelector(".add-asset__preview-image");
-var previewContainerEl = document.querySelector(".add-asset__preview");
-var previewAreaEl = document.querySelector(".add-asset__main");
-
-var artistSelect = new MDCSelect(document.querySelector(".add-asset__category--artist"));
-var artistSelectHelperText = new MDCSelectHelperText(document.querySelector('.add-asset__new-artist--helper-text'));
-var artistSelectInput = document.getElementById("add-asset__category--artist-input");
-var artistSelectMenuEl = document.querySelector(".add-asset__category--artist-select");
-
-var cancelArtistHelperText = new MDCTextFieldHelperText(document.querySelector('.add-asset__cancel-artist--helper-text'));
-var cancelProjectHelperText = new MDCTextFieldHelperText(document.querySelector('.add-asset__cancel-project--helper-text'));
-
-var newArtistField = new MDCTextField(document.querySelector('.add-asset__new-artist--field'));
-var newArtistForm = document.getElementById('add-asset__new-artist--container');
-
-var newProjectField = new MDCTextField(document.querySelector('.add-asset__new-project--field'));
-var newProjectForm = document.getElementById('add-asset__new-project--container');
-var newProjectType = new MDCSelect(document.querySelector(".add-asset__new-project--type"));
-var newProjectYear = new MDCSelect(document.querySelector(".add-asset__new-project--year"));
-var projectSelect = new MDCSelect(document.querySelector(".add-asset__category--project"));
-var projectSelectHelperText = new MDCSelectHelperText(document.querySelector('.add-asset__new-project--helper-text'));
-var projectSelectList = document.querySelector("#project_select_list");
-var projectsMenu = projectSelect.menu_;
-
-/* -------------------------------------------------------------------------- */
-/*                                   ACTIONS                                  */
-/* -------------------------------------------------------------------------- */
-
-$(".dam-add-asset__button").on("click", function () {
-  addAssetDialog.open();
-
-});
-
-
-/* -------------------------------------------------------------------------- */
-/*                               FORM VALIDATION                              */
-/* -------------------------------------------------------------------------- */
-
-var changeEvent = new Event('change', { bubbles: true });
+var addAssetTemplate = document.getElementById("tpl-add-asset-dialog").innerHTML;
+var addAssetDialogHTML = template.render(addAssetTemplate);
+$('.mdc-dialog__content').append(addAssetDialogHTML);
 
 function checkSaveButton() {
   if (addAssetFormEl.checkValidity() === true) {
@@ -92,140 +49,368 @@ function checkSaveButton() {
   }
 }
 
+/* ------------------------- Variable Instantiation ------------------------- */
+var wasEscaped = false;
+var addAssetFormEl, addAssetSidebar, addAssetTitle, artistSelect, artistSelectHelperText, artistSelectInput, artistSelectMenuEl, cancelArtistHelperText, cancelProjectHelperText, creatorField, currentPreviewEl, formatRadios, linkField, newArtistField, newArtistForm, newProjectField, newProjectForm, newProjectType, newProjectTypeInput, newProjectYear, newProjectYearInput, previewAreaEl, previewAudioEl, previewContainerEl, previewDocEl, previewImageEl, previewThumbEl, previewVideoEl, previewZipEl, projectSelect, projectSelectHelperText, projectSelectList, projectsMenu, uploadButton, uploadEditButton, uploadFileUrlInput, uploadFileIDInput;
+function initialization() {
 
-addAssetFormEl.addEventListener('change', (e) => {
-  checkSaveButton();
-  if (addAssetFormEl.elements.format.value === 'format_link') {
-    uploadButton.disabled = true;
-    $(uploadButton).animate({ opacity: '0' });
-  } else {
-    uploadButton.disabled = false;
-    $(uploadButton).animate({ opacity: '100' });
-  }
-});
-addAssetTitle.listen("input", (e) => { checkSaveButton() });
-newArtistField.listen("input", (e) => { checkSaveButton() });
+  addAssetFormEl = document.getElementById("frontend_add_asset_form");
+  addAssetSidebar = document.getElementById("add-asset__sidebar");
 
-/* -------------------------------------------------------------------------- */
-/*                           SIDEBAR FIELD HANDLING                           */
-/* -------------------------------------------------------------------------- */
+  addAssetTitle = new MDCTextField(document.querySelector(".add-asset-title-input"));
 
-function isHidden(el) {
-  return (el.offsetParent === null)
+  formatRadios = [].map.call(document.querySelectorAll(".mdc-radio"), function (el) { return new MDCRadio(el); });
+
+  uploadButton = document.querySelector("#upload_button");
+  uploadEditButton = document.querySelector("#edit_button");
+  uploadFileUrlInput = document.querySelector("#upload_url");
+  uploadFileIDInput = document.querySelector("#upload_file_id");
+  creatorField = new MDCTextField(document.querySelector(".add-asset-creator-input"));
+  linkField = new MDCTextField(document.querySelector(".add-asset-link-input"));
+  previewThumbEl = document.querySelector(".add-asset__preview--thumb");
+  previewContainerEl = document.querySelector(".add-asset__preview");
+  previewAreaEl = document.querySelector(".add-asset__file--container");
+
+  artistSelect = new MDCSelect(document.querySelector(".add-asset__category--artist"));
+  artistSelectHelperText = new MDCSelectHelperText(document.querySelector('.add-asset__new-artist--helper-text'));
+  artistSelectInput = document.getElementById("add-asset__category--artist-input");
+  artistSelectMenuEl = document.querySelector(".add-asset__category--artist-select");
+
+  cancelArtistHelperText = new MDCTextFieldHelperText(document.querySelector('.add-asset__cancel-artist--helper-text'));
+  cancelProjectHelperText = new MDCTextFieldHelperText(document.querySelector('.add-asset__cancel-project--helper-text'));
+
+  newArtistField = new MDCTextField(document.querySelector('.add-asset__new-artist--field'));
+  newArtistForm = document.getElementById('add-asset__new-artist--container');
+
+  newProjectField = new MDCTextField(document.querySelector('.add-asset__new-project--field'));
+  newProjectForm = document.getElementById('add-asset__new-project--container');
+  newProjectType = new MDCSelect(document.querySelector(".add-asset__new-project--type"));
+  newProjectTypeInput = document.querySelector('#new-project-type');
+  newProjectYear = new MDCSelect(document.querySelector(".add-asset__new-project--year"));
+  newProjectYearInput = document.querySelector('#new-project-year');
+  projectSelect = new MDCSelect(document.querySelector(".add-asset__category--project"));
+  projectSelectHelperText = new MDCSelectHelperText(document.querySelector('.add-asset__new-project--helper-text'));
+  projectSelectList = document.querySelector("#project_select_list");
+  projectsMenu = projectSelect.menu_;
+
 }
+var addAssetDialog = new MDCDialog(document.querySelector(".dam-add-asset-dialog"));
+addAssetDialog.listen('MDCDialog:opening', () => {
+  initialization();
 
-/* ------------------------ DOWN = SHOW | UP = HIDE ----------------------- */
+  /* -------------------------------------------------------------------------- */
+  /*                               FORM VALIDATION                              */
+  /* -------------------------------------------------------------------------- */
 
-function swapProjectField() {
-  if (!isHidden(projectSelect.root_)) {
-    $(projectSelect.root_).slideUp(150);
-    $(newProjectForm).slideDown(150);
-  } else {
-    $(newProjectForm).slideUp(150);
-    $(projectSelect.root_).slideDown(150);
-  }
+  var changeEvent = new Event('change', { bubbles: true });
 
-}
 
-function swapArtistField(option) {
-  if (!isHidden(artistSelect.root_)) {
-    artistSelectInput.value = "";
-    artistSelect.selectedIndex = 0;
-    artistSelect.required = false;
-    artistSelectInput.required = false;
-    newArtistField.input_.required = true;
-    $(artistSelect.root_).slideUp(150);
-    $(newArtistForm).slideDown(150);
-    $(cancelProjectHelperText.root_).hide();
-    if (!isHidden(projectSelect.root_)) {
-      swapProjectField();
+  wasEscaped ? null : addAssetFormEl.addEventListener('change', (e) => {
+    checkSaveButton();
+    if (addAssetFormEl.elements.format.value === 'format_link') {
+      creatorField.root_.style.display = 'flex';
+      creatorField.root_.parentNode.style.display = 'flex';
+      linkField.input_.required = true;
+      uploadFileUrlInput.required = false;
+      uploadFileIDInput.required = false;
+      uploadButton.disabled = true;
+      uploadEditButton.disabled = true;
+      previewAreaEl.style.display = 'none';
+      $(uploadButton).animate({ opacity: '0' });
+      $(linkField).animate({ opacity: '100' });
+      linkField.root_.style.display = 'flex';
+      checkSaveButton();
+    } else if (formatRadios.find(el => el.checked)) {
+      creatorField.root_.style.display = 'flex';
+      creatorField.root_.parentNode.style.display = 'flex';
+      linkField.input_.required = false;
+      uploadFileUrlInput.required = true;
+      uploadFileIDInput.required = true;
+      previewAreaEl.querySelector('#upload_button_helper-text').style.display = 'none';
+      uploadButton.disabled = false;
+      uploadEditButton.disabled = false;
+      if (linkField.root_.style.display !== 'none') {
+        linkField.root_.style.display = 'none';
+      }
+      $(linkField).animate({ opacity: '100' });
+      if (previewAreaEl.style.display !== 'flex') {
+        previewAreaEl.style.display = 'flex';
+        $(previewAreaEl).animate({ opacity: '100' });
+        $(uploadButton).animate({ opacity: '100' });
+      }
+      checkSaveButton();
     }
-  } else {
-    artistSelect.required = true;
-    artistSelectInput.required = true;
-    newArtistField.input_.required = false;
-    newArtistField.foundation_.setValue("");
-    $(newArtistForm).slideUp(150);
-    $(artistSelect.root_).slideDown(150);
-    $(cancelProjectHelperText.root_).hide();
-    if (option !== 'cancel') {
-      swapProjectField();
-    } else {
-      $(cancelProjectHelperText.root_).show()
-    }
-  }
-  addAssetFormEl.dispatchEvent(changeEvent);
-}
-
-artistSelectHelperText.root_.addEventListener("click", (e) => {
-  swapArtistField();
-});
-cancelArtistHelperText.root_.addEventListener("click", (e) => {
-  swapArtistField('cancel');
-});
-projectSelectHelperText.root_.addEventListener("click", (e) => {
-  swapProjectField();
-});
-cancelProjectHelperText.root_.addEventListener("click", (e) => {
-  swapProjectField('cancel');
-});
-
-/* ---------------------- HANDLE "HIDDEN" INPUT FIELDS ---------------------- */
-
-artistSelect.listen("MDCSelect:change", (e) => {
-  if (artistSelectInput.value !== e.detail.value) {
-    artistSelectInput.value = e.detail.value;
-    debugger;
-  }
-  projectSelect.disabled = false;
-  projectSelect.foundation_.setValue("");
-  var projectsMenuItems = projectsMenu.items.slice(1);
-  for (var item in projectsMenuItems) {
-    var itemIndex = parseInt(item);
-    var projectParentID = parseInt(projectsMenuItems[itemIndex].attributes.parent.value);
-    projectsMenuItems[itemIndex].style.display = "none";
-    if (projectParentID === parseInt(artistSelect.value)) {
-      projectsMenuItems[itemIndex].style.display = "flex";
-    }
-
-  }
-  addAssetFormEl.dispatchEvent(changeEvent);
-  debugger;
-
-});
-
-projectSelect.listen("MDCSelect:change", (e) => {
-  var projectInputEl = document.querySelector("#cat_project_id");
-  projectInputEl.value = e.detail.value;
-});
-
-
-/* -------------------------------------------------------------------------- */
-/*                          WORDPRESS MEDIA UPLOADER                          */
-/* -------------------------------------------------------------------------- */
-
-
-var mediaUploader;
-uploadButton.addEventListener("click", (e) => {
-  e.preventDefault();
-  if (mediaUploader) {
-    mediaUploader.open();
-    return;
-  }
-  mediaUploader = wp.media(wp.media.view.MediaFrame.Select);
-  mediaUploader.on('select', function () {
-    var attachment = mediaUploader.state().get('selection').first().toJSON();
-    uploadFileInput.setAttribute('value', attachment.url);
-    debugger;
-    previewAreaEl.style = "border: none";
-    previewImageEl.src = attachment.sizes.medium.url;
-    previewContainerEl.style = "display: flex";
-    uploadButton.style = "margin: 1rem auto";
-    uploadButton.firstChild.innerHTML = "Change File";
-
   });
-  mediaUploader.open();
+
+  wasEscaped ? null : addAssetTitle.listen("input", (e) => { checkSaveButton() });
+  wasEscaped ? null : linkField.listen("input", (e) => { checkSaveButton() });
+  wasEscaped ? null : newArtistField.listen("input", (e) => { checkSaveButton() });
+  wasEscaped ? null : newProjectField.listen("input", (e) => {
+    debugger;
+    if (e.rangeOffset === 0) {
+      newProjectYearInput.required = false;
+      newProjectTypeInput.required = false;
+      newProjectYear.required = false;
+      newProjectType.required = false;
+      checkSaveButton();
+    } else {
+      newProjectYearInput.required = true;
+      newProjectTypeInput.required = true;
+      newProjectYear.required = true;
+      newProjectType.required = true;
+      checkSaveButton();
+    }
+
+  })
+
+  /* -------------------------------------------------------------------------- */
+  /*                           SIDEBAR FIELD HANDLING                           */
+  /* -------------------------------------------------------------------------- */
+
+  function isHidden(el) {
+    return (el.offsetParent === null)
+  }
+
+  /* ------------------------ DOWN = SHOW | UP = HIDE ----------------------- */
+
+  function swapProjectField() {
+    if (!isHidden(projectSelect.root_)) {
+      projectSelect.selectedIndex = 0;
+      $(projectSelect.root_).slideUp(150);
+      $(newProjectForm).slideDown(150);
+      checkSaveButton();
+    } else {
+      newProjectField.value = "";
+      newProjectType.selectedIndex = 0;
+      newProjectTypeInput.required = false;
+      newProjectYearInput.required = false;
+      $(newProjectForm).slideUp(150);
+      $(projectSelect.root_).slideDown(150);
+      checkSaveButton()
+    }
+
+  }
+
+  function swapArtistField(option) {
+    if (!isHidden(artistSelect.root_)) {
+      artistSelectInput.value = "";
+      artistSelect.selectedIndex = 0;
+      artistSelect.required = false;
+      artistSelectInput.required = false;
+      newArtistField.input_.required = true;
+      $(artistSelect.root_).slideUp(150);
+      $(newArtistForm).slideDown(150);
+      $(cancelProjectHelperText.root_).hide();
+      if (!isHidden(projectSelect.root_)) {
+        swapProjectField();
+      }
+      checkSaveButton()
+    } else {
+      artistSelect.required = true;
+      artistSelectInput.required = true;
+      newArtistField.input_.required = false;
+      newArtistField.foundation_.setValue("");
+      $(newArtistForm).slideUp(150);
+      $(artistSelect.root_).slideDown(150);
+      $(cancelProjectHelperText.root_).hide();
+      if (option !== 'cancel') {
+        swapProjectField();
+      } else {
+        $(cancelProjectHelperText.root_).show()
+      }
+      checkSaveButton()
+    }
+    addAssetFormEl.dispatchEvent(changeEvent);
+  }
+
+  wasEscaped ? null : artistSelectHelperText.root_.addEventListener("click", (e) => {
+    swapArtistField();
+  });
+  wasEscaped ? null : cancelArtistHelperText.root_.addEventListener("click", (e) => {
+    swapArtistField('cancel');
+  });
+  wasEscaped ? null : projectSelectHelperText.root_.addEventListener("click", (e) => {
+    swapProjectField();
+  });
+  wasEscaped ? null : cancelProjectHelperText.root_.addEventListener("click", (e) => {
+    swapProjectField('cancel');
+  });
+
+  /* ---------------------- HANDLE "HIDDEN" INPUT FIELDS ---------------------- */
+
+  wasEscaped ? null : artistSelect.listen("MDCSelect:change", (e) => {
+    if (artistSelectInput.value !== e.detail.value) {
+      artistSelectInput.value = e.detail.value;
+    }
+    projectSelect.foundation_.setValue("");
+    var projectsMenuItems = projectsMenu.items.slice(1);
+    for (var item in projectsMenuItems) {
+      var itemIndex = parseInt(item);
+      var projectParentID = parseInt(projectsMenuItems[itemIndex].attributes.parent.value);
+      projectsMenuItems[itemIndex].style.display = "none";
+      if (projectParentID === parseInt(artistSelect.value)) {
+        projectsMenuItems[itemIndex].style.display = "flex";
+      }
+
+    }
+    addAssetFormEl.dispatchEvent(changeEvent);
+  });
+
+  wasEscaped ? null : projectSelect.listen("MDCSelect:change", (e) => {
+    var projectInputEl = document.querySelector("#cat_project_id");
+    projectInputEl.value = e.detail.value;
+  });
+  wasEscaped ? null : newProjectType.listen("MDCSelect:change", (e) => {
+    newProjectTypeInput.value = e.detail.value;
+    addAssetFormEl.dispatchEvent(changeEvent);
+  });
+  wasEscaped ? null : newProjectYear.listen("MDCSelect:change", (e) => {
+    newProjectYearInput.value = e.detail.value;
+    addAssetFormEl.dispatchEvent(changeEvent);
+  });
+
+
+  /* -------------------------------------------------------------------------- */
+  /*                          WORDPRESS MEDIA UPLOADER                          */
+  /* -------------------------------------------------------------------------- */
+  function replaceExt(url, ext) {
+    var pos = url.lastIndexOf(".");
+    var newUrl = url.substr(0, pos < 0 ? url.length : pos) + ext;
+    return newUrl;
+  }
+
+
+  var mediaUploader;
+  $(document).ready(function () {
+    mediaUploader = wp.media(wp.media.view.MediaFrame.Select)
+    mediaUploader.on('select', function () {
+      var attachment = mediaUploader.state().get('selection').first().toJSON();
+      var selectedFormat = formatRadios.find(el => el.checked).value;
+      switch (attachment.type) {
+        case "image":
+          debugger;
+          formatRadios.find(el => el.value === 'format_image').checked = true;
+          previewThumbEl.querySelector('.preview-file-name').innerHTML = "";
+          previewThumbEl.classList.remove('icon');
+          currentPreviewEl ? currentPreviewEl.remove() : null;
+          previewImageEl = document.createElement("img");
+          previewThumbEl.prepend(previewImageEl);
+          previewImageEl.classList.add('add-asset__preview-image');
+          uploadFileUrlInput.setAttribute('value', attachment.url);
+          uploadFileIDInput.setAttribute('value', attachment.id);
+          previewImageEl.src = typeof attachment.sizes.medium !== 'undefined' ? attachment.sizes.medium.url : typeof attachment.sizes.thumbnail !== 'undefined' ? attachment.sizes.thumbnail.url : attachment.url;
+          currentPreviewEl = previewImageEl;
+          break;
+        case "video":
+          debugger;
+          formatRadios.find(el => el.value === 'format_video').checked = true;
+          previewThumbEl.querySelector('.preview-file-name').innerHTML = "";
+          previewThumbEl.classList.remove('icon');
+          currentPreviewEl ? currentPreviewEl.remove() : null;
+          previewVideoEl = document.createElement("img");
+          previewThumbEl.prepend(previewVideoEl);
+          previewVideoEl.classList.add('add-asset__preview-image');
+          uploadFileUrlInput.setAttribute('value', attachment.url);
+          uploadFileIDInput.setAttribute('value', attachment.id);
+          previewVideoEl.src = replaceExt(attachment.url, '_thumb.jpg');
+          currentPreviewEl = previewVideoEl;
+          break;
+        case "audio":
+          formatRadios.find(el => el.value === 'format_audio').checked = true;
+          previewThumbEl.querySelector('.preview-file-name').innerHTML = "";
+          currentPreviewEl ? currentPreviewEl.remove() : null;
+          previewAudioEl = document.createElement("div");
+          previewThumbEl.prepend(previewAudioEl);
+          previewThumbEl.classList.add('icon');
+          previewThumbEl.querySelector('.preview-file-name').append(attachment.filename);
+          previewAudioEl.classList.add('add-asset__preview-icon', 'material-icons');
+          previewAudioEl.innerHTML = 'library_music';
+          uploadFileUrlInput.setAttribute('value', attachment.url);
+          uploadFileIDInput.setAttribute('value', attachment.id);
+          currentPreviewEl = previewAudioEl;
+          break;
+        case "application":
+          switch (attachment.subtype) {
+            case "vnd.openxmlformats-officedocument.wordprocessingml.document":
+              formatRadios.find(el => el.value === 'format_document').checked = true;
+              currentPreviewEl ? currentPreviewEl.remove() : null;
+              previewDocEl = document.createElement("div");
+              previewThumbEl.prepend(previewDocEl);
+              previewThumbEl.classList.add('icon');
+              previewThumbEl.querySelector('.preview-file-name').append(attachment.filename);
+              previewDocEl.classList.add('add-asset__preview-icon', 'material-icons');
+              previewDocEl.innerHTML = 'description';
+              uploadFileUrlInput.setAttribute('value', attachment.url);
+              uploadFileIDInput.setAttribute('value', attachment.id);
+              currentPreviewEl = previewDocEl;
+              break;
+            case "pdf":
+              formatRadios.find(el => el.value === 'format_document').checked = true;
+              previewThumbEl.querySelector('.preview-file-name').innerHTML = "";
+              previewThumbEl.classList.remove('icon');
+              currentPreviewEl ? currentPreviewEl.remove() : null;
+              previewDocEl = document.createElement("img");
+              previewThumbEl.prepend(previewDocEl);
+              previewDocEl.classList.add('add-asset__preview-image');
+              uploadFileUrlInput.setAttribute('value', attachment.url);
+              uploadFileIDInput.setAttribute('value', attachment.id);
+              previewDocEl.src = attachment.sizes.medium.url;
+              currentPreviewEl = previewDocEl;
+              break;
+            case "zip":
+              console.log(formatRadios.find(el => el.checked === true).value);
+              if (formatRadios.find(el => el.checked === true).value !== 'format_audio-zip' && formatRadios.find(el => el.checked === true).value !== 'format_zip') {
+                formatRadios.find(el => el.value === 'format_zip').checked = true;
+              }
+              previewThumbEl.querySelector('.preview-file-name').innerHTML = "";
+              currentPreviewEl ? currentPreviewEl.remove() : null;
+              previewZipEl = document.createElement("img");
+              previewThumbEl.classList.add('icon');
+              previewThumbEl.querySelector('.preview-file-name').append(attachment.filename);
+              previewThumbEl.prepend(previewZipEl);
+              previewZipEl.classList.add('add-asset__preview-image');
+              uploadFileUrlInput.setAttribute('value', attachment.url);
+              uploadFileIDInput.setAttribute('value', attachment.id);
+              previewZipEl.src = attachment.icon;
+              currentPreviewEl = previewZipEl;
+              break;
+          }
+          break;
+        default:
+
+      }
+      checkSaveButton();
+      previewContainerEl.style = "display: flex";
+      uploadButton.style = "display:none";
+    })
+  });
+  wasEscaped ? null : uploadEditButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (mediaUploader) {
+      mediaUploader.open();
+      return;
+    }
+  });
+  wasEscaped ? null : uploadButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (mediaUploader) {
+      mediaUploader.open();
+      return;
+    }
+    mediaUploader.open();
+  });
+})
+
+/* -------------------------------------------------------------------------- */
+/*                                   ACTIONS                                  */
+/* -------------------------------------------------------------------------- */
+
+$(".dam-add-asset__button").on("click", function () {
+  addAssetDialog.open();
+  checkSaveButton();
 });
+
+
 
 /* -------------------------------------------------------------------------- */
 /*                           RESET FIELDS ON CANCEL                           */
@@ -233,23 +418,28 @@ uploadButton.addEventListener("click", (e) => {
 
 addAssetDialog.listen("MDCDialog:closing", (e) => {
   if (e.detail.action === "reset") {
-    var formInputs = addAssetDialog.root_.querySelectorAll("input");
-    artistSelect.selectedIndex = 0;
-    projectSelect.selectedIndex = 0;
-    previewAreaEl.style = "";
-    previewImageEl.src = "";
-    previewContainerEl.style = "display: none";
-    uploadButton.style = "margin auto";
-    uploadButton.firstChild.innerHTML = "Add File";
-    for (var input in formInputs) {
+    // var formInputs = addAssetDialog.root_.querySelectorAll("input");
+    // artistSelect.selectedIndex = 0;
+    // projectSelect.selectedIndex = 0;
+    // previewImageEl.src = "";
+    // previewContainerEl.style = "display: none";
+    // creatorField.root_.style.display = 'none';
+    // uploadButton.style = "margin auto";
+    // uploadButton.disabled = true;
+    // previewAreaEl.querySelector('#upload_button_helper-text').style.display = 'flex';
+    // for (var input in formInputs) {
 
-      var inputIndex = parseInt(input);
-      var inputEl = formInputs[inputIndex];
-      if (inputEl !== undefined && inputEl.type !== "radio")
-        inputEl.value = "";
+    //   var inputIndex = parseInt(input);
+    //   var inputEl = formInputs[inputIndex];
+    //   if (inputEl !== undefined && inputEl.type !== "radio")
+    //     inputEl.value = "";
 
-    }
+    // }
+    $('.mdc-dialog__content').empty();
+    $('.mdc-dialog__content').append(addAssetDialogHTML);
 
+  } else {
+    wasEscaped = true;
   }
 });
 

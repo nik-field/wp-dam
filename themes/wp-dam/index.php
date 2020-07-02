@@ -19,33 +19,33 @@ get_header(); ?>
 
 		<?php get_sidebar(); ?>
 		<main id="main" class="site-main mdc-layout-grid__cell mdc-layout-grid__cell--span-9">
-			<?php if (is_user_logged_in()) : ?>
-				<div id="recently-used">
-					<span class="recent-label" onclick="$('.recently-used-container').slideToggle()">Recently Used <i class="material-icons">arrow_drop_down</i></span>
-					<div class="recently-used-container">
-						<?php
-						$user_id = get_current_user_id();
-						$recent_assets = get_user_meta($user_id, 'recent_assets')[0] ? get_user_meta($user_id, 'recent_assets')[0] : null;
-						$args = array(
-							'post_type' => 'asset',
-							'post__in' => $recent_assets,
-							'orderby' => 'post__in',
-							'posts_per_page' => 3
+			<?php if ( is_user_logged_in() ) : ?>
+			<div id="recently-used">
+				<span class="recent-label" onclick="$('.recently-used-container').slideToggle()">Recently Used <i class="material-icons">arrow_drop_down</i></span>
+				<div class="recently-used-container">
+					<?php
+						$user_id             = get_current_user_id();
+						$recent_assets       = get_user_meta( $user_id, 'recent_assets' )[0] ? get_user_meta( $user_id, 'recent_assets' )[0] : null;
+						$args                = array(
+							'post_type'      => 'asset',
+							'post__in'       => $recent_assets,
+							'orderby'        => 'post__in',
+							'posts_per_page' => 3,
 						);
-						$recent_assets_query = new WP_Query($args);
+						$recent_assets_query = new WP_Query( $args );
 
-						if ($recent_assets_query->have_posts() && isset($recent_assets)) :
-							while ($recent_assets_query->have_posts()) :
+						if ( $recent_assets_query->have_posts() && isset( $recent_assets ) ) :
+							while ( $recent_assets_query->have_posts() ) :
 								$recent_assets_query->the_post();
-								get_template_part('template-parts/content', 'asset');
+								get_template_part( 'template-parts/content', 'asset' );
 							endwhile;
 						else :
 							echo 'No recent activity';
 						endif;
 						wp_reset_postdata();
 						?>
-					</div>
 				</div>
+			</div>
 			<?php endif; ?>
 			<div class="loading-bars">
 				<div class="dam-spinner">
@@ -62,26 +62,48 @@ get_header(); ?>
 		</main><!-- #main -->
 	</div>
 </div><!-- #primary -->
-<?php if (is_user_logged_in() && current_user_can('edit_posts')) {
-	?>
-	<div id="dam-floating-actions">
-	<button class="mdc-fab mdc-ripple dam-group-asset__button" aria-label="Group Assets For Sharing">
-        <div class="mdc-fab__ripple"></div>
-        <span class="mdc-fab__icon material-icons">dynamic_feed</span>
-    </button>
-    <!-- <button class="mdc-fab mdc-ripple dam-add-asset__button" aria-label="Add New Asset">
-        <div class="mdc-fab__ripple"></div>
-        <span class="mdc-fab__icon material-icons">add</span>
-	</button> -->
-	
-</div>
 <?php
-	//require get_template_directory() . '/inc/frontend-addasset.php';
+if ( is_user_logged_in() && current_user_can( 'edit_posts' ) ) {
+	?>
+<div id="dam-floating-actions">
+	<button class="mdc-fab mdc-ripple dam-group-asset__button" aria-label="Group Assets For Sharing">
+		<div class="mdc-fab__ripple"></div>
+		<span class="mdc-fab__icon material-icons">dynamic_feed</span>
+	</button>
+	<button class="mdc-fab mdc-ripple dam-add-asset__button" aria-label="Add New Asset">
+		<div class="mdc-fab__ripple"></div>
+		<span class="mdc-fab__icon material-icons">add</span>
+	</button>
+</div>
+<div class="dam-add-asset-dialog mdc-dialog">
+	<div class="mdc-dialog__scrim"></div>
+	<div class="mdc-dialog__container">
+		<div class="mdc-dialog__surface add-asset-dialog-surface">
+			<h2 class="mdc-dialog__title">
+				Add New Asset
+			</h2>
+			<section class="dam-add-asset-dialog_form">
+				<div class="mdc-dialog__content">
+				</div>
+			</section>
+			<footer class="mdc-dialog__actions">
+				<button id="add-asset_reset-form" type="reset" form="frontend_add_asset_form"
+						class="mdc-button mdc-dialog__button mdc-ripple" data-mdc-dialog-action="reset"><span class="mdc-button__ripple"></span>Cancel</button>
+				<button id="add-asset__save-button" type="submit" form="frontend_add_asset_form"
+						class="mdc-button mdc-dialog__button mdc-dialog__button--default mdc-ripple"
+						data-mdc-dialog-action="save" disabled><span class="mdc-button__ripple"></span>SAVE</button>
+			</footer>
+		</div>
+	</div>
+</div>
+	<?php
 	require get_template_directory() . '/inc/group-assets.php';
-} ?>
+}
+?>
 
 <script id="definitions" type="text/javascript">
-	var $artist = "";
+var $artist = "";
 </script>
 
-<?php get_footer();
+<?php
+get_footer();

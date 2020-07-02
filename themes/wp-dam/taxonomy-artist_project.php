@@ -122,14 +122,14 @@ get_header();
         <div class="mdc-fab__ripple"></div>
         <span class="mdc-fab__icon material-icons">dynamic_feed</span>
     </button>
-    <!-- <button class="mdc-fab mdc-ripple dam-add-asset__button" aria-label="Add New Asset">
+    <button class="mdc-fab mdc-ripple dam-add-asset__button" aria-label="Add New Asset">
         <div class="mdc-fab__ripple"></div>
         <span class="mdc-fab__icon material-icons">add</span>
-	</button> -->
+	</button>
 	
 </div>
 <?php
-	//require get_template_directory() . '/inc/frontend-addasset.php';
+	require get_template_directory() . '/inc/frontend-addasset.php';
 	require get_template_directory() . '/inc/group-assets.php';
 } 
 $artist = get_queried_object();

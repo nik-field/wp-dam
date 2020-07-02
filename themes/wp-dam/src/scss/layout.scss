@@ -76,12 +76,7 @@ body {
   }
 }
 
-main
-  > div:not(#recently-used)
-  > article
-  > .large-asset-card
-  > .large-asset-card__content
-  .large-asset-card__media {
+.large-asset-card__media {
   border: solid 1px $lightgrey;
 }
 
@@ -231,6 +226,8 @@ main
           grid-area: 1 / 1 / 4 / 2;
           order: 0;
           width: 100%;
+          border: 0;
+          border-radius: 3px 0 0 3px;
 
           .large-asset-card__media--icon {
             font-size: 3em !important;

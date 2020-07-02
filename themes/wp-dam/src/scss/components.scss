@@ -7,6 +7,7 @@
 // 		color: rgba(255,255,255,.70) !important;
 // 	}
 // }
+$primary-a: transparentize($primary, 0.5);
 
 .dam-search-input {
   @include mdc-text-field-ink-color($mdc-theme-background);
@@ -200,6 +201,12 @@
   @media (min-width: 592px) {
     flex-direction: row;
   }
+  .dam-add-asset__button {
+    display: none;
+    @media (min-width: 850px) {
+      display: flex;
+    }
+  }
 }
 
 .dam-add-asset-dialog {
@@ -213,6 +220,7 @@
   .add-asset-dialog-surface,
   .mdc-dialog__content {
     overflow: visible;
+    text-align: left;
   }
   .mdc-dialog__title {
     border-bottom: 1px solid $lightgrey;
@@ -230,39 +238,125 @@
   .add-asset__format {
     flex-basis: 100%;
     margin: 16px 0 16px;
+    label:last-child {
+      margin-right: 1em;
+    }
   }
   .add-asset__main {
     display: flex;
     flex-basis: 66%;
     flex-wrap: wrap;
-    margin: 0 1rem;
+    margin: 0 1rem 0 0;
     border: 4px dashed #b4b9be;
+    justify-content: space-around;
+    align-content: space-around;
+    padding: 1em;
+    .add-asset__file--container {
+      display: flex;
+      flex-wrap: wrap;
+      flex: 1 0 100%;
+      min-height: 50%;
+      align-content: space-evenly;
+      #upload_button_helper-text {
+        flex-basis: 100%;
+        text-align: center;
+      }
+    }
+    .add-asset__file--meta {
+      display: flex;
+      flex: 0 1 50%;
+      flex-wrap: wrap;
+      align-content: center;
+      .mdc-text-field {
+        margin: 0 auto;
+        width: 100%;
+        &.add-asset-link-input {
+          margin-bottom: 1em;
+        }
+      }
+    }
     #upload_button {
       margin: auto;
     }
-    #upload_file {
+    #edit_button {
+      position: absolute;
+      top: 0.5em;
+      left: 0.5em;
+      width: 36px;
+      height: 36px;
+    }
+    #upload_url,
+    #upload_file_id {
       display: none;
     }
     .add-asset__preview {
-      width: 100%;
-      .add-asset__preview-image {
+      display: flex;
+      flex-wrap: wrap;
+      flex: 1 0 100%;
+      min-height: 50%;
+      justify-content: center;
+      .add-asset__preview--thumb {
+        position: relative;
+        max-height: 195px;
+        max-width: 300px;
+        text-align: center;
         border: solid 1px #c8ccca;
         border-radius: 3px;
-        max-width: 260px;
+        min-width: 260px;
+      }
+      .add-asset__preview--thumb.icon {
+        border: solid 1px #c8ccca;
+        border-radius: 3px;
+        display: flex;
+        background-color: $offwhite;
+        height: 195px;
+        width: 260px;
+        align-content: space-evenly;
+        flex-wrap: wrap;
+        justify-content: center;
+        > .add-asset__preview-image {
+          min-width: unset;
+          border: none !important;
+          border-radius: 10px;
+        }
+      }
+      .add-asset__preview-image {
+        max-height: 100%;
+        max-width: 100%;
         margin: auto;
+      }
+      .add-asset__preview-icon {
+        font-size: 6em !important;
+        color: #717171;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin: auto;
+        flex-basis: 100%;
+        flex: 0 0 100%;
+      }
+      .preview-file-name {
+        flex-basis: 100%;
+        text-align: center;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        padding: 0 1em;
       }
     }
   }
   #add-asset__sidebar {
-    max-height: 315px;
-    height: 315px;
+    max-height: 355px;
+    height: 355px;
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
   }
   #add-asset__sidebar,
   #add-asset__new-project--container {
     display: flex;
     flex-wrap: wrap;
     flex: 1;
-
     align-content: start;
     .mdc-select.mdc-select--outlined .mdc-floating-label {
       top: 14px;
@@ -271,20 +365,22 @@
     .mdc-select__menu {
       width: 100%;
     }
+    #add-asset__new-artist--container {
+      margin-right: -0.5em;
+      position: relative;
+    }
     #add-asset__new-artist--container,
     #add-asset__new-project--container {
-      position: relative;
       width: 100%;
-      padding-bottom: 20px;
-      justify-content: space-between;
       display: flex;
       flex-wrap: wrap;
+      justify-content: space-between;
     }
     .mdc-text-field-helper-text {
       margin: 8px 16px 0px;
       color: $primary;
-      min-width: 115px;
-      flex-basis: 100%;
+      margin: 8px auto;
+      flex-basis: 194px;
       text-align: center;
     }
     .mdc-text-field--full-width {
@@ -297,22 +393,32 @@
       display: flex;
       flex-wrap: wrap;
       align-content: start;
+      justify-content: space-around;
       .mdc-select__anchor {
         width: 100%;
       }
+    }
+    .add-asset__new-project--field {
+      margin-bottom: 1em;
+      margin-right: 0.5em;
     }
     .add-asset__new-project--year,
     .add-asset__new-project--type {
       width: 47%;
-      margin-top: 20px;
+      min-width: 100px;
+      flex: 1 0;
+      margin-bottom: 0.5em;
+      margin-right: 0.5em;
       .mdc-select__anchor {
         width: 100%;
       }
     }
+    .add-asset__new-project--type {
+      min-width: 140px;
+    }
     .mdc-select-helper-text {
       padding-top: 8px;
       min-width: 115px;
-      flex-basis: 100%;
       text-align: center;
     }
     .add-asset__category--project {
@@ -320,7 +426,7 @@
       padding-bottom: 20px;
       display: flex;
       flex-wrap: wrap;
-      justify-content: right;
+      justify-content: space-around;
       .mdc-select__anchor {
         width: 100%;
       }
@@ -342,7 +448,7 @@
 
 @media (min-width: 592px) {
   .mdc-dialog .mdc-dialog__surface {
-    max-width: 60%;
+    max-width: 80%;
     min-width: 592px;
   }
 }

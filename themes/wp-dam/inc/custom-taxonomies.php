@@ -1,111 +1,112 @@
 <?php
 // Register Artist/Project Taxonomy
-	function register_artist_project_taxonomy() {
+function register_artist_project_taxonomy() {
 
-		$labels = array(
-			'name'                       => _x( 'Artist/Projects', 'Taxonomy General Name', 'text_domain' ),
-			'singular_name'              => _x( 'Artist/Project', 'Taxonomy Singular Name', 'text_domain' ),
-			'menu_name'                  => __( 'Manage Artist/Projects', 'text_domain' ),
-			'all_items'                  => __( 'All Artist/Projects', 'text_domain' ),
-			'parent_item'                => __( 'Parent Artist/Project', 'text_domain' ),
-			'parent_item_colon'          => __( 'Parent Artist/Project:', 'text_domain' ),
-			'new_item_name'              => __( 'New Artist/Project', 'text_domain' ),
-			'add_new_item'               => __( 'Add New Artist/Project', 'text_domain' ),
-			'edit_item'                  => __( 'Edit Artist/Project', 'text_domain' ),
-			'update_item'                => __( 'Update Artist/Project', 'text_domain' ),
-			'view_item'                  => __( 'View Artist/Project', 'text_domain' ),
-			'separate_items_with_commas' => __( 'Separate artists with commas', 'text_domain' ),
-			'add_or_remove_items'        => __( 'Add or remove artists', 'text_domain' ),
-			'choose_from_most_used'      => __( 'Choose from the most used', 'text_domain' ),
-			'popular_items'              => __( 'Popular Artist/Projects', 'text_domain' ),
-			'search_items'               => __( 'Search Artist/Projects', 'text_domain' ),
-			'not_found'                  => __( 'Artist/Project Not Found', 'text_domain' ),
-			'no_terms'                   => __( 'No artists or projects', 'text_domain' ),
-			'items_list'                 => __( 'Artist/Projects list', 'text_domain' ),
-			'items_list_navigation'      => __( 'Artist/Projects list navigation', 'text_domain' ),
-		);
-		$args   = array(
-			'labels'            => $labels,
-			'hierarchical'      => true,
-			'public'            => true,
-			'show_ui'           => true,
-			'show_admin_column' => true,
-			'show_in_nav_menus' => true,
-			'show_tagcloud'     => true,
-			'show_in_rest'      => true,
-			'rewrite'           => array(
-				'slug'       => '/assets',
-				'with_front' => false,
-			),
-		);
-		register_taxonomy( 'artist_project', array( 'asset' ), $args );
+	$labels = array(
+		'name'                       => _x( 'Artist/Projects', 'Taxonomy General Name', 'text_domain' ),
+		'singular_name'              => _x( 'Artist/Project', 'Taxonomy Singular Name', 'text_domain' ),
+		'menu_name'                  => __( 'Manage Artist/Projects', 'text_domain' ),
+		'all_items'                  => __( 'All Artist/Projects', 'text_domain' ),
+		'parent_item'                => __( 'Parent Artist/Project', 'text_domain' ),
+		'parent_item_colon'          => __( 'Parent Artist/Project:', 'text_domain' ),
+		'new_item_name'              => __( 'New Artist/Project', 'text_domain' ),
+		'add_new_item'               => __( 'Add New Artist/Project', 'text_domain' ),
+		'edit_item'                  => __( 'Edit Artist/Project', 'text_domain' ),
+		'update_item'                => __( 'Update Artist/Project', 'text_domain' ),
+		'view_item'                  => __( 'View Artist/Project', 'text_domain' ),
+		'separate_items_with_commas' => __( 'Separate artists with commas', 'text_domain' ),
+		'add_or_remove_items'        => __( 'Add or remove artists', 'text_domain' ),
+		'choose_from_most_used'      => __( 'Choose from the most used', 'text_domain' ),
+		'popular_items'              => __( 'Popular Artist/Projects', 'text_domain' ),
+		'search_items'               => __( 'Search Artist/Projects', 'text_domain' ),
+		'not_found'                  => __( 'Artist/Project Not Found', 'text_domain' ),
+		'no_terms'                   => __( 'No artists or projects', 'text_domain' ),
+		'items_list'                 => __( 'Artist/Projects list', 'text_domain' ),
+		'items_list_navigation'      => __( 'Artist/Projects list navigation', 'text_domain' ),
+	);
+	$args   = array(
+		'labels'            => $labels,
+		'hierarchical'      => true,
+		'public'            => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'show_in_nav_menus' => true,
+		'show_tagcloud'     => true,
+		'show_in_rest'      => true,
+		'rewrite'           => array(
+			'slug'       => '/assets',
+			'with_front' => false,
+		),
+	);
+	register_taxonomy( 'artist_project', array( 'asset' ), $args );
 
-	}
+}
 
 	add_action( 'init', 'register_artist_project_taxonomy', 0 );
 
 // Register Custom Taxonomy
-	function asset_format() {
+function asset_format() {
 
-		$labels = array(
-			'name'                       => _x( 'Asset Formats', 'Taxonomy General Name', 'text_domain' ),
-			'singular_name'              => _x( 'Asset Format', 'Taxonomy Singular Name', 'text_domain' ),
-			'menu_name'                  => __( 'Asset Format', 'text_domain' ),
-			'all_items'                  => __( 'All Formats', 'text_domain' ),
-			'parent_item'                => __( 'Parent Format', 'text_domain' ),
-			'parent_item_colon'          => __( 'Parent Format:', 'text_domain' ),
-			'new_item_name'              => __( 'New Format Name', 'text_domain' ),
-			'add_new_item'               => __( 'Add New Format', 'text_domain' ),
-			'edit_item'                  => __( 'Edit Format', 'text_domain' ),
-			'update_item'                => __( 'Update Format', 'text_domain' ),
-			'view_item'                  => __( 'View Format', 'text_domain' ),
-			'separate_items_with_commas' => __( 'Separate formats with commas', 'text_domain' ),
-			'add_or_remove_items'        => __( 'Add or remove formats', 'text_domain' ),
-			'choose_from_most_used'      => __( 'Choose from the most used', 'text_domain' ),
-			'popular_items'              => __( 'Popular Formats', 'text_domain' ),
-			'search_items'               => __( 'Search Formats', 'text_domain' ),
-			'not_found'                  => __( 'Format Not Found', 'text_domain' ),
-			'no_terms'                   => __( 'No Formats', 'text_domain' ),
-			'items_list'                 => __( 'Formats list', 'text_domain' ),
-			'items_list_navigation'      => __( 'Formats list navigation', 'text_domain' ),
-		);
-		$args   = array(
-			'labels'            => $labels,
-			'hierarchical'      => false,
-			'public'            => true,
-			'show_ui'           => true,
-			'show_admin_column' => true,
-			'show_in_nav_menus' => false,
-			'show_tagcloud'     => false,
-		);
-		register_taxonomy( 'format', array( 'asset' ), $args );
+	$labels = array(
+		'name'                       => _x( 'Asset Formats', 'Taxonomy General Name', 'text_domain' ),
+		'singular_name'              => _x( 'Asset Format', 'Taxonomy Singular Name', 'text_domain' ),
+		'menu_name'                  => __( 'Asset Format', 'text_domain' ),
+		'all_items'                  => __( 'All Formats', 'text_domain' ),
+		'parent_item'                => __( 'Parent Format', 'text_domain' ),
+		'parent_item_colon'          => __( 'Parent Format:', 'text_domain' ),
+		'new_item_name'              => __( 'New Format Name', 'text_domain' ),
+		'add_new_item'               => __( 'Add New Format', 'text_domain' ),
+		'edit_item'                  => __( 'Edit Format', 'text_domain' ),
+		'update_item'                => __( 'Update Format', 'text_domain' ),
+		'view_item'                  => __( 'View Format', 'text_domain' ),
+		'separate_items_with_commas' => __( 'Separate formats with commas', 'text_domain' ),
+		'add_or_remove_items'        => __( 'Add or remove formats', 'text_domain' ),
+		'choose_from_most_used'      => __( 'Choose from the most used', 'text_domain' ),
+		'popular_items'              => __( 'Popular Formats', 'text_domain' ),
+		'search_items'               => __( 'Search Formats', 'text_domain' ),
+		'not_found'                  => __( 'Format Not Found', 'text_domain' ),
+		'no_terms'                   => __( 'No Formats', 'text_domain' ),
+		'items_list'                 => __( 'Formats list', 'text_domain' ),
+		'items_list_navigation'      => __( 'Formats list navigation', 'text_domain' ),
+	);
+	$args   = array(
+		'labels'            => $labels,
+		'hierarchical'      => false,
+		'public'            => true,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'show_in_nav_menus' => false,
+		'show_tagcloud'     => false,
+	);
+	register_taxonomy( 'format', array( 'asset' ), $args );
 
-	}
+}
 
 	add_action( 'init', 'asset_format', 0 );
 
-	function initialize_formats() {
-		$initial_formats = array(
-			'format_image'     => 'Image',
-			'format_video'     => 'Video',
-			'format_link'      => 'Link',
-			'format_audio'     => 'Audio',
-			'format_audio-zip' => 'Audio Zip',
-			'format_document'  => 'Document'
-		);
-		foreach ( $initial_formats as $slug => $name ) {
-			if ( ! term_exists( $name, 'format' ) ) {
-				wp_insert_term(
-					$name,
-					'format',
-					array(
-						'description' => '',
-						'slug'        => $slug
-					)
-				);
-			}
+function initialize_formats() {
+	$initial_formats = array(
+		'format_image'     => 'Image',
+		'format_video'     => 'Video',
+		'format_link'      => 'Link',
+		'format_audio'     => 'Audio',
+		'format_audio-zip' => 'Audio Zip',
+		'format_zip'       => 'Zip',
+		'format_document'  => 'Document',
+	);
+	foreach ( $initial_formats as $slug => $name ) {
+		if ( ! term_exists( $name, 'format' ) ) {
+			wp_insert_term(
+				$name,
+				'format',
+				array(
+					'description' => '',
+					'slug'        => $slug,
+				)
+			);
 		}
 	}
+}
 
 // Hook into the 'init' action
 	add_action( 'init', 'initialize_formats', 0 );
@@ -114,7 +115,7 @@
 		'album'  => 'Album',
 		'single' => 'Single',
 		'tour'   => 'Tour',
-		'event'  => 'Event'
+		'event'  => 'Event',
 	);
 
 	class Is_Artist_Or_Project {
@@ -177,7 +178,6 @@
 			echo '</td>';
 			echo '</tr>';
 
-
 		}
 
 		public function save_data( $term_id ) {
@@ -192,7 +192,7 @@
 
 	}
 
-	new Is_Artist_Or_Project;
+	new Is_Artist_Or_Project();
 
 	class project_type_meta {
 
@@ -274,31 +274,7 @@
 
 	}
 
-	new project_type_meta;
-
-	add_filter( 'manage_edit-artist_project_columns', 'add_project_type_column' );
-	function add_project_type_column( $columns ) {
-		$columns['project-type'] = 'Project Type';
-
-		return $columns;
-	}
-
-	add_action( 'manage_artist_project_custom_column', 'add_project_type_column_content', 10, 3 );
-	function add_project_type_column_content( $content, $column_name, $term_id ) {
-		global $project_types;
-		if ( $column_name !== 'project-type' ) {
-			return $content;
-		}
-
-		$term_id      = absint( $term_id );
-		$project_type = get_term_meta( $term_id, 'project_type', true );
-
-		if ( ! empty( $project_type ) ) {
-			$content .= esc_attr( $project_types[ $project_type ] );
-		}
-
-		return $content;
-	}
+	new project_type_meta();
 
 	class Project_Year {
 
@@ -381,6 +357,104 @@
 
 	}
 
-	new Project_Year;
+	new Project_Year();
 
-?>
+	add_filter( 'manage_edit-artist_project_columns', 'add_artist_project_columns' );
+	function add_artist_project_columns( $columns ) {
+		$new_columns = array(
+			'project_type'                     => 'Project Type',
+			'project_yearyear_select'          => 'Year',
+			'is_artist_or_project_select_type' => 'Artist/Project',
+		);
+		$columns     = array_merge( $columns, $new_columns );
+		return $columns;
+	}
+
+	add_action( 'manage_artist_project_custom_column', 'add_artist_project_columns_content', 10, 3 );
+	function add_artist_project_columns_content( $empty = '', $column_name, $term_id ) {
+		// global $project_types;
+		// if ( $column_name !== 'project-type' ) {
+		// return $content;
+		// }
+
+		// $term_id      = absint( $term_id );
+		// $project_type = get_term_meta( $term_id, 'project_type', true );
+
+		// if ( ! empty( $project_type ) ) {
+		// $content .= esc_attr( $project_types[ $project_type ] );
+		// }
+
+		// return $content;
+		switch ( $column_name ) {
+			case 'is_artist_or_project_select_type':
+				$artist_project_column = explode( '_', get_term_meta( $term_id, $column_name, true ) );
+				return ucwords( $artist_project_column[ count( $artist_project_column ) - 1 ] );
+			break;
+			case 'project_type':
+				$project_type_column = get_term_meta( $term_id, $column_name, true );
+				return ucwords( $project_type_column );
+			break;
+			case 'project_yearyear_select':
+				return esc_html( get_term_meta( $term_id, $column_name, true ) );
+			break;
+		}
+
+	}
+	function artist_project_quick_edits( $column_name, $screen, $name ) {
+		if ( $name != 'artist_project' && ( $column_name != 'project_type' || $column_name != 'project_yearyear_select' || $column_name != 'is_artist_or_project_select_type' ) ) {
+			return false;
+		}
+		?>
+<fieldset style="width:33%;min-width: 75px;">
+	<div id="artist_project-content" class="inline-edit-col">
+		<?php
+		switch ( $column_name ) {
+			case 'project_type':
+				echo '<div >';
+				echo '	<label style="font-weight:600;" for="project_type">' . __( 'Project Type', 'text_domain' ) . '</label>';
+				echo '	<select id="project_type" name="project_type">';
+				echo '		<option value="" disabled selected hidden> ' . __( 'Select a type', 'text_domain' ) . '</option>';
+				echo '		<option value="">None</option>';
+				echo '		<option value="album"> ' . __( 'Album', 'text_domain' ) . '</option>';
+				echo '		<option value="single"> ' . __( 'Single', 'text_domain' ) . '</option>';
+				echo '		<option value="tour"> ' . __( 'Tour', 'text_domain' ) . '</option>';
+				echo '		<option value="event"> ' . __( 'Event', 'text_domain' ) . '</option>';
+				echo '	</select>';
+				echo '</div>';
+				break;
+			case 'is_artist_or_project_select_type':
+				echo '<div >';
+				echo '	<label style="font-weight:600;" for="is_artist_or_project_select_type">' . __( 'Artist or Project', 'text_domain' ) . '</label>';
+				echo '	<label>';
+				echo '		<input type="radio" name="is_artist_or_project_select_type" value="is_artist_or_project_artist"> ' . __( 'Artist', 'text_domain' );
+				echo '	</label>';
+				echo '	<label>';
+				echo '		<input type="radio" name="is_artist_or_project_select_type" value="is_artist_or_project_project"> ' . __( 'Project', 'text_domain' );
+				echo '	</label>';
+				echo '</div>';
+				break;
+			case 'project_yearyear_select':
+				echo '<div >';
+				echo '	<label style="font-weight:600;" for="project_yearyear_select">' . __( 'Year', 'text_domain' ) . '</label>';
+				echo '	<select id="project_yearyear_select" name="project_yearyear_select">';
+				echo '		<option value="" disabled selected hidden> ' . __( 'Select year', 'text_domain' ) . '</option>';
+				echo '		<option value="">None</option>';
+				echo '		<option value="2022"> ' . __( '2022', 'text_domain' ) . '</option>';
+				echo '		<option value="2021"> ' . __( '2021', 'text_domain' ) . '</option>';
+				echo '		<option value="2020"> ' . __( '2020', 'text_domain' ) . '</option>';
+				echo '		<option value="2019"> ' . __( '2019', 'text_domain' ) . '</option>';
+				echo '		<option value="2018"> ' . __( '2018', 'text_domain' ) . '</option>';
+				echo '		<option value="2017"> ' . __( '2017', 'text_domain' ) . '</option>';
+				echo '	</select>';
+				echo '</div>';
+				break;
+			default:
+				return false;
+		}
+
+		?>
+	</div>
+</fieldset>
+<?php
+	}
+	add_action( 'quick_edit_custom_box', 'artist_project_quick_edits', 10, 3 );

@@ -99,7 +99,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var $ = jQuery;
 $(document).ready(function () {
-  if (!$("input[name='is_artist_or_project_select_type']:checked").val()) {
+  if (!$(".form-field input[name='is_artist_or_project_select_type']:checked").val()) {
     $('#tag-name').prop('disabled', true);
     $('.term-project_type-wrap').hide();
     $('.term-project_yearyear_select-wrap').hide();
@@ -107,17 +107,17 @@ $(document).ready(function () {
     $('#tag-name').prop('disabled', false);
   }
 
-  $("input[name='is_artist_or_project_select_type']").click(function () {
+  $(".form-field input[name='is_artist_or_project_select_type']").click(function () {
     if (!$("#tag-name").prop('disabled', false)) {
       $('#tag-name').prop('disabled', false);
     }
 
-    if ($("input[value='is_artist_or_project_project']:checked").val()) {
+    if ($(".form-field input[value='is_artist_or_project_project']:checked").val()) {
       $('.term-project_type-wrap').show().addClass("form-required");
       $('.term-project_yearyear_select-wrap').show().addClass("form-required");
     }
 
-    if ($("input[value='is_artist_or_project_artist']:checked").val()) {
+    if ($(".form-field input[value='is_artist_or_project_artist']:checked").val()) {
       $('.term-project_type-wrap').hide();
       $('.term-project_yearyear_select-wrap').hide();
     }

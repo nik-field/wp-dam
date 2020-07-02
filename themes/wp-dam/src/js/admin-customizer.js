@@ -1,7 +1,7 @@
 import '../scss/admin-customizer.scss';
 var $ = jQuery;
 $(document).ready(function () {
-    if (!$("input[name='is_artist_or_project_select_type']:checked").val()) {
+    if (!$(".form-field input[name='is_artist_or_project_select_type']:checked").val()) {
         $('#tag-name').prop('disabled', true);
         $('.term-project_type-wrap').hide();
         $('.term-project_yearyear_select-wrap').hide();
@@ -9,16 +9,16 @@ $(document).ready(function () {
         $('#tag-name').prop('disabled', false);
     }
 
-    $("input[name='is_artist_or_project_select_type']").click(function () {
+    $(".form-field input[name='is_artist_or_project_select_type']").click(function () {
         if (!$("#tag-name").prop('disabled', false)) {
             $('#tag-name').prop('disabled', false);
         }
-        if ($("input[value='is_artist_or_project_project']:checked").val()) {
+        if ($(".form-field input[value='is_artist_or_project_project']:checked").val()) {
             $('.term-project_type-wrap').show().addClass("form-required");
             $('.term-project_yearyear_select-wrap').show().addClass("form-required");
 
         }
-        if ($("input[value='is_artist_or_project_artist']:checked").val()) {
+        if ($(".form-field input[value='is_artist_or_project_artist']:checked").val()) {
             $('.term-project_type-wrap').hide();
             $('.term-project_yearyear_select-wrap').hide();
         }
@@ -26,19 +26,20 @@ $(document).ready(function () {
     if (!$("input[name='format']:checked").val()) {
         $('#add-asset').hide();
         $('#postimagediv').hide();
-    }else {
-    const initial_selection = $("input[name='format']:checked").val();
-    if (initial_selection === 'format_image') {
-        $('#add-asset').hide();
-        $('#postimagediv').show();
     } else {
-        $('#postimagediv').hide();
-        $('#add-asset').show();
-        $('#add-asset tbody tr').first().show();
-        if (initial_selection === 'format_link') {
-            $('#add-asset tbody tr').first().hide();
+        const initial_selection = $("input[name='format']:checked").val();
+        if (initial_selection === 'format_image') {
+            $('#add-asset').hide();
+            $('#postimagediv').show();
+        } else {
+            $('#postimagediv').hide();
+            $('#add-asset').show();
+            $('#add-asset tbody tr').first().show();
+            if (initial_selection === 'format_link') {
+                $('#add-asset tbody tr').first().hide();
+            }
         }
-    }}
+    }
     $("input[name='format']").change(function () {
         const selection = $("input[name='format']:checked").val();
         if (selection === 'format_image') {
@@ -48,7 +49,7 @@ $(document).ready(function () {
             $('#postimagediv').hide();
             $('#add-asset').show();
             $('#add-asset tbody tr').first().show();
-            if (selection ==='format_link') {
+            if (selection === 'format_link') {
                 $('#add-asset tbody tr').first().hide();
             }
         }
