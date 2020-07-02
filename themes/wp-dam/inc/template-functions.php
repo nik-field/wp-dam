@@ -648,10 +648,11 @@ function damAddNewAsset() {
 				'post_title'     => $asset_title,
 				'tax_input'      => array(
 					'format'         => $format,
-					'artist_project' => $artist_id . ', ' . $project_id,
+					'artist_project' => $artist_id,
 				),
 			);
-			$post_id    = wp_insert_post( $asset_args, true );
+			isset( $project_id ) ? $asset_args['tax_input']['artist_project'] .= ', ' . $project_id : null;
+			$post_id = wp_insert_post( $asset_args, true );
 			switch ( $format ) {
 				case 'format_link':
 					update_post_meta( $post_id, 'add_asset_link', $asset_link );

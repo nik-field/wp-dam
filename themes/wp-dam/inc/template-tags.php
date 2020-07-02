@@ -368,9 +368,10 @@ function get_asset_project() {
 }
 
 function get_asset_creator() {
+
 	$creator = get_post_meta( get_the_id(), 'add_asset_creator' );
 
-	if ( ! @$creator[0] ) {
+	if ( ! isset( $creator[0] ) ) {
 		return 'None specified';
 	}
 
@@ -472,6 +473,14 @@ function get_asset_file_size() {
 		$imgID         = get_post_thumbnail_id();
 		$attached_file = get_attached_file( $imgID );
 		$bytes         = filesize( $attached_file );
+
+		$readout = size_format( $bytes );
+	} elseif ( ! empty( get_post_meta( get_the_ID() )['add_asset_file'] ) ) {
+		$file_upload_url = get_post_meta( get_the_ID() )['add_asset_file'][0];
+		$upload_base     = explode( '/', wp_upload_dir()['basedir'] );
+		$file_url_path   = explode( '/', wp_parse_url( $file_upload_url )['path'] );
+		$file_upload_dir = implode( '/', array_unique( array_merge( $upload_base, $file_url_path ) ) );
+		$bytes           = filesize( $file_upload_dir );
 
 		$readout = size_format( $bytes );
 	} else {
