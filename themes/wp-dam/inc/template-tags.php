@@ -251,49 +251,59 @@ if ( ! function_exists( 'wp_dam_asset_thumbnail' ) ) :
 
 	// TODO: simplify thumbnails to 'has_thumbnail' key value pair
 
-	function wp_dam_asset_thumbnail() {
+	function wp_dam_asset_thumbnail( $icon = '' ) {
 		if ( post_password_required() || is_attachment() || ! asset_has_file() ) {
 			return;
 		}
-
-		switch ( get_asset_format() ) {
-			case 'format_image':
-				return get_the_post_thumbnail_url( get_the_ID(), 'medium' );
+		if ( 'icon' !== $icon ) {
+			switch ( get_asset_format() ) {
+				case 'format_image':
+					return get_the_post_thumbnail_url( get_the_ID(), 'medium' );
 				break;
-
-			case 'format_audio':
-				return 'library_music';
+				case 'format_document':
+					$thumbnail = wp_get_attachment_image_src( get_asset_attachment_id(), 'full' )[0];
+					return $thumbnail;
 				break;
-
-			case 'format_audio-zip':
-				return 'queue_music';
+				case 'format_video':
+					$url       = get_asset_url();
+					$thumb_url = get_video_thumb_url( $url );
+					return $thumb_url;
 				break;
+				default:
+					return false;
 
-			case 'format_zip':
-				return 'queue_music';
+			}
+		} else {
+			switch ( get_asset_format() ) {
+				case 'format_image':
+					return '';
+				break;
+				case 'format_video':
+					return 'videocam';
+				break;
+				case 'format_document':
+					return 'description';
+				break;
+				case 'format_link':
+					return 'link';
+				break;
+				case 'format_audio':
+					return 'audiotrack';
+				break;
+				case 'format_audio-zip':
+					return 'queue_music';
+				break;
+				case 'format_zip':
+					return 'list_alt';
 					break;
+				default:
+					return 'attachment';
 
-			case 'format_document':
-				$thumbnail = wp_get_attachment_image_src( get_asset_attachment_id(), 'full' )[0];
-				if ( get_asset_file_type() === 'docx' | get_asset_file_type() === 'doc' ) {
-					$thumbnail = 'text_snippet';
+				if ( false === get_asset_format() ) {
+					return 'attachment';
 				}
-				return $thumbnail;
-				break;
-
-			case 'format_link':
-				return 'link';
-				break;
-
-			case 'format_video':
-				$url       = get_asset_url();
-				$thumb_url = get_video_thumb_url( $url );
-
-				return $thumb_url;
-				break;
-
+			}
 		}
-
 	}
 	endif;
 
@@ -348,7 +358,7 @@ function get_asset_artist() {
 		return 'None specified';
 	}
 
-	return $artist[0]->name;
+	return $artist[0];
 }
 
 function get_asset_project() {
@@ -360,11 +370,11 @@ function get_asset_project() {
 
 	);
 	$project = get_terms( $args );
-	if ( ! $project || $project[0]->name === get_asset_artist() ) {
+	if ( ! $project || $project[0]->name === get_asset_artist()->name ) {
 		return 'None specified';
 	}
 
-	return $project[0]->name;
+	return $project[0];
 }
 
 function get_asset_creator() {
@@ -527,14 +537,14 @@ if ( ! function_exists( 'get_asset_file_info' ) ) :
 <i class="asset-file-info__item"><span class="asset-file-info__item--label">Artist:</span>
 	<span class="asset-file-info--typography">
 		<?php
-				print get_asset_artist();
+				print isset( get_asset_artist()->name ) ? get_asset_artist()->name : 'Artist not assigned';
 		?>
 	</span>
 </i>
 <i class="asset-file-info__item"><span class="asset-file-info__item--label">Project:</span>
 	<span class="asset-file-info--typography">
 		<?php
-				print get_asset_project();
+				print isset( get_asset_project()->name ) ? get_asset_project()->name : 'Project not assigned';
 		?>
 	</span>
 </i>

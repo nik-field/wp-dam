@@ -17546,6 +17546,7 @@ var exactMessage = "<span class='search-message'>Exact Matches for: </span>";
 var approxMessage = "<span class='search-message'>Approximate Matches for: </span>";
 var index;
 var elastic_results;
+var elastic_docs;
 var searchDone = new Event('searchdone', {
   bubbles: true
 });
@@ -17571,9 +17572,10 @@ function ajaxExec() {
       } else {
         var allDocs = function allDocs() {
           results.empty();
-          var elastic_docs = index.documentStore.docs;
+          elastic_docs = index.documentStore.docs;
           $.each(elastic_docs, function (index) {
             var single_doc = elastic_docs[index];
+            single_doc['json_data'] = JSON.stringify(single_doc);
             var html = template.render(lg_card_tpl, single_doc);
             $(html).prependTo(results).hide();
           });
@@ -17604,16 +17606,20 @@ function ajaxExec() {
             permalink: r.permalink,
             title: r.title,
             artist: r.artist,
+            artist_id: r.artist_id,
             project: r.project,
+            project_id: r.project_id,
             addedon: r.addedon,
             displaydate: r.displaydate,
             thumbnail: r.thumbnail,
             display_size: r.display_size,
+            icon: r.icon,
             format: r.format,
             filesize: r.filesize,
             dimensions: r.maxres,
             duration: r.duration,
             filetype: r.filetype,
+            mime: r.mime,
             creator: r.creator,
             filename: r.filename,
             tags: tags,

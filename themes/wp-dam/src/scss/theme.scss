@@ -47,13 +47,13 @@ $mdc-theme-on-surface: $darkgrey;
 
 $mdc-typography-styles-headline3: (
   font-family: unquote("Gotham Rounded, sans-serif"),
-  font-size: 2.5rem,
+  font-size: 2.5rem
 );
 $mdc-typography-styles-headline4: (
-  font-family: unquote("Gotham Rounded, sans-serif"),
+  font-family: unquote("Gotham Rounded, sans-serif")
 );
 $mdc-typography-styles-headline5: (
-  font-family: unquote("Gotham Rounded, sans-serif"),
+  font-family: unquote("Gotham Rounded, sans-serif")
 );
 
 a {
@@ -178,8 +178,14 @@ article {
 .large-asset-card__media--icon {
   font-size: 6em !important;
   color: $mediumgrey;
-  width: 100%;
-  text-align: center;
+  text-shadow: 3px 3px 25px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.light-media-icon {
+  color: #f3f5f7;
 }
 
 .large-asset-card__actions-link {

@@ -89,6 +89,7 @@ body {
   .large-asset-card__media {
     width: 260px;
     border-radius: 3px;
+    background-color: $offwhite;
   }
 
   .large-asset-card__media--no-img {
@@ -231,9 +232,6 @@ body {
 
           .large-asset-card__media--icon {
             font-size: 3em !important;
-            //position: absolute;
-            //top: 50%;
-            //margin-top: -25%;
           }
         }
 
@@ -372,9 +370,6 @@ body {
 
             .large-asset-card__media--icon {
               font-size: 3em !important;
-              position: absolute;
-              top: 50%;
-              margin-top: -25%;
             }
           }
 

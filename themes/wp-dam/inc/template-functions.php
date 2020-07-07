@@ -207,6 +207,15 @@ function get_artist_id( $artist_slug ) {
 	return get_terms( $get_artists_args )[0]->term_id;
 }
 
+function get_project_id( $project_slug ) {
+	$get_project_args = array(
+		'taxonomy'   => 'artist_project',
+		'slug'       => $project_slug,
+		'hide_empty' => 0,
+	);
+	return get_terms( $get_project_args )[0]->term_id;
+}
+
 function get_project_terms() {
 	$get_projects_args = array(
 		'taxonomy'   => 'artist_project',
@@ -683,7 +692,7 @@ function damAddNewAsset() {
 			if ( ! empty( $_POST['asset_creator'] ) ) {
 				update_post_meta( $post_id, 'add_asset_creator', $asset_creator );
 			}
-			print( '<pre>' . print_r( $_POST, true ) . '</pre>' );
+			wp_safe_redirect( home_url() );
 		}
 	}
 }

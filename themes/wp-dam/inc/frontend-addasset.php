@@ -1,6 +1,5 @@
 <form id="frontend_add_asset_form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" autocomplete="off">
 
-
 	<div class="add-asset-title-input mdc-text-field mdc-text-field--fullwidth mdc-ripple">
 		<input pattern=".*\S+.*" name="asset_title" class="mdc-text-field__input" id="text-field-hero-input" required>
 		<div class="mdc-line-ripple title-line-ripple"></div>
@@ -30,7 +29,7 @@
 			<?php echo esc_html( $name ); ?>
 		</label>
 
-		<?php
+			<?php
 		}
 		?>
 
@@ -115,7 +114,7 @@
 							<?php echo $artist_term->name; ?>
 						</span>
 					</li>
-					<?php
+						<?php
 						// End foreach
 					}
 					?>
@@ -164,7 +163,7 @@
 								<?php echo $year; ?>
 							</span>
 						</li>
-						<?php
+								<?php
 						}
 						}
 						?>
@@ -245,7 +244,7 @@
 							<?php echo $project->name; ?>
 						</span>
 					</li>
-					<?php
+						<?php
 						// End foreach
 					}
 					?>

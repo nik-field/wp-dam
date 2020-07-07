@@ -11206,6 +11206,7 @@ function initialization() {
   projectsMenu = projectSelect.menu_;
 }
 
+var originalDialog = document.querySelector(".dam-add-asset-dialog").innerHTML;
 var addAssetDialog = new _material_dialog__WEBPACK_IMPORTED_MODULE_0__["MDCDialog"](document.querySelector(".dam-add-asset-dialog"));
 addAssetDialog.listen('MDCDialog:opening', function () {
   initialization();
@@ -11281,8 +11282,6 @@ addAssetDialog.listen('MDCDialog:opening', function () {
     checkSaveButton();
   });
   wasEscaped ? null : newProjectField.listen("input", function (e) {
-    debugger;
-
     if (e.rangeOffset === 0) {
       newProjectYearInput.required = false;
       newProjectTypeInput.required = false;
@@ -11432,7 +11431,6 @@ addAssetDialog.listen('MDCDialog:opening', function () {
 
       switch (attachment.type) {
         case "image":
-          debugger;
           formatRadios.find(function (el) {
             return el.value === 'format_image';
           }).checked = true;
@@ -11449,7 +11447,6 @@ addAssetDialog.listen('MDCDialog:opening', function () {
           break;
 
         case "video":
-          debugger;
           formatRadios.find(function (el) {
             return el.value === 'format_video';
           }).checked = true;
@@ -11612,6 +11609,61 @@ addAssetDialog.listen("MDCDialog:closing", function (e) {
   } else {
     wasEscaped = true;
   }
+});
+/* -------------------------------------------------------------------------- */
+
+/*                                 EDIT ASSETS                                */
+
+/* -------------------------------------------------------------------------- */
+
+$(document).ajaxSuccess(function () {
+  var editAssetButtons = document.querySelectorAll(".dam-edit-asset__button");
+  var editPostIDInput;
+  editAssetButtons.forEach(function (el) {
+    return $(el).on("click", function () {
+      addAssetDialog.open();
+      var assetCard = event.target.closest('article');
+      var assetData = JSON.parse(assetCard.attributes['data-asset-json'].value);
+      var addAssetDialogRoot = document.querySelector('.dam-add-asset-dialog'); // Create hidden input that adds post_id to the POST object for updating the post
+
+      editPostIDInput = document.createElement('input');
+      $(editPostIDInput).attr({
+        "name": "edit_post_id",
+        'id': "edit_post_id",
+        'style': "display:none;",
+        'value': assetData.id
+      });
+      addAssetFormEl.append(editPostIDInput);
+      /* ------------------------ EDIT LABELS OUTSIDE FORM ------------------------ */
+
+      addAssetDialogRoot.querySelector('.mdc-dialog__title').innerText = 'Editing ' + assetData.title;
+      addAssetDialogRoot.querySelector('#add-asset__save-button').innerText = 'Update';
+      /* ----------------------- EDIT FORM LABELS AND INPUTS ---------------------- */
+
+      addAssetTitle.root_.querySelector('.mdc-floating-label').innerText = 'Edit Title';
+      addAssetTitle.value = assetData.title;
+      formatRadios.find(function (el) {
+        return el.value === assetData.format;
+      }).checked = true;
+
+      if (assetData.format === 'format_link') {} else {}
+      /* -------------------------------------------------------------------------- */
+
+      /*                                RESET DIALOG                                */
+
+      /* -------------------------------------------------------------------------- */
+
+
+      addAssetDialog.listen("MDCDialog:closed", function (e) {
+        /* -------------------- RESET EDITED LABELS OUTSIDE FORM -------------------- */
+        addAssetDialogRoot.querySelector('.mdc-dialog__title').innerText = 'Add New Asset';
+        addAssetDialogRoot.querySelector('#add-asset__save-button').innerText = 'Save';
+        $('.mdc-dialog__content').empty();
+        $('.mdc-dialog__content').append(addAssetDialogHTML);
+        wasEscaped = false;
+      });
+    });
+  });
 });
 
 /***/ }),

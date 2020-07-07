@@ -94,6 +94,7 @@ function initialization() {
   projectsMenu = projectSelect.menu_;
 
 }
+var originalDialog = document.querySelector(".dam-add-asset-dialog").innerHTML;
 var addAssetDialog = new MDCDialog(document.querySelector(".dam-add-asset-dialog"));
 addAssetDialog.listen('MDCDialog:opening', () => {
   initialization();
@@ -146,7 +147,7 @@ addAssetDialog.listen('MDCDialog:opening', () => {
   wasEscaped ? null : linkField.listen("input", (e) => { checkSaveButton() });
   wasEscaped ? null : newArtistField.listen("input", (e) => { checkSaveButton() });
   wasEscaped ? null : newProjectField.listen("input", (e) => {
-    debugger;
+
     if (e.rangeOffset === 0) {
       newProjectYearInput.required = false;
       newProjectTypeInput.required = false;
@@ -280,6 +281,8 @@ addAssetDialog.listen('MDCDialog:opening', () => {
   }
 
 
+
+
   var mediaUploader;
   $(document).ready(function () {
     mediaUploader = wp.media(wp.media.view.MediaFrame.Select)
@@ -288,7 +291,7 @@ addAssetDialog.listen('MDCDialog:opening', () => {
       var selectedFormat = formatRadios.find(el => el.checked).value;
       switch (attachment.type) {
         case "image":
-          debugger;
+
           formatRadios.find(el => el.value === 'format_image').checked = true;
           previewThumbEl.querySelector('.preview-file-name').innerHTML = "";
           previewThumbEl.classList.remove('icon');
@@ -302,7 +305,7 @@ addAssetDialog.listen('MDCDialog:opening', () => {
           currentPreviewEl = previewImageEl;
           break;
         case "video":
-          debugger;
+
           formatRadios.find(el => el.value === 'format_video').checked = true;
           previewThumbEl.querySelector('.preview-file-name').innerHTML = "";
           previewThumbEl.classList.remove('icon');
@@ -443,3 +446,59 @@ addAssetDialog.listen("MDCDialog:closing", (e) => {
   }
 });
 
+/* -------------------------------------------------------------------------- */
+/*                                 EDIT ASSETS                                */
+/* -------------------------------------------------------------------------- */
+
+$(document).ajaxSuccess(function () {
+  var editAssetButtons = document.querySelectorAll(".dam-edit-asset__button");
+  var editPostIDInput;
+
+  editAssetButtons.forEach(el => $(el).on("click", function () {
+    addAssetDialog.open()
+
+    var assetCard = event.target.closest('article');
+    var assetData = JSON.parse(assetCard.attributes['data-asset-json'].value);
+    var addAssetDialogRoot = document.querySelector('.dam-add-asset-dialog');
+
+    // Create hidden input that adds post_id to the POST object for updating the post
+    editPostIDInput = document.createElement('input');
+    $(editPostIDInput).attr({ "name": "edit_post_id", 'id': "edit_post_id", 'style': "display:none;", 'value': assetData.id });
+    addAssetFormEl.append(editPostIDInput);
+
+    /* ------------------------ EDIT LABELS OUTSIDE FORM ------------------------ */
+
+    addAssetDialogRoot.querySelector('.mdc-dialog__title').innerText = 'Editing ' + assetData.title;
+    addAssetDialogRoot.querySelector('#add-asset__save-button').innerText = 'Update';
+
+    /* ----------------------- EDIT FORM LABELS AND INPUTS ---------------------- */
+
+    addAssetTitle.root_.querySelector('.mdc-floating-label').innerText = 'Edit Title';
+    addAssetTitle.value = assetData.title;
+    formatRadios.find(el => el.value === assetData.format).checked = true;
+    if (assetData.format === 'format_link') {
+
+    } else {
+
+    }
+
+
+
+    /* -------------------------------------------------------------------------- */
+    /*                                RESET DIALOG                                */
+    /* -------------------------------------------------------------------------- */
+
+    addAssetDialog.listen("MDCDialog:closed", (e) => {
+
+      /* -------------------- RESET EDITED LABELS OUTSIDE FORM -------------------- */
+
+      addAssetDialogRoot.querySelector('.mdc-dialog__title').innerText = 'Add New Asset';
+      addAssetDialogRoot.querySelector('#add-asset__save-button').innerText = 'Save';
+
+
+      $('.mdc-dialog__content').empty();
+      $('.mdc-dialog__content').append(addAssetDialogHTML);
+      wasEscaped = false;
+    });
+  }))
+});

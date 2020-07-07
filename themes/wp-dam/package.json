@@ -4,7 +4,7 @@
   "description": "digital asset manager theme",
   "main": "index.js",
   "scripts": {
-    "start": "webpack --mode=development --devtool=source-map --watch",
+    "dev": "webpack --mode=development --devtool=source-map --watch",
     "build": "webpack --mode=production"
   },
   "repository": {

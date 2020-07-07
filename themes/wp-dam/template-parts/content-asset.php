@@ -38,22 +38,21 @@
 				</div>
 			</div>
 
-			<?php if ( get_asset_format() == 'format_image' || get_asset_format() == 'format_document' ) : ?>
-			<div class="mdc-card__media mdc-card__media--4-3 large-asset-card__media open-dialog" style="background-image: url(<?php echo wp_dam_asset_thumbnail(); ?>);"></div>
-			<?php elseif ( get_asset_format() == 'format_video' ) : ?>
-			<div class="mdc-card__media mdc-card__media--4-3 large-asset-card__media large-asset-card__media--video open-dialog" style="background-image: url(<?php echo wp_dam_asset_thumbnail(); ?>);"><i class="material-icons large-asset-card__media--icon">videocam</i></div>
-			<?php else : ?>
+			<?php
+			if ( get_asset_format() !== 'format_link' ) :
+				?>
+			<div class="mdc-card__media mdc-card__media--4-3 large-asset-card__media open-dialog" style="background-image: url('<?php echo wp_dam_asset_thumbnail() ? wp_dam_asset_thumbnail() : null; ?>')"><i class="material-icons large-asset-card__media--icon 
 				<?php
-				if ( get_asset_format() === 'format_link' ) :
-					?>
-			<a href="<?php echo get_asset_url(); ?>"><?php endif; ?>
-				<div class="mdc-card__media mdc-card__media--4-3 large-asset-card__media large-asset-card__media--no-img<?php echo get_asset_format() !== 'format_link' ? ' open-dialog' : null; ?>">
-					<i class="material-icons large-asset-card__media--icon"><?php echo wp_dam_asset_thumbnail(); ?></i>
-				</div>
-				<?php
-				if ( get_asset_format() === 'format_link' ) :
-					?>
-			</a><?php endif; ?>
+				wp_dam_asset_thumbnail() ? print 'light-media-icon' : null;
+				?>
+				"><?php echo wp_dam_asset_thumbnail( 'icon' ); ?></i></div>
+			<?php endif; ?>
+			<?php
+			if ( get_asset_format() === 'format_link' ) :
+				?>
+			<a href="<?php echo get_asset_url(); ?>" style="display:grid">
+				<div class="mdc-card__media mdc-card__media--4-3 large-asset-card__media"><i class="material-icons large-asset-card__media--icon"><?php echo wp_dam_asset_thumbnail( 'icon' ); ?></i></div>
+			</a>
 			<?php endif; ?>
 			<div class="large-asset-card__secondary mdc-typography mdc-typography--body2">
 				<div class="large-asset-card__file-info">
