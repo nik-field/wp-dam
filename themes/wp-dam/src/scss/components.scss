@@ -297,10 +297,8 @@ $primary-a: transparentize($primary, 0.5);
       justify-content: center;
       .add-asset__preview--thumb {
         position: relative;
-        max-height: 195px;
         max-width: 300px;
         text-align: center;
-        border: solid 1px #c8ccca;
         border-radius: 3px;
         min-width: 260px;
       }
@@ -433,6 +431,8 @@ $primary-a: transparentize($primary, 0.5);
     }
     .mdc-select__selected-text {
       position: absolute;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     a {
       text-align: right;

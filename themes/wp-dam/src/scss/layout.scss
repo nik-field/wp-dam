@@ -512,7 +512,12 @@ body {
 
 .mdc-dialog__content--image {
   display: inline;
-
+  .large-asset-card__media--icon {
+    position: relative;
+    top: unset;
+    left: unset;
+    transform: unset;
+  }
   video,
   img {
     max-width: 100%;

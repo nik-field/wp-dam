@@ -33,14 +33,14 @@ function print_asset_format_box( $post ) {
 			$labels = wp_get_object_terms( $post->ID, 'format' );
 			wp_nonce_field( 'taxonomy_format', 'taxonomy_format_nonce' );
 
-		foreach ( $formats as $format ) {
-			if ( ! is_wp_error( $labels ) && ! empty( $labels ) && ! strcmp( $format->slug, $labels[0]->slug ) ) {
-				echo "<input type='radio' name='format' class='format-option' value='" . $format->slug . "' checked>" . $format->name . "</input>\n";
-			} else {
-				echo "<input type='radio' name='format' class='format-option' value='" . $format->slug . "'>" . $format->name . "</input>\n";
-			}
+	foreach ( $formats as $format ) {
+		if ( ! is_wp_error( $labels ) && ! empty( $labels ) && ! strcmp( $format->slug, $labels[0]->slug ) ) {
+			echo "<input type='radio' name='format' class='format-option' value='" . $format->slug . "' checked>" . $format->name . "</input>\n";
+		} else {
+			echo "<input type='radio' name='format' class='format-option' value='" . $format->slug . "'>" . $format->name . "</input>\n";
 		}
-		?>
+	}
+	?>
 </form>
 <?php
 }
@@ -77,7 +77,7 @@ function save_format_data( $post_id ) {
 		wp_set_object_terms( $post_id, $format, 'format' );
 	}
 
-	return $format;
+	return isset( $format ) ? $format : false;
 
 }
 
@@ -370,7 +370,7 @@ function post_asset_categories_meta_box( $post, $box ) {
 			<?php
 						/* translators: %s: Add New taxonomy label. */
 						printf( __( '+ %s' ), $taxonomy->labels->add_new_item );
-					?>
+			?>
 		</a>
 		<p id="<?php echo $tax_name; ?>-add" class="category-add wp-hidden-child">
 

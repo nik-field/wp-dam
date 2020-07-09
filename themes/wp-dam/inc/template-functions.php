@@ -140,7 +140,7 @@ label {
 	padding-bottom: 10px;
 }
 </style>
-<?php
+	<?php
 }
 add_action( 'login_enqueue_scripts', 'wp_dam_login_logo' );
 
@@ -380,6 +380,16 @@ function get_artist_project( $post_id ) {
 	return $artist_project;
 }
 
+function dam_add_upload_mimes( $existing_mimes ) {
+	// Add webm to the list of mime types.
+	$existing_mimes['svg'] = 'image/svg+xml';
+
+	// Return the array back to the function with our added mime type.
+	return $existing_mimes;
+}
+add_filter( 'mime_types', 'dam_add_upload_mimes' );
+
+
 /**
  * Uses cURL rather than file_get_contents to make a request to the specified URL.
  *
@@ -460,6 +470,12 @@ add_action( 'wp-loaded', 'download_url_handler' );
 function download_url_handler() {
 	add_rewrite_rule( 'download/([^/]*)$', 'wp-content/themes/wp-dam/download.php?id=$1', 'top' );
 }
+
+function dam_set_permalinks() {
+	global $wp_rewrite;
+	$wp_rewrite->set_permalink_structure( '/%postname%/' );
+}
+add_action( 'init', 'dam_set_permalinks' );
 // add_action('wp-loaded', 'artist_project_handler');
 // function artist_project_handler() {
 // add_rewrite_rule('/([^/]*)$', 'artist_project/$1', 'top');
@@ -530,17 +546,18 @@ function wp_dam_artist_user_extra_field( $user ) {
 						if ( $artist->term_id === $selected ) {
 															echo 'selected';
 						}
-						?>>
+						?>
+						>
 					<?php echo $artist->name; ?>
 				</option>
-				<?php
+					<?php
 				}
 				?>
 				<span class="description"><?php _e( 'Please choose Artist to allow access to.' ); ?></span>
 		</td>
 	</tr>
 </table>
-<?php
+		<?php
 	}
 }
 
@@ -599,6 +616,8 @@ function damAddNewAsset() {
 			require_once ABSPATH . 'wp-admin/includes/image.php';
 			// process form data
 
+			$edit_post_id = ! empty( $_POST['edit_post_id'] ) ? intval( $_POST['edit_post_id'] ) : 0;
+
 			$asset_title       = sanitize_text_field( wp_unslash( $_POST['asset_title'] ) );
 			$format            = sanitize_text_field( wp_unslash( $_POST['format'] ) );
 			$upload_url        = esc_url_raw( $_POST['upload_url'] );
@@ -650,6 +669,7 @@ function damAddNewAsset() {
 				$project_slug = get_project_slug( $project_id );
 			}
 			$asset_args = array(
+				'ID'             => $edit_post_id,
 				'post_type'      => 'asset',
 				'post_status'    => 'publish',
 				'post_content'   => $asset_title,
@@ -669,11 +689,11 @@ function damAddNewAsset() {
 				case 'format_image':
 					$filetype = wp_check_filetype( basename( $upload_path ), null );
 
-					$attachment = array(
+					$attachment    = array(
 						'ID'             => $upload_id,
 						'post_mime_type' => $filetype['type'],
 					);
-					wp_insert_attachment( $attachment, $upload_path, $post_id );
+					$attachment_id = wp_insert_attachment( $attachment, $upload_path, $post_id );
 
 					// Generate the metadata for the attachment, and update the database record.
 					$is_error = set_post_thumbnail( $post_id, $upload_id );
@@ -682,16 +702,18 @@ function damAddNewAsset() {
 				default:
 					$filetype = wp_check_filetype( basename( $upload_path ), null );
 
-					$attachment = array(
+					$attachment    = array(
 						'ID'             => $upload_id,
 						'post_mime_type' => $filetype['type'],
 					);
-					wp_insert_attachment( $attachment, $upload_path, $post_id );
+					$attachment_id = wp_insert_attachment( $attachment, $upload_path, $post_id );
 					update_post_meta( $post_id, 'add_asset_file', $upload_url );
 			}
 			if ( ! empty( $_POST['asset_creator'] ) ) {
 				update_post_meta( $post_id, 'add_asset_creator', $asset_creator );
 			}
+			// print( '<pre>' . print_r( $_POST, true ) . '</pre>' );
+			// print( '<pre>' . print_r( $asset_args, true ) . '</pre>' );
 			wp_safe_redirect( home_url() );
 		}
 	}
@@ -757,7 +779,7 @@ function my_upload_new_media_html() {
 	</form>
 </div>
 
-<?php
+	<?php
 }
 add_action( 'wp_dam_frontend_addasset_uploader', 'my_upload_new_media_html' );
 

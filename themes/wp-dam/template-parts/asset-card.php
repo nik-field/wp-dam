@@ -44,11 +44,13 @@
 							<span class="asset-file-info--typography">{{ project }}
 							</span>
 						</i>
+						{{if creator }}
 						<i class="asset-file-info__item"><span class="asset-file-info__item--label">Creator:</span>
 							<span class="asset-file-info--typography">
 								{{creator}}
 							</span>
 						</i>
+						{{/if}}
 						{{if is_not_link}}
 						<i class="asset-file-info__item"><span class="asset-file-info__item--label">File Type:</span>
 							<span class="asset-file-info--typography">

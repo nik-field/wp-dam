@@ -49,6 +49,7 @@ services:
     command: >
       /bin/sh -c '
       sleep 15;
+      wp search-replace 'dam.local' 'dam.test' wp_postmeta;
       wp theme activate wp-dam;
       wp plugin activate debug-bar;
       wp plugin activate query-monitor;

@@ -8,12 +8,15 @@
 		{{/if}}
 		{{if is_doc}}
 		<img src="{{thumbnail}}">
+		{{if is_not_pdf}}
+		<iframe src="https://view.officeapps.live.com/op/embed.aspx?src={{permalink}}" style="width:500px;min-height:400px;" frameborder="0"></iframe>
+		{{/if}}
 		{{/if}}
 		{{if is_video}}
-		<video controls="" src="{{permalink}}"></video>
+		<video poster="{{thumbnail}}" controls="" src="{{permalink}}"></video>
 		{{/if}}
 		{{if is_not_image}}
-		<i class="material-icons large-asset-card__media--icon">{{thumbnail}}</i>
+		<i class="material-icons large-asset-card__media--icon">{{icon}}</i>
 		{{/if}}
 		{{if is_audio}}
 		<audio controls="" src="{{permalink}}"></audio>
@@ -30,7 +33,6 @@
 
 		</div>
 		<div class="dialog-menu-container">
-
 			<div class="mdc-menu-surface--anchor">
 				<button class="mdc-icon-button material-icons mdc-card__action mdc-card__action--icon--unbounded mdc-menu-toggle" title="More options" data-mdc-ripple-is-unbounded="false">more_vert</button>
 				<div class="mdc-menu mdc-menu-surface mdc-dialog-menu mdc-dialog-menu-surface" data-toggle="collapse" tabindex="-1" style="transform-origin: center bottom 0px; left: 0px; bottom: 0px; max-height: 900.8px;">
@@ -40,9 +42,6 @@
 						<li class="mdc-list-divider" role="separator"></li>
 						{{/if}}
 						<a href="mailto:?subject={{title}}&body={{permalink}}" class="mdc-list-item mdc-ripple mdc-card-menu-item" role="menuitem" tabindex="-1">Send in email</a>
-						<?php if ( is_user_logged_in() && current_user_can( 'edit_posts' ) ) : ?>
-						<a href="<?php echo get_site_url(); ?>/wp-admin/post.php?post={{id}}&action=edit" class="mdc-list-item mdc-ripple" role="menuitem" tabindex="-1">Edit Details</a>
-						<?php endif; ?>
 					</ul>
 				</div>
 			</div>

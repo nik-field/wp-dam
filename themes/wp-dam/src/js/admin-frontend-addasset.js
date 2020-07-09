@@ -39,6 +39,7 @@ function count() {
 
 var addAssetTemplate = document.getElementById("tpl-add-asset-dialog").innerHTML;
 var addAssetDialogHTML = template.render(addAssetTemplate);
+debugger;
 $('.mdc-dialog__content').append(addAssetDialogHTML);
 
 function checkSaveButton() {
@@ -51,7 +52,7 @@ function checkSaveButton() {
 
 /* ------------------------- Variable Instantiation ------------------------- */
 var wasEscaped = false;
-var addAssetFormEl, addAssetSidebar, addAssetTitle, artistSelect, artistSelectHelperText, artistSelectInput, artistSelectMenuEl, cancelArtistHelperText, cancelProjectHelperText, creatorField, currentPreviewEl, formatRadios, linkField, newArtistField, newArtistForm, newProjectField, newProjectForm, newProjectType, newProjectTypeInput, newProjectYear, newProjectYearInput, previewAreaEl, previewAudioEl, previewContainerEl, previewDocEl, previewImageEl, previewThumbEl, previewVideoEl, previewZipEl, projectSelect, projectSelectHelperText, projectSelectList, projectsMenu, uploadButton, uploadEditButton, uploadFileUrlInput, uploadFileIDInput;
+var addAssetFormEl, addAssetSidebar, addAssetTitle, artistSelect, artistSelectHelperText, artistSelectInput, artistSelectMenuEl, cancelArtistHelperText, cancelProjectHelperText, creatorField, currentPreviewEl, formatRadios, linkField, newArtistField, newArtistForm, newProjectField, newProjectForm, newProjectType, newProjectTypeInput, newProjectYear, newProjectYearInput, previewContainerEl, previewAudioEl, previewEl, previewDocEl, previewImageEl, previewThumbEl, previewVideoEl, previewZipEl, projectSelect, projectInputEl, projectSelectHelperText, projectSelectList, projectsMenu, uploadButton, uploadEditButton, uploadFileUrlInput, uploadFileIDInput;
 function initialization() {
 
   addAssetFormEl = document.getElementById("frontend_add_asset_form");
@@ -68,8 +69,8 @@ function initialization() {
   creatorField = new MDCTextField(document.querySelector(".add-asset-creator-input"));
   linkField = new MDCTextField(document.querySelector(".add-asset-link-input"));
   previewThumbEl = document.querySelector(".add-asset__preview--thumb");
-  previewContainerEl = document.querySelector(".add-asset__preview");
-  previewAreaEl = document.querySelector(".add-asset__file--container");
+  previewEl = document.querySelector(".add-asset__preview");
+  previewContainerEl = document.querySelector(".add-asset__file--container");
 
   artistSelect = new MDCSelect(document.querySelector(".add-asset__category--artist"));
   artistSelectHelperText = new MDCSelectHelperText(document.querySelector('.add-asset__new-artist--helper-text'));
@@ -89,12 +90,14 @@ function initialization() {
   newProjectYear = new MDCSelect(document.querySelector(".add-asset__new-project--year"));
   newProjectYearInput = document.querySelector('#new-project-year');
   projectSelect = new MDCSelect(document.querySelector(".add-asset__category--project"));
+  projectInputEl = document.querySelector("#cat_project_id");
   projectSelectHelperText = new MDCSelectHelperText(document.querySelector('.add-asset__new-project--helper-text'));
   projectSelectList = document.querySelector("#project_select_list");
   projectsMenu = projectSelect.menu_;
 
 }
 var originalDialog = document.querySelector(".dam-add-asset-dialog").innerHTML;
+var changeEvent = new Event('change', { bubbles: true });
 var addAssetDialog = new MDCDialog(document.querySelector(".dam-add-asset-dialog"));
 addAssetDialog.listen('MDCDialog:opening', () => {
   initialization();
@@ -103,7 +106,7 @@ addAssetDialog.listen('MDCDialog:opening', () => {
   /*                               FORM VALIDATION                              */
   /* -------------------------------------------------------------------------- */
 
-  var changeEvent = new Event('change', { bubbles: true });
+
 
 
   wasEscaped ? null : addAssetFormEl.addEventListener('change', (e) => {
@@ -116,7 +119,7 @@ addAssetDialog.listen('MDCDialog:opening', () => {
       uploadFileIDInput.required = false;
       uploadButton.disabled = true;
       uploadEditButton.disabled = true;
-      previewAreaEl.style.display = 'none';
+      previewContainerEl.style.display = 'none';
       $(uploadButton).animate({ opacity: '0' });
       $(linkField).animate({ opacity: '100' });
       linkField.root_.style.display = 'flex';
@@ -127,16 +130,16 @@ addAssetDialog.listen('MDCDialog:opening', () => {
       linkField.input_.required = false;
       uploadFileUrlInput.required = true;
       uploadFileIDInput.required = true;
-      previewAreaEl.querySelector('#upload_button_helper-text').style.display = 'none';
+      previewContainerEl.querySelector('#upload_button_helper-text').style.display = 'none';
       uploadButton.disabled = false;
       uploadEditButton.disabled = false;
       if (linkField.root_.style.display !== 'none') {
         linkField.root_.style.display = 'none';
       }
       $(linkField).animate({ opacity: '100' });
-      if (previewAreaEl.style.display !== 'flex') {
-        previewAreaEl.style.display = 'flex';
-        $(previewAreaEl).animate({ opacity: '100' });
+      if (previewContainerEl.style.display !== 'flex') {
+        previewContainerEl.style.display = 'flex';
+        $(previewContainerEl).animate({ opacity: '100' });
         $(uploadButton).animate({ opacity: '100' });
       }
       checkSaveButton();
@@ -245,11 +248,12 @@ addAssetDialog.listen('MDCDialog:opening', () => {
     }
     projectSelect.foundation_.setValue("");
     var projectsMenuItems = projectsMenu.items.slice(1);
+    debugger;
     for (var item in projectsMenuItems) {
       var itemIndex = parseInt(item);
       var projectParentID = parseInt(projectsMenuItems[itemIndex].attributes.parent.value);
       projectsMenuItems[itemIndex].style.display = "none";
-      if (projectParentID === parseInt(artistSelect.value)) {
+      if (projectParentID == parseInt(artistSelect.value)) {
         projectsMenuItems[itemIndex].style.display = "flex";
       }
 
@@ -258,7 +262,6 @@ addAssetDialog.listen('MDCDialog:opening', () => {
   });
 
   wasEscaped ? null : projectSelect.listen("MDCSelect:change", (e) => {
-    var projectInputEl = document.querySelector("#cat_project_id");
     projectInputEl.value = e.detail.value;
   });
   wasEscaped ? null : newProjectType.listen("MDCSelect:change", (e) => {
@@ -274,119 +277,7 @@ addAssetDialog.listen('MDCDialog:opening', () => {
   /* -------------------------------------------------------------------------- */
   /*                          WORDPRESS MEDIA UPLOADER                          */
   /* -------------------------------------------------------------------------- */
-  function replaceExt(url, ext) {
-    var pos = url.lastIndexOf(".");
-    var newUrl = url.substr(0, pos < 0 ? url.length : pos) + ext;
-    return newUrl;
-  }
 
-
-
-
-  var mediaUploader;
-  $(document).ready(function () {
-    mediaUploader = wp.media(wp.media.view.MediaFrame.Select)
-    mediaUploader.on('select', function () {
-      var attachment = mediaUploader.state().get('selection').first().toJSON();
-      var selectedFormat = formatRadios.find(el => el.checked).value;
-      switch (attachment.type) {
-        case "image":
-
-          formatRadios.find(el => el.value === 'format_image').checked = true;
-          previewThumbEl.querySelector('.preview-file-name').innerHTML = "";
-          previewThumbEl.classList.remove('icon');
-          currentPreviewEl ? currentPreviewEl.remove() : null;
-          previewImageEl = document.createElement("img");
-          previewThumbEl.prepend(previewImageEl);
-          previewImageEl.classList.add('add-asset__preview-image');
-          uploadFileUrlInput.setAttribute('value', attachment.url);
-          uploadFileIDInput.setAttribute('value', attachment.id);
-          previewImageEl.src = typeof attachment.sizes.medium !== 'undefined' ? attachment.sizes.medium.url : typeof attachment.sizes.thumbnail !== 'undefined' ? attachment.sizes.thumbnail.url : attachment.url;
-          currentPreviewEl = previewImageEl;
-          break;
-        case "video":
-
-          formatRadios.find(el => el.value === 'format_video').checked = true;
-          previewThumbEl.querySelector('.preview-file-name').innerHTML = "";
-          previewThumbEl.classList.remove('icon');
-          currentPreviewEl ? currentPreviewEl.remove() : null;
-          previewVideoEl = document.createElement("img");
-          previewThumbEl.prepend(previewVideoEl);
-          previewVideoEl.classList.add('add-asset__preview-image');
-          uploadFileUrlInput.setAttribute('value', attachment.url);
-          uploadFileIDInput.setAttribute('value', attachment.id);
-          previewVideoEl.src = replaceExt(attachment.url, '_thumb.jpg');
-          currentPreviewEl = previewVideoEl;
-          break;
-        case "audio":
-          formatRadios.find(el => el.value === 'format_audio').checked = true;
-          previewThumbEl.querySelector('.preview-file-name').innerHTML = "";
-          currentPreviewEl ? currentPreviewEl.remove() : null;
-          previewAudioEl = document.createElement("div");
-          previewThumbEl.prepend(previewAudioEl);
-          previewThumbEl.classList.add('icon');
-          previewThumbEl.querySelector('.preview-file-name').append(attachment.filename);
-          previewAudioEl.classList.add('add-asset__preview-icon', 'material-icons');
-          previewAudioEl.innerHTML = 'library_music';
-          uploadFileUrlInput.setAttribute('value', attachment.url);
-          uploadFileIDInput.setAttribute('value', attachment.id);
-          currentPreviewEl = previewAudioEl;
-          break;
-        case "application":
-          switch (attachment.subtype) {
-            case "vnd.openxmlformats-officedocument.wordprocessingml.document":
-              formatRadios.find(el => el.value === 'format_document').checked = true;
-              currentPreviewEl ? currentPreviewEl.remove() : null;
-              previewDocEl = document.createElement("div");
-              previewThumbEl.prepend(previewDocEl);
-              previewThumbEl.classList.add('icon');
-              previewThumbEl.querySelector('.preview-file-name').append(attachment.filename);
-              previewDocEl.classList.add('add-asset__preview-icon', 'material-icons');
-              previewDocEl.innerHTML = 'description';
-              uploadFileUrlInput.setAttribute('value', attachment.url);
-              uploadFileIDInput.setAttribute('value', attachment.id);
-              currentPreviewEl = previewDocEl;
-              break;
-            case "pdf":
-              formatRadios.find(el => el.value === 'format_document').checked = true;
-              previewThumbEl.querySelector('.preview-file-name').innerHTML = "";
-              previewThumbEl.classList.remove('icon');
-              currentPreviewEl ? currentPreviewEl.remove() : null;
-              previewDocEl = document.createElement("img");
-              previewThumbEl.prepend(previewDocEl);
-              previewDocEl.classList.add('add-asset__preview-image');
-              uploadFileUrlInput.setAttribute('value', attachment.url);
-              uploadFileIDInput.setAttribute('value', attachment.id);
-              previewDocEl.src = attachment.sizes.medium.url;
-              currentPreviewEl = previewDocEl;
-              break;
-            case "zip":
-              console.log(formatRadios.find(el => el.checked === true).value);
-              if (formatRadios.find(el => el.checked === true).value !== 'format_audio-zip' && formatRadios.find(el => el.checked === true).value !== 'format_zip') {
-                formatRadios.find(el => el.value === 'format_zip').checked = true;
-              }
-              previewThumbEl.querySelector('.preview-file-name').innerHTML = "";
-              currentPreviewEl ? currentPreviewEl.remove() : null;
-              previewZipEl = document.createElement("img");
-              previewThumbEl.classList.add('icon');
-              previewThumbEl.querySelector('.preview-file-name').append(attachment.filename);
-              previewThumbEl.prepend(previewZipEl);
-              previewZipEl.classList.add('add-asset__preview-image');
-              uploadFileUrlInput.setAttribute('value', attachment.url);
-              uploadFileIDInput.setAttribute('value', attachment.id);
-              previewZipEl.src = attachment.icon;
-              currentPreviewEl = previewZipEl;
-              break;
-          }
-          break;
-        default:
-
-      }
-      checkSaveButton();
-      previewContainerEl.style = "display: flex";
-      uploadButton.style = "display:none";
-    })
-  });
   wasEscaped ? null : uploadEditButton.addEventListener('click', (e) => {
     e.preventDefault();
     if (mediaUploader) {
@@ -403,6 +294,116 @@ addAssetDialog.listen('MDCDialog:opening', () => {
     mediaUploader.open();
   });
 })
+
+var mediaUploader;
+$(document).ready(function () {
+  function replaceExt(url, ext) {
+    var pos = url.lastIndexOf(".");
+    var newUrl = url.substr(0, pos < 0 ? url.length : pos) + ext;
+    return newUrl;
+  }
+  mediaUploader = wp.media(wp.media.view.MediaFrame.Select)
+  mediaUploader.on('select', function () {
+    var attachment = mediaUploader.state().get('selection').first().toJSON();
+    var selectedFormat = formatRadios.find(el => el.checked).value;
+    switch (attachment.type) {
+      case "image":
+
+        formatRadios.find(el => el.value === 'format_image').checked = true;
+        previewThumbEl.querySelector('.preview-file-name').innerHTML = "";
+        previewThumbEl.classList.remove('icon');
+        currentPreviewEl ? currentPreviewEl.remove() : null;
+        previewImageEl = document.createElement("img");
+        previewThumbEl.prepend(previewImageEl);
+        previewImageEl.classList.add('add-asset__preview-image');
+        uploadFileUrlInput.setAttribute('value', attachment.url);
+        uploadFileIDInput.setAttribute('value', attachment.id);
+        previewImageEl.src = typeof attachment.sizes.medium !== 'undefined' ? attachment.sizes.medium.url : typeof attachment.sizes.thumbnail !== 'undefined' ? attachment.sizes.thumbnail.url : attachment.url;
+        currentPreviewEl = previewImageEl;
+        break;
+      case "video":
+
+        formatRadios.find(el => el.value === 'format_video').checked = true;
+        previewThumbEl.querySelector('.preview-file-name').innerHTML = "";
+        previewThumbEl.classList.remove('icon');
+        currentPreviewEl ? currentPreviewEl.remove() : null;
+        previewVideoEl = document.createElement("img");
+        previewThumbEl.prepend(previewVideoEl);
+        previewVideoEl.classList.add('add-asset__preview-image');
+        uploadFileUrlInput.setAttribute('value', attachment.url);
+        uploadFileIDInput.setAttribute('value', attachment.id);
+        previewVideoEl.src = replaceExt(attachment.url, '_thumb.jpg');
+        currentPreviewEl = previewVideoEl;
+        break;
+      case "audio":
+        formatRadios.find(el => el.value === 'format_audio').checked = true;
+        previewThumbEl.querySelector('.preview-file-name').innerHTML = "";
+        currentPreviewEl ? currentPreviewEl.remove() : null;
+        previewAudioEl = document.createElement("div");
+        previewThumbEl.prepend(previewAudioEl);
+        previewThumbEl.classList.add('icon');
+        previewThumbEl.querySelector('.preview-file-name').append(attachment.filename);
+        previewAudioEl.classList.add('add-asset__preview-icon', 'material-icons');
+        previewAudioEl.innerHTML = 'library_music';
+        uploadFileUrlInput.setAttribute('value', attachment.url);
+        uploadFileIDInput.setAttribute('value', attachment.id);
+        currentPreviewEl = previewAudioEl;
+        break;
+      case "application":
+        switch (attachment.subtype) {
+          case "vnd.openxmlformats-officedocument.wordprocessingml.document":
+            formatRadios.find(el => el.value === 'format_document').checked = true;
+            currentPreviewEl ? currentPreviewEl.remove() : null;
+            previewDocEl = document.createElement("div");
+            previewThumbEl.prepend(previewDocEl);
+            previewThumbEl.classList.add('icon');
+            previewThumbEl.querySelector('.preview-file-name').append(attachment.filename);
+            previewDocEl.classList.add('add-asset__preview-icon', 'material-icons');
+            previewDocEl.innerHTML = 'description';
+            uploadFileUrlInput.setAttribute('value', attachment.url);
+            uploadFileIDInput.setAttribute('value', attachment.id);
+            currentPreviewEl = previewDocEl;
+            break;
+          case "pdf":
+            formatRadios.find(el => el.value === 'format_document').checked = true;
+            previewThumbEl.querySelector('.preview-file-name').innerHTML = "";
+            previewThumbEl.classList.remove('icon');
+            currentPreviewEl ? currentPreviewEl.remove() : null;
+            previewDocEl = document.createElement("img");
+            previewThumbEl.prepend(previewDocEl);
+            previewDocEl.classList.add('add-asset__preview-image');
+            uploadFileUrlInput.setAttribute('value', attachment.url);
+            uploadFileIDInput.setAttribute('value', attachment.id);
+            previewDocEl.src = attachment.sizes.medium.url;
+            currentPreviewEl = previewDocEl;
+            break;
+          case "zip":
+            console.log(formatRadios.find(el => el.checked === true).value);
+            if (formatRadios.find(el => el.checked === true).value !== 'format_audio-zip' && formatRadios.find(el => el.checked === true).value !== 'format_zip') {
+              formatRadios.find(el => el.value === 'format_zip').checked = true;
+            }
+            previewThumbEl.querySelector('.preview-file-name').innerHTML = "";
+            currentPreviewEl ? currentPreviewEl.remove() : null;
+            previewZipEl = document.createElement("img");
+            previewThumbEl.classList.add('icon');
+            previewThumbEl.querySelector('.preview-file-name').append(attachment.filename);
+            previewThumbEl.prepend(previewZipEl);
+            previewZipEl.classList.add('add-asset__preview-image');
+            uploadFileUrlInput.setAttribute('value', attachment.url);
+            uploadFileIDInput.setAttribute('value', attachment.id);
+            previewZipEl.src = attachment.icon;
+            currentPreviewEl = previewZipEl;
+            break;
+        }
+        break;
+      default:
+
+    }
+    checkSaveButton();
+    previewEl.style = "display: flex";
+    uploadButton.style = "display:none";
+  })
+});
 
 /* -------------------------------------------------------------------------- */
 /*                                   ACTIONS                                  */
@@ -421,23 +422,7 @@ $(".dam-add-asset__button").on("click", function () {
 
 addAssetDialog.listen("MDCDialog:closing", (e) => {
   if (e.detail.action === "reset") {
-    // var formInputs = addAssetDialog.root_.querySelectorAll("input");
-    // artistSelect.selectedIndex = 0;
-    // projectSelect.selectedIndex = 0;
-    // previewImageEl.src = "";
-    // previewContainerEl.style = "display: none";
-    // creatorField.root_.style.display = 'none';
-    // uploadButton.style = "margin auto";
-    // uploadButton.disabled = true;
-    // previewAreaEl.querySelector('#upload_button_helper-text').style.display = 'flex';
-    // for (var input in formInputs) {
 
-    //   var inputIndex = parseInt(input);
-    //   var inputEl = formInputs[inputIndex];
-    //   if (inputEl !== undefined && inputEl.type !== "radio")
-    //     inputEl.value = "";
-
-    // }
     $('.mdc-dialog__content').empty();
     $('.mdc-dialog__content').append(addAssetDialogHTML);
 
@@ -464,26 +449,180 @@ $(document).ajaxSuccess(function () {
     // Create hidden input that adds post_id to the POST object for updating the post
     editPostIDInput = document.createElement('input');
     $(editPostIDInput).attr({ "name": "edit_post_id", 'id': "edit_post_id", 'style': "display:none;", 'value': assetData.id });
-    addAssetFormEl.append(editPostIDInput);
+    addAssetFormEl.prepend(editPostIDInput);
 
     /* ------------------------ EDIT LABELS OUTSIDE FORM ------------------------ */
 
-    addAssetDialogRoot.querySelector('.mdc-dialog__title').innerText = 'Editing ' + assetData.title;
+    addAssetDialogRoot.querySelector('.mdc-dialog__title').innerText = 'Editing: ' + assetData.title;
     addAssetDialogRoot.querySelector('#add-asset__save-button').innerText = 'Update';
 
     /* ----------------------- EDIT FORM LABELS AND INPUTS ---------------------- */
 
+    // Asset Title
     addAssetTitle.root_.querySelector('.mdc-floating-label').innerText = 'Edit Title';
     addAssetTitle.value = assetData.title;
+
+    // Format Option
     formatRadios.find(el => el.value === assetData.format).checked = true;
+
+    // Creator Field
+    assetData.creator ? creatorField.value = assetData.creator : null;
+
+    // Artist Selection
+    artistSelect.foundation_.setValue(assetData.artist_id.toString());
+    artistSelect.menu_.list_.selectedIndex = artistSelect.selectedIndex;
+    artistSelect.value = assetData.artist_id.toString();
+    artistSelectInput.value = assetData.artist_id;
+    artistSelect.foundation_.notchOutline(artistSelect.foundation_.adapter_.getLabelWidth());
+    artistSelect.foundation_.adapter_.floatLabel(true);
+
+    // Project Selection
+    if (assetData.project_id) {
+      projectSelect.foundation_.setValue(assetData.project_id.toString());
+      projectSelect.menu_.list_.selectedIndex = projectSelect.selectedIndex;
+      projectInputEl.value = assetData.project_id;
+      projectSelect.foundation_.notchOutline(projectSelect.foundation_.adapter_.getLabelWidth());
+      projectSelect.foundation_.adapter_.floatLabel(true);
+    }
+    /* -------------------------------------------------------------------------- */
+    /*                               HANDLE PREVIEW                               */
+    /* -------------------------------------------------------------------------- */
+
     if (assetData.format === 'format_link') {
 
+      creatorField.root_.style.display = 'flex';
+      creatorField.root_.parentNode.style.display = 'flex';
+      linkField.input_.required = true;
+      linkField.value = assetData.permalink;
+      uploadFileUrlInput.required = false;
+      uploadFileIDInput.required = false;
+      uploadButton.disabled = true;
+      uploadEditButton.disabled = true;
+      previewContainerEl.style.display = 'none';
+      $(uploadButton).animate({ opacity: '0' });
+      $(linkField).animate({ opacity: '100' });
+      linkField.root_.style.display = 'flex';
+      checkSaveButton();
     } else {
-
+      creatorField.root_.style.display = 'flex';
+      creatorField.root_.parentNode.style.display = 'flex';
+      linkField.input_.required = false;
+      uploadFileUrlInput.required = true;
+      uploadFileIDInput.required = true;
+      previewContainerEl.querySelector('#upload_button_helper-text').style.display = 'none';
+      uploadButton.disabled = false;
+      uploadEditButton.disabled = false;
+      if (linkField.root_.style.display !== 'none') {
+        linkField.root_.style.display = 'none';
+      }
+      $(linkField).animate({ opacity: '100' });
+      if (previewContainerEl.style.display !== 'flex') {
+        previewContainerEl.style.display = 'flex';
+        $(previewContainerEl).animate({ opacity: '100' });
+        $(uploadButton).animate({ opacity: '100' });
+      }
+      checkSaveButton();
     }
+    var mimeType = assetData.mime;
+    switch (mimeType.split("/")[0]) {
+      case "image":
+        formatRadios.find(el => el.value === 'format_image').checked = true;
+        previewThumbEl.querySelector('.preview-file-name').innerHTML = "";
+        previewThumbEl.querySelector('.preview-file-name').style = 'display:none';
+        previewThumbEl.classList.remove('icon');
+        currentPreviewEl ? currentPreviewEl.remove() : null;
+        previewImageEl = document.createElement("img");
+        previewThumbEl.prepend(previewImageEl);
+        previewImageEl.classList.add('add-asset__preview-image');
+        uploadFileUrlInput.setAttribute('value', assetData.permalink);
+        uploadFileIDInput.setAttribute('value', assetData.attachment_id);
+        previewImageEl.src = assetData.thumbnail;
+        currentPreviewEl = previewImageEl;
+        break;
+      case "video":
 
-
-
+        formatRadios.find(el => el.value === 'format_video').checked = true;
+        previewThumbEl.querySelector('.preview-file-name').innerHTML = "";
+        previewThumbEl.querySelector('.preview-file-name').style = 'display:none';
+        previewThumbEl.classList.remove('icon');
+        currentPreviewEl ? currentPreviewEl.remove() : null;
+        previewVideoEl = document.createElement("img");
+        previewThumbEl.prepend(previewVideoEl);
+        previewVideoEl.classList.add('add-asset__preview-image');
+        uploadFileUrlInput.setAttribute('value', assetData.permalink);
+        uploadFileIDInput.setAttribute('value', assetData.attachment_id);
+        previewVideoEl.src = assetData.thumbnail;
+        currentPreviewEl = previewVideoEl;
+        break;
+      case "audio":
+        formatRadios.find(el => el.value === 'format_audio').checked = true;
+        previewThumbEl.querySelector('.preview-file-name').innerHTML = "";
+        previewThumbEl.querySelector('.preview-file-name').style = 'display:block';
+        currentPreviewEl ? currentPreviewEl.remove() : null;
+        previewAudioEl = document.createElement("div");
+        previewThumbEl.prepend(previewAudioEl);
+        previewThumbEl.classList.add('icon');
+        previewThumbEl.querySelector('.preview-file-name').append(assetData.filename);
+        previewAudioEl.classList.add('add-asset__preview-icon', 'material-icons');
+        previewAudioEl.innerHTML = 'library_music';
+        uploadFileUrlInput.setAttribute('value', assetData.permalink);
+        uploadFileIDInput.setAttribute('value', assetData.attachment_id);
+        currentPreviewEl = previewAudioEl;
+        break;
+      case "application":
+        switch (mimeType.split("/")[1]) {
+          case "vnd.openxmlformats-officedocument.wordprocessingml.document":
+            formatRadios.find(el => el.value === 'format_document').checked = true;
+            currentPreviewEl ? currentPreviewEl.remove() : null;
+            previewDocEl = document.createElement("div");
+            previewThumbEl.prepend(previewDocEl);
+            previewThumbEl.classList.add('icon');
+            previewThumbEl.querySelector('.preview-file-name').style = 'display:block';
+            previewThumbEl.querySelector('.preview-file-name').append(assetData.filename);
+            previewDocEl.classList.add('add-asset__preview-icon', 'material-icons');
+            previewDocEl.innerHTML = 'description';
+            uploadFileUrlInput.setAttribute('value', assetData.permalink);
+            uploadFileIDInput.setAttribute('value', assetData.attachment_id);
+            currentPreviewEl = previewDocEl;
+            break;
+          case "pdf":
+            formatRadios.find(el => el.value === 'format_document').checked = true;
+            previewThumbEl.querySelector('.preview-file-name').innerHTML = "";
+            previewThumbEl.querySelector('.preview-file-name').style = 'display:none';
+            previewThumbEl.classList.remove('icon');
+            currentPreviewEl ? currentPreviewEl.remove() : null;
+            previewDocEl = document.createElement("img");
+            previewThumbEl.prepend(previewDocEl);
+            previewDocEl.classList.add('add-asset__preview-image');
+            uploadFileUrlInput.setAttribute('value', assetData.permalink);
+            uploadFileIDInput.setAttribute('value', assetData.attachment_id);
+            previewDocEl.src = assetData.thumbnail;
+            currentPreviewEl = previewDocEl;
+            break;
+          case "zip":
+            console.log(formatRadios.find(el => el.checked === true).value);
+            if (formatRadios.find(el => el.checked === true).value !== 'format_audio-zip' && formatRadios.find(el => el.checked === true).value !== 'format_zip') {
+              formatRadios.find(el => el.value === 'format_zip').checked = true;
+            }
+            previewThumbEl.querySelector('.preview-file-name').innerHTML = "";
+            currentPreviewEl ? currentPreviewEl.remove() : null;
+            previewZipEl = document.createElement("div");
+            previewThumbEl.classList.add('icon');
+            previewThumbEl.querySelector('.preview-file-name').style = 'display:block';
+            previewThumbEl.querySelector('.preview-file-name').append(assetData.filename);
+            previewThumbEl.prepend(previewZipEl);
+            previewZipEl.classList.add('add-asset__preview-icon', 'media-archive-icon');
+            previewZipEl.innerHTML = 'media-archive';
+            uploadFileUrlInput.setAttribute('value', assetData.permalink);
+            uploadFileIDInput.setAttribute('value', assetData.attachment_id);
+            currentPreviewEl = previewZipEl;
+            break;
+        }
+        break;
+    }
+    previewEl.style = "display: flex";
+    uploadButton.style = "display:none";
+    addAssetFormEl.dispatchEvent(changeEvent);
     /* -------------------------------------------------------------------------- */
     /*                                RESET DIALOG                                */
     /* -------------------------------------------------------------------------- */

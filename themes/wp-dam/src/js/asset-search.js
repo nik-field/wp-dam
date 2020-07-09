@@ -70,6 +70,7 @@ function ajaxExec() {
             artist_id: r.artist_id,
             project: r.project,
             project_id: r.project_id,
+            attachment_id: r.attachment_id,
             addedon: r.addedon,
             displaydate: r.displaydate,
             thumbnail: r.thumbnail,
@@ -91,6 +92,7 @@ function ajaxExec() {
             is_audio: r.is_audio,
             is_not_link: r.is_not_link,
             is_link: r.is_link,
+            is_not_pdf: r.is_not_pdf,
           };
 
           index.addDoc(data);

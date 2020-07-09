@@ -8,6 +8,7 @@ function asset_search_callback() {
 
 	$args = array(
 		'post_type'      => 'asset',
+		'post_status'    => 'publish',
 		'posts_per_page' => -1,
 	);
 
@@ -64,7 +65,6 @@ function asset_search_callback() {
 			'duration'    => ( get_asset_file_meta( 'length_formatted' ) !== 'No file attached' ? get_asset_file_meta( 'length_formatted' ) : null ),
 			'filetype'    => get_asset_file_type(),
 			'mime'        => get_asset_file_type( 'mime' ),
-			'creator'     => get_asset_creator(),
 			'filename'    => get_asset_url( 'true' ),
 			'tags'        => $tags_r,
 
@@ -75,50 +75,62 @@ function asset_search_callback() {
 		if ( wp_dam_asset_thumbnail( 'icon' ) ) {
 			$assetObject['icon'] = wp_dam_asset_thumbnail( 'icon' );
 		}
+		if ( ! empty( get_asset_creator() ) ) {
+			$assetObject['creator'] = get_asset_creator();
+		}
 
 		switch ( get_asset_format() ) {
 			case 'format_image':
-				$assetObject += array(
+				$assetObject                 += array(
 					'is_image'     => 'is_image',
 					'maxres'       => get_asset_image_res(),
 					'display_size' => get_the_post_thumbnail_url( get_the_ID(), 'full' ),
 					'is_not_link'  => 'is_not_link',
 				);
+				$assetObject['attachment_id'] = attachment_url_to_postid( get_asset_url() );
 				break;
 			case 'format_document':
 				$assetObject += array(
 					'is_doc'      => 'is_doc',
 					'is_not_link' => 'is_not_link',
 				);
+				if ( get_asset_file_type() !== 'pdf' ) {
+					$assetObject['is_not_pdf'] = true;
+				}
+				$assetObject['attachment_id'] = attachment_url_to_postid( get_asset_url() );
 				break;
 			case 'format_video':
-				$assetObject += array(
+				$assetObject                 += array(
 					'is_video'    => 'is_video',
 					'maxres'      => get_asset_file_meta( 'width' ) . 'x' . get_asset_file_meta( 'height' ),
 					'is_not_link' => 'is_not_link',
 				);
+				$assetObject['attachment_id'] = attachment_url_to_postid( get_asset_url() );
 				break;
 			case 'format_audio':
-				$assetObject += array(
+				$assetObject                 += array(
 					'is_not_image' => 'is_not_image',
 					'is_audio'     => 'is_audio',
 					'is_not_link'  => 'is_not_link',
 				);
+				$assetObject['attachment_id'] = attachment_url_to_postid( get_asset_url() );
 				break;
 			case 'format_link':
 				$assetObject += array( 'is_link' => 'is_link' );
 				break;
 			case 'format_audio-zip':
-				$assetObject += array(
+				$assetObject                 += array(
 					'is_not_image' => 'is_not_image',
 					'is_not_link'  => 'is_not_link',
 				);
+				$assetObject['attachment_id'] = attachment_url_to_postid( get_asset_url() );
 				break;
 			case 'format_zip':
-				$assetObject += array(
+				$assetObject                 += array(
 					'is_not_image' => 'is_not_image',
 					'is_not_link'  => 'is_not_link',
 				);
+				$assetObject['attachment_id'] = attachment_url_to_postid( get_asset_url() );
 				break;
 			default:
 				$assetObject += array(
@@ -129,7 +141,6 @@ function asset_search_callback() {
 
 		$result[] = $assetObject;
 	}
-
 	echo json_encode( $result );
 
 	wp_die();

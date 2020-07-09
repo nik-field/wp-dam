@@ -96,7 +96,7 @@ if ( is_user_logged_in() && current_user_can( 'edit_posts' ) ) {
 		</div>
 	</div>
 </div>
-	<?php
+<?php
 	require get_template_directory() . '/inc/group-assets.php';
 }
 ?>

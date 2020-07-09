@@ -130,7 +130,7 @@ if ( ! function_exists( 'wp_dam_post_thumbnail' ) ) :
 			?>
 
 <div class="post-thumbnail">
-	<?php the_post_thumbnail(); ?>
+			<?php the_post_thumbnail(); ?>
 </div><!-- .post-thumbnail -->
 
 <?php else : ?>
@@ -150,7 +150,7 @@ if ( ! function_exists( 'wp_dam_post_thumbnail' ) ) :
 	?>
 </a>
 
-<?php
+	<?php
 		endif; // End is_singular().
 	}
 	endif;
@@ -323,14 +323,19 @@ function comma_tags( $tags, $show_links = true ) {
 }
 
 function get_asset_file_type( $style = 'ext' ) {
-	if ( get_asset_format() == 'format_image' ) {
-		$file[0] = get_the_post_thumbnail_url();
-	} else {
-		$file = get_post_meta( get_the_id(), 'add_asset_file' );
+	if ( 'format_link' !== get_asset_format() || get_asset_url() !== 'No file added' ) {
+		if ( get_asset_format() === 'format_image' ) {
+			$file[0] = get_the_post_thumbnail_url();
+		} else {
+			$file[0] = get_post_meta( get_the_id(), 'add_asset_file' )[0];
+		}
+		$file_type_check = wp_check_filetype( $file[0] );
+		$mime            = $file_type_check['type'];
+		$ext             = pathinfo( $file[0], PATHINFO_EXTENSION );
+	} elseif ( 'format_link' === get_asset_format() ) {
+		$mime = 'text/strings';
+		$ext  = 'url';
 	}
-	$file_type_check = @wp_check_filetype( $file[0] );
-	$mime            = $file_type_check['type'];
-	$ext             = pathinfo( @$file[0], PATHINFO_EXTENSION );
 
 	if ( ! $ext && ! $mime ) {
 		return 'No file attached';
@@ -381,8 +386,8 @@ function get_asset_creator() {
 
 	$creator = get_post_meta( get_the_id(), 'add_asset_creator' );
 
-	if ( ! isset( $creator[0] ) ) {
-		return 'None specified';
+	if ( empty( $creator[0] ) ) {
+		return false;
 	}
 
 	return $creator[0];
@@ -403,7 +408,7 @@ function get_asset_url( $slug_only = false ) {
 	} elseif ( get_asset_format() === 'format_link' ) {
 		$url = get_post_meta( get_the_id(), 'add_asset_link' )[0];
 	} else {
-		$url = @get_post_meta( get_the_id(), 'add_asset_file' )[0];
+		$url = isset( get_post_meta( get_the_id(), 'add_asset_file' )[0] ) ? get_post_meta( get_the_id(), 'add_asset_file' )[0] : false;
 	}
 
 	if ( ! $url ) {
@@ -569,15 +574,15 @@ if ( ! function_exists( 'get_asset_file_info' ) ) :
 		?>
 	</span>
 </i>
-<?php if ( get_asset_format() == 'format_image' && get_asset_file_type() !== 'svg' ) : ?>
+		<?php if ( get_asset_format() == 'format_image' && get_asset_file_type() !== 'svg' ) : ?>
 <i class="asset-file-info__item"><span class="asset-file-info__item--label">Dimensions:</span>
 	<span class="asset-file-info--typography">
-		<?php
+			<?php
 					print get_asset_image_res();
 			?>
 	</span>
 </i>
-<?php endif; ?>
+		<?php endif; ?>
 <i class="asset-file-info__item"><span class="asset-file-info__item--label">Tags:</span>
 	<span class="asset-file-info--typography">
 		<?php
@@ -585,12 +590,12 @@ if ( ! function_exists( 'get_asset_file_info' ) ) :
 		?>
 	</span>
 </i>
-<?php
+		<?php
 		if ( get_asset_format() == 'format_audio' || get_asset_format() == 'format_video' && get_asset_file_type() !== 'format_zip' ) :
 			?>
 <i class="asset-file-info__item"><span class="asset-file-info__item--label">Duration:</span>
 	<span class="asset-file-info--typography">
-		<?php
+			<?php
 				print get_asset_file_meta( 'length_formatted' );
 			?>
 	</span>
@@ -598,7 +603,7 @@ if ( ! function_exists( 'get_asset_file_info' ) ) :
 <?php endif; ?>
 
 
-<?php
+		<?php
 
 	}
 	endif;
