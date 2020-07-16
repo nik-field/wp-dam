@@ -50,7 +50,7 @@
 			<?php
 			if ( get_asset_format() === 'format_link' ) :
 				?>
-			<a href="<?php echo get_asset_url(); ?>" style="display:grid">
+			<a href="<?php echo get_asset_url(); ?>" style="display:grid;grid-area: 1 / 1 / span 3 / 2;">
 				<div class="mdc-card__media mdc-card__media--4-3 large-asset-card__media"><i class="material-icons large-asset-card__media--icon"><?php echo wp_dam_asset_thumbnail( 'icon' ); ?></i></div>
 			</a>
 			<?php endif; ?>

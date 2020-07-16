@@ -69,7 +69,11 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
+  .mdc-form-field {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
   .large-asset-card__subtitle {
     flex-shrink: 0;
     margin-left: 20px;
@@ -176,14 +180,16 @@ body {
     display: flex;
     flex-flow: row;
     flex-wrap: wrap;
-    justify-content: space-between;
     padding: 20px 0 20px;
+    margin: -1em;
   }
 
   .mdc-card {
-    width: 32%;
-    min-width: 250px;
-    margin: 0 0 20px;
+    margin: 1em;
+    flex-shrink: 1;
+    flex-grow: 1;
+    min-width: 272px;
+    max-width: 44%;
 
     .large-asset-card {
       padding: 0;
@@ -199,7 +205,7 @@ body {
         width: 100%;
         height: 100%;
         display: grid;
-        grid-template-columns: 33% 66%;
+        grid-template-columns: 33% 67%;
         grid-template-rows: 25% repeat(2, 37.5%);
         grid-column-gap: 0px;
         grid-row-gap: 0px;
@@ -238,7 +244,9 @@ body {
         .large-asset-card__secondary {
           order: 2;
           grid-area: 2 / 2 / 4 / 3;
-          padding: 0.5em 0.5em 0.5em;
+          margin: 0.5em 0.5em 0.5em;
+          padding-left: 0;
+          overflow: hidden;
 
           .mdc-card__actions.large-asset-card__actions {
             min-height: 25px;
@@ -247,6 +255,7 @@ body {
 
           .large-asset-card__file-info {
             width: 100%;
+            height: 100%;
 
             .asset-file-info__item {
               margin-bottom: 0;
@@ -258,9 +267,10 @@ body {
 
             .large-asset-card-file-info__details {
               columns: 1;
+              height: 100%;
 
               i:nth-child(n + 3) {
-                display: none;
+                //display: none;
               }
             }
 
@@ -304,12 +314,16 @@ body {
   .content-area {
     max-width: 95%;
   }
-  #recently-used .mdc-card .large-asset-card .large-asset-card__content {
-    grid-template-rows: 33% repeat(2, 33.5%);
-  }
+  // #recently-used .mdc-card .large-asset-card .large-asset-card__content {
+  //   grid-template-rows: 33% repeat(2, 33.5%);
+  // }
   #recently-used .large-asset-card__actions {
     display: none;
   }
+}
+
+a {
+  min-height: 0;
 }
 
 @media (max-width: 639px) {
@@ -319,8 +333,8 @@ body {
   #search-results {
     .mdc-card {
       width: 100%;
-      min-width: 300px;
       margin: 20px 0 20px;
+      overflow: hidden;
 
       .large-asset-card {
         padding: 0;
@@ -336,8 +350,8 @@ body {
           width: 100%;
           height: 100%;
           display: grid;
-          grid-template-columns: 33% 66%;
-          grid-template-rows: 25% repeat(2, 37.5%);
+          grid-template-columns: 33% 67%;
+          grid-template-rows: 1fr 2fr 2fr 1fr;
           grid-column-gap: 0px;
           grid-row-gap: 0px;
 
@@ -347,13 +361,22 @@ body {
             order: 1;
             min-width: 0;
             padding: 0.5em 0.5em 0 0.5em;
+            a {
+              max-width: 89%;
+            }
+            .mdc-form-field {
+              position: absolute;
+              top: -4px;
+              right: -4px;
+            }
 
             .large-asset-card__title {
               white-space: nowrap;
               overflow: hidden;
               text-overflow: ellipsis;
-              font-size: 1rem;
-              line-height: 1.25rem;
+              font-size: 1.5rem;
+              line-height: 1.75rem;
+              max-width: 89%;
             }
           }
 
@@ -363,7 +386,7 @@ body {
 
           .large-asset-card__media {
             //flex: 0 1 35%;
-            grid-area: 1 / 1 / 4 / 2;
+            grid-area: 1/1/5/2;
             order: 0;
             width: 100%;
             border: none;
@@ -375,8 +398,13 @@ body {
 
           .large-asset-card__secondary {
             order: 2;
-            grid-area: 2 / 2 / 4 / 3;
+            grid-area: 2/2/5/3;
             padding: 0.5em 0.5em 0.5em;
+            box-sizing: border-box;
+            width: 100%;
+            overflow: hidden;
+            display: grid;
+            grid-template-rows: 1fr 25px;
 
             .mdc-card__actions.large-asset-card__actions {
               min-height: 25px;
@@ -384,21 +412,26 @@ body {
             }
 
             .large-asset-card__file-info {
-              width: 100%;
+              box-sizing: border-box;
+              min-height: 0;
+              min-width: 0;
 
               .asset-file-info__item {
                 margin-bottom: 0;
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 overflow: hidden;
-                line-height: 1.25em;
+                line-height: 1rem;
               }
 
               .large-asset-card-file-info__details {
                 columns: 1;
+                height: 100%;
+                overflow: hidden;
+                min-height: 0;
 
                 i:nth-child(n + 3) {
-                  display: none;
+                  // display: none;
                 }
               }
 
@@ -439,6 +472,36 @@ body {
   }
 }
 
+@media (max-width: 380px) {
+  #search-results
+    .mdc-card
+    .large-asset-card
+    .large-asset-card__content
+    .large-asset-card__primary
+    .large-asset-card__title {
+    font-size: 1rem;
+  }
+  #search-results
+    .mdc-card
+    .large-asset-card
+    .large-asset-card__content
+    .large-asset-card__secondary {
+    padding: 0 0.5em 0.5em;
+  }
+  .dam-asset-dialog {
+    .mdc-dialog__title {
+      padding: 0 0.5em 0.5em;
+    }
+    .large-asset-card__link-copy input {
+      padding-right: 0.5em;
+      padding-left: 0.5em;
+      margin: 0;
+    }
+    .large-asset-card__link-copy-button {
+      display: none;
+    }
+  }
+}
 // .projects-menu {
 //   display: none;
 // }
@@ -497,12 +560,6 @@ body {
   40% {
     -webkit-transform: scale(0.75);
     transform: scale(0.75);
-  }
-}
-
-.dam-asset-dialog {
-  footer {
-    padding: 0 24px 24px;
   }
 }
 

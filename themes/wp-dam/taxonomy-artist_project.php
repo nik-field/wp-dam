@@ -35,7 +35,7 @@ get_header();
 			</div>
 			<?php if ( is_user_logged_in() ) : ?>
 			<div id="recently-used">
-				<span class="recent-label" onclick="$('.recently-used-container').slideToggle()">Recently Used <i class="material-icons">arrow_drop_down</i></span>
+				<span class="recent-label menu-dropdown-toggle dropdown-menu-open">Recently Used <i class="material-icons">arrow_drop_down</i></span>
 				<div class="recently-used-container">
 					<?php
 						$user_id             = get_current_user_id();

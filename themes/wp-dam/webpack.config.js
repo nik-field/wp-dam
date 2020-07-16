@@ -1,10 +1,10 @@
 const autoprefixer = require("autoprefixer");
-
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 var path = require("path");
 
 module.exports = [
   {
-    entry: ["./src/scss/webapp.scss", "./src/js/webapp.js"],
+    entry: [path.resolve(__dirname, "src/scss/webapp.scss"), path.resolve(__dirname, "src/js/webapp.js")],
     output: {
       path: path.resolve(__dirname, "dist/scripts"),
       filename: "script.js",
@@ -55,6 +55,14 @@ module.exports = [
           ],
         },
         {
+          test: /\.(woff|woff2|eot|svg|ttf|otf)$/,
+          loader: "file-loader",
+          options: {
+            outputPath: '../fonts',
+            name: '[name].[ext]',
+          },
+        },
+        {
           test: /\.js$/,
           loader: "babel-loader",
           query: {
@@ -66,8 +74,8 @@ module.exports = [
   },
   {
     entry: {
-      "frontend-addasset": "./src/js/admin-frontend-addasset.js",
-      customizer: "./src/js/admin-customizer.js",
+      "frontend-addasset": path.resolve(__dirname, "src/js/admin-frontend-addasset.js"),
+      customizer: path.resolve(__dirname, "src/js/admin-customizer.js"),
     },
     output: {
       path: path.resolve(__dirname, "dist/scripts"),
@@ -115,5 +123,22 @@ module.exports = [
         },
       ],
     },
+  },
+  {
+    plugins: [
+      new BrowserSyncPlugin({
+        open: false,
+        proxy: 'http://dam.test',
+        files: [
+          "./",
+          "!./../",
+          "!./webpack.config.js",
+          "!./package.json",
+          "!./package-lock.json",
+          "!./node_modules",
+        ],
+        reloadDelay: 0,
+      }),
+    ],
   },
 ];

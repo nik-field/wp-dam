@@ -1,10 +1,10 @@
 @font-face {
   font-family: "media-archive";
-  src: url("fonts/media-archive.eot?4ifois");
-  src: url("fonts/media-archive.eot?4ifois#iefix") format("embedded-opentype"),
-    url("fonts/media-archive.ttf?4ifois") format("truetype"),
-    url("fonts/media-archive.woff?4ifois") format("woff"),
-    url("fonts/media-archive.svg?4ifois#media-archive") format("svg");
+  src: url("media-archive.eot?4ifois");
+  src: url("media-archive.eot?4ifois#iefix") format("embedded-opentype"),
+    url("media-archive.ttf?4ifois") format("truetype"),
+    url("media-archive.woff?4ifois") format("woff"),
+    url("media-archive.svg?4ifois#media-archive") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block;

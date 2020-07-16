@@ -16,20 +16,21 @@
 			$slug = $format->slug;
 			$name = $format->name;
 			?>
-
-		<div class="mdc-radio">
-			<input required aria-required="true" class="mdc-radio__native-control dam-add-asset__format-input" type="radio" id="<?php echo esc_html( $slug ); ?>" name="format" value="<?php echo esc_html( $slug ); ?>">
-			<div class="mdc-radio__background">
-				<div class="mdc-radio__outer-circle"></div>
-				<div class="mdc-radio__inner-circle"></div>
+		<div class="add-asset__radio">
+			<div class="mdc-radio">
+				<input required aria-required="true" class="mdc-radio__native-control dam-add-asset__format-input" type="radio" id="<?php echo esc_html( $slug ); ?>" name="format" value="<?php echo esc_html( $slug ); ?>">
+				<div class="mdc-radio__background">
+					<div class="mdc-radio__outer-circle"></div>
+					<div class="mdc-radio__inner-circle"></div>
+				</div>
+				<div class="mdc-radio__ripple"></div>
 			</div>
-			<div class="mdc-radio__ripple"></div>
+			<label for="<?php echo esc_html( $slug ); ?>">
+				<?php echo esc_html( $name ); ?>
+			</label>
 		</div>
-		<label for="<?php echo esc_html( $slug ); ?>">
-			<?php echo esc_html( $name ); ?>
-		</label>
 
-			<?php
+		<?php
 		}
 		?>
 
@@ -114,7 +115,7 @@
 							<?php echo $artist_term->name; ?>
 						</span>
 					</li>
-						<?php
+					<?php
 						// End foreach
 					}
 					?>
@@ -163,7 +164,7 @@
 								<?php echo $year; ?>
 							</span>
 						</li>
-								<?php
+						<?php
 						}
 						}
 						?>
@@ -244,7 +245,7 @@
 							<?php echo $project->name; ?>
 						</span>
 					</li>
-						<?php
+					<?php
 						// End foreach
 					}
 					?>

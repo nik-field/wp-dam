@@ -40,21 +40,27 @@
 				if ( filter_page_check( $artist_page ) ) {
 					echo 'id="current-page"';  }
 				?>
-				class="filter-list-item mdc-ripple mdc-list-item" role="menuitem">
+				class="filter-list-item mdc-list-item mdc-list-item--artist" role="menuitem">
 				<?php
 				if ( ! filter_page_check( $artist_page ) ) {
 					echo '<a class="menu-link" href="' . $artist_page . '">';
 				}
 				?>
-				<?php echo $artist_name; ?>
+				<div class="artist-menu-item"><span class="artist-menu-item--label"><?php echo $artist_name; ?></span></div>
 				<?php
 				if ( filter_page_check( $artist_page ) ) :
 					?>
-				<a class="menu-link-icon" href="<?php echo home_url(); ?>"><i class="filter-menu-icon material-icons">close</i><?php endif; ?></a><span id="{{id}}-projects-menu" class="artist-menu--dropdown"><i class="material-icons">arrow_drop_down</i></span>
-				<div class="projects-sub-menu">
+				<a class="menu-link-icon" href="<?php echo home_url(); ?>"><i class="filter-menu-icon material-icons">close</i><?php endif; ?></a>
+				<?php
+						$projects = get_projects( $artist_slug );
+				if ( ! empty( $projects ) ) {
+					if ( ! filter_page_check( $artist_page ) ) :
+						?>
+				<span class="artist-menu--dropdown menu-dropdown-toggle"><i class="material-icons">arrow_drop_down</i></span>
+				<?php endif; ?>
+				<div style="display:none" class="projects-sub-menu">
 					<ul class="mdc-list">
 						<?php
-						$projects = get_projects( $artist_slug );
 						foreach ( $projects as $project ) {
 							$project_name = $project->name;
 							$project_page = home_url() . '/assets/' . get_artist_slug( $project->parent ) . '/?project=' . $project->slug;
@@ -62,7 +68,7 @@
 						<li
 							<?php
 							if ( ! empty( $_GET['project'] ) && $_GET['project'] === $project->slug ) {
-									echo 'id="current-page"';
+								echo 'id="current-page"';
 							}
 							?>
 							class="filter-list-item mdc-ripple mdc-list-item" role="menuitem">
@@ -77,15 +83,16 @@
 								?>
 							<a class="menu-link-icon" href="<?php echo strtok( $_SERVER['REQUEST_URI'], '?' ); ?>"><i class="filter-menu-icon material-icons">close</i><?php endif; ?></a>
 						</li>
-						<?php
+							<?php
 
 						}
 						?>
 					</ul>
 				</div>
 			</li>
-			<?php
-			};
+					<?php
+				}
+			}
 			?>
 		</ul>
 		<?php } ?>
@@ -131,17 +138,17 @@
 						?>
 					<a class="menu-link-icon" href="<?php echo strtok( $_SERVER['REQUEST_URI'], '?' ); ?>"><i class="filter-menu-icon material-icons">close</i><?php endif; ?></a>
 				</li>
-				<?php
+					<?php
 				};
 				?>
 				</li>
 			</ul>
 
-			<?php
+				<?php
 			} else {
 				?>
 			<p>There aren't any assets or the assets have not been assigned to a project.</p>
-			<?php
+				<?php
 			}
 			?>
 		</div>

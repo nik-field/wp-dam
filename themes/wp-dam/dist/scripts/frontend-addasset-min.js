@@ -11155,7 +11155,6 @@ function count() {
 
 var addAssetTemplate = document.getElementById("tpl-add-asset-dialog").innerHTML;
 var addAssetDialogHTML = template.render(addAssetTemplate);
-debugger;
 $('.mdc-dialog__content').append(addAssetDialogHTML);
 
 function checkSaveButton() {
@@ -11378,6 +11377,11 @@ addAssetDialog.listen('MDCDialog:opening', function () {
   });
   /* ---------------------- HANDLE "HIDDEN" INPUT FIELDS ---------------------- */
 
+  artistSelect.menu_.listen('MDCMenuSurface:opened', function () {
+    var sidebarHeight = $("#add-asset__sidebar").height() - 56;
+    console.log(sidebarHeight);
+    artistSelect.menu_.menuSurface_.foundation_.adapter_.setMaxHeight(sidebarHeight + "px");
+  });
   wasEscaped ? null : artistSelect.listen("MDCSelect:change", function (e) {
     if (artistSelectInput.value !== e.detail.value) {
       artistSelectInput.value = e.detail.value;
@@ -11385,7 +11389,6 @@ addAssetDialog.listen('MDCDialog:opening', function () {
 
     projectSelect.foundation_.setValue("");
     var projectsMenuItems = projectsMenu.items.slice(1);
-    debugger;
 
     for (var item in projectsMenuItems) {
       var itemIndex = parseInt(item);

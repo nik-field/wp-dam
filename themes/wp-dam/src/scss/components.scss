@@ -202,7 +202,7 @@ $primary-a: transparentize($primary, 0.5);
     flex-direction: row;
   }
   .dam-add-asset__button {
-    display: none;
+    display: flex;
     @media (min-width: 850px) {
       display: flex;
     }
@@ -215,12 +215,23 @@ $primary-a: transparentize($primary, 0.5);
     #frontend_add_asset_form {
       display: flex;
       flex-wrap: wrap;
+      margin-left: -1em;
+      justify-content: center;
+      & > div {
+        margin-left: 1em;
+      }
     }
   }
   .add-asset-dialog-surface,
   .mdc-dialog__content {
     overflow: visible;
     text-align: left;
+  }
+  .dam-add-asset-dialog_form {
+    max-height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    box-shadow: inset 0 -10px 10px -10px rgba(0, 0, 0, 0.2);
   }
   .mdc-dialog__title {
     border-bottom: 1px solid $lightgrey;
@@ -237,16 +248,31 @@ $primary-a: transparentize($primary, 0.5);
   }
   .add-asset__format {
     flex-basis: 100%;
-    margin: 16px 0 16px;
-    label:last-child {
-      margin-right: 1em;
+    margin: 16px 0px 16px;
+    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 3.5fr));
+    .add-asset__radio {
+      display: flex;
+      align-items: center;
+      flex: 1 0 14.28%;
+      width: 100px;
+      padding-right: 10px;
+      label {
+        white-space: nowrap;
+      }
+      &:last-child {
+        flex: 0 1;
+      }
     }
   }
   .add-asset__main {
     display: flex;
-    flex-basis: 66%;
     flex-wrap: wrap;
-    margin: 0 1rem 0 0;
+    width: 100%;
+    min-height: 200px;
+    flex: 1 0 60%;
+    margin-bottom: 2em;
     border: 4px dashed #b4b9be;
     justify-content: space-around;
     align-content: space-around;
@@ -264,7 +290,9 @@ $primary-a: transparentize($primary, 0.5);
     }
     .add-asset__file--meta {
       display: flex;
-      flex: 0 1 50%;
+      flex: 1 1;
+      min-width: 185px;
+      max-width: 50%;
       flex-wrap: wrap;
       align-content: center;
       .mdc-text-field {
@@ -295,12 +323,12 @@ $primary-a: transparentize($primary, 0.5);
       flex: 1 0 100%;
       min-height: 50%;
       justify-content: center;
+      margin-bottom: 1em;
       .add-asset__preview--thumb {
         position: relative;
         max-width: 300px;
         text-align: center;
         border-radius: 3px;
-        min-width: 260px;
       }
       .add-asset__preview--thumb.icon {
         border: solid 1px #c8ccca;
@@ -308,7 +336,6 @@ $primary-a: transparentize($primary, 0.5);
         display: flex;
         background-color: $offwhite;
         height: 195px;
-        width: 260px;
         align-content: space-evenly;
         flex-wrap: wrap;
         justify-content: center;
@@ -336,9 +363,7 @@ $primary-a: transparentize($primary, 0.5);
       .preview-file-name {
         flex-basis: 100%;
         text-align: center;
-        text-overflow: ellipsis;
         overflow: hidden;
-        white-space: nowrap;
         padding: 0 1em;
       }
     }
@@ -349,6 +374,9 @@ $primary-a: transparentize($primary, 0.5);
     display: flex;
     flex-wrap: wrap;
     flex: 1;
+    margin-left: 1em;
+    min-width: 240px;
+    margin-right: -0.5em;
   }
   #add-asset__sidebar,
   #add-asset__new-project--container {
@@ -366,6 +394,8 @@ $primary-a: transparentize($primary, 0.5);
     #add-asset__new-artist--container {
       margin-right: -0.5em;
       position: relative;
+      margin-right: 0.5em;
+      padding-bottom: 0.5em;
     }
     #add-asset__new-artist--container,
     #add-asset__new-project--container {
@@ -380,6 +410,7 @@ $primary-a: transparentize($primary, 0.5);
       margin: 8px auto;
       flex-basis: 194px;
       text-align: center;
+      min-width: 100%;
     }
     .mdc-text-field--full-width {
       width: 100%;
@@ -392,6 +423,7 @@ $primary-a: transparentize($primary, 0.5);
       flex-wrap: wrap;
       align-content: start;
       justify-content: space-around;
+      margin-right: 0.5em;
       .mdc-select__anchor {
         width: 100%;
       }
@@ -425,6 +457,7 @@ $primary-a: transparentize($primary, 0.5);
       display: flex;
       flex-wrap: wrap;
       justify-content: space-around;
+      margin-right: 0.5em;
       .mdc-select__anchor {
         width: 100%;
       }
@@ -443,6 +476,9 @@ $primary-a: transparentize($primary, 0.5);
       }
     }
     @include mdc-select-helper-text-color($primary);
+  }
+  footer {
+    border-top: 1px solid #c8ccca;
   }
 }
 

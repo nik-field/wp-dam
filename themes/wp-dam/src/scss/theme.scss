@@ -3,8 +3,13 @@
 
 /*  Typography */
 // To change your theme's typography, we recommend importing a font from Google Fonts and setting the global font-family https://fonts.google.com
+@import "./fonts/GothamRounded-Medium.css";
+@import "./fonts/media-archive.css";
+@import url("https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,400");
 
-@import url("https://fonts.googleapis.com/css?family=Karla:400,400i,700|Varela+Round&display=swap");
+.wf-loading .material-icons {
+  visibility: hidden;
+}
 
 $mdc-typography-font-family: unquote("Karla, sans-serif");
 
@@ -92,6 +97,17 @@ a {
   }
 }
 
+.menu-dropdown-toggle {
+  i {
+    transition: transform 0.2s ease;
+    transform: rotate(90deg);
+  }
+  &.dropdown-menu-open i {
+    transition: transform 0.2s ease;
+    transform: rotate(0);
+  }
+}
+
 aside {
   [class*="mdc-typography--headline"] {
     color: $darkgreen;
@@ -106,21 +122,41 @@ aside {
   .mdc-menu {
     margin-bottom: 15px;
   }
-
+  .artists-menu ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+  }
   .mdc-list-item {
-    height: 36px;
+    flex-basis: 100%;
+    height: unset;
+    min-height: 36px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    .artist-menu-item {
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+    }
+    .artist-menu--dropdown {
+      display: flex;
+      width: 36px;
+      justify-content: center;
+      height: 36px;
+      align-items: center;
+    }
 
     .menu-link {
+      flex: 1 0 auto;
       color: $mediumgrey;
       text-decoration: none;
       display: flex;
       padding: 0 16px;
-      height: 100%;
-      width: 100%;
       align-items: center;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      min-height: 36px;
 
       .filter-menu-icon {
         color: $mediumgrey;
@@ -132,6 +168,10 @@ aside {
         color: $darkgrey;
       }
     }
+    .projects-sub-menu {
+      padding-left: 1em;
+      flex-basis: 100%;
+    }
   }
 }
 
@@ -140,18 +180,24 @@ aside {
 }
 
 #current-page.mdc-list-item {
-  padding: 0px 16px !important;
+  padding: 0px 0px 0px 16px !important;
 
+  &.mdc-list-item--artist {
+    border-bottom: 1px solid $mediumgrey;
+    order: -1;
+  }
   .menu-link-icon {
     color: $mediumgrey;
     display: flex;
     align-items: center;
     text-decoration: none;
+    height: 36px;
+    width: 36px;
+    justify-content: center;
 
     .filter-menu-icon {
       color: $mediumgrey;
       font-size: 1rem !important;
-      margin-left: 8px;
     }
   }
 }

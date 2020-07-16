@@ -17518,6 +17518,12 @@ dialog.on('click', '.dialog-access-trigger', function () {
     });
   }
 });
+var recentButton = document.querySelector('.recent-label');
+recentButton.addEventListener('click', function () {
+  $('.recently-used-container').slideToggle();
+  var downIcon = recentButton.querySelector('i');
+  recentButton.classList.toggle('dropdown-menu-open');
+});
 
 /***/ }),
 
@@ -17732,6 +17738,22 @@ function dialogOpen() {
 }
 
 createDialog();
+var artistMenuItems = document.querySelectorAll(".mdc-list-item--artist");
+artistMenuItems.forEach(function (el) {
+  var subMenu = el.querySelector(".projects-sub-menu");
+
+  if (el.id === 'current-page') {
+    $(subMenu).slideToggle(150);
+  }
+
+  if (el.children.length > 1 && el.id !== 'current-page') {
+    var subMenuButton = el.querySelector(".artist-menu--dropdown");
+    subMenuButton.addEventListener('click', function () {
+      $(subMenu).slideToggle(150);
+      subMenuButton.classList.toggle('dropdown-menu-open');
+    });
+  }
+});
 
 /***/ }),
 
@@ -17947,8 +17969,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! ./src/scss/webapp.scss */"./src/scss/webapp.scss");
-module.exports = __webpack_require__(/*! ./src/js/webapp.js */"./src/js/webapp.js");
+__webpack_require__(/*! /Users/ordinary/Dev/Projects/DAM/wp-dam/themes/wp-dam/src/scss/webapp.scss */"./src/scss/webapp.scss");
+module.exports = __webpack_require__(/*! /Users/ordinary/Dev/Projects/DAM/wp-dam/themes/wp-dam/src/js/webapp.js */"./src/js/webapp.js");
 
 
 /***/ })

@@ -231,3 +231,20 @@ function dialogOpen() {
 
 createDialog();
 
+var artistMenuItems = document.querySelectorAll(".mdc-list-item--artist");
+
+artistMenuItems.forEach((el) => {
+  var subMenu = el.querySelector(".projects-sub-menu");
+  if (el.id === 'current-page') {
+    $(subMenu).slideToggle(150);
+  }
+  if (el.children.length > 1 && el.id !== 'current-page') {
+    var subMenuButton = el.querySelector(".artist-menu--dropdown");
+    subMenuButton.addEventListener('click', () => {
+      $(subMenu).slideToggle(150);
+      subMenuButton.classList.toggle('dropdown-menu-open');
+    })
+  }
+})
+
+
