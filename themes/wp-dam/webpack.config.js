@@ -23,13 +23,13 @@ module.exports = [
             {
               loader: "extract-loader",
               options: {
-                sourceMap: true
+                //sourceMap: true
               }
             },
             {
               loader: "css-loader",
               options: {
-                sourceMap: true
+                //sourceMap: true
               }
             },
             {
@@ -41,7 +41,7 @@ module.exports = [
             {
               loader: "sass-loader",
               options: {
-                sourceMap: true,
+                //sourceMap: true,
                 sassOptions: {
                   includePaths: ['./node_modules']
                 },

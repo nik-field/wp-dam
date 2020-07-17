@@ -15,19 +15,16 @@
 	<?php dynamic_sidebar( 'sidebar-1' ); ?>
 	<div class="filters-header mdc-typography--headline5">Filters</div>
 	<?php
-	$user            = wp_get_current_user();
-	$user_can_access = get_the_author_meta( 'allow_access_to', $user->ID ) > 0 ? false : true;
-	if ( $user_can_access ) {
-		?>
+	$user = wp_get_current_user();
+	?>
 	<div class="filters-sub-header mdc-typography--headline6"><a href="<?php echo get_home_url(); ?>">Artists</a></div>
 	<div class="mdc-menu artists-menu">
 
 		<ul class="mdc-list" role="menu">
 
 			<?php
-
-				$artists_terms = get_artist_terms();
-
+				$user_can_access                           = get_the_author_meta( 'allow_access_to', $user->ID );
+				( $user_can_access == 0 ) ? $artists_terms = get_artist_terms() : $artists_terms[0] = get_artist( $user_can_access );
 
 
 			foreach ( $artists_terms as $artist_term ) {
@@ -77,25 +74,24 @@
 								echo '<a class="menu-link" href="' . $project_page . '">';
 							}
 							?>
-							<?php echo $project_name; ?>
+							<div class="artist-menu-item"><?php echo $project_name; ?></div>
 							<?php
 							if ( ! empty( $_GET['project'] ) && $_GET['project'] === $project->slug ) :
 								?>
 							<a class="menu-link-icon" href="<?php echo strtok( $_SERVER['REQUEST_URI'], '?' ); ?>"><i class="filter-menu-icon material-icons">close</i><?php endif; ?></a>
 						</li>
-							<?php
+						<?php
 
 						}
 						?>
 					</ul>
 				</div>
 			</li>
-					<?php
+			<?php
 				}
 			}
 			?>
 		</ul>
-		<?php } ?>
 		<?php
 		$disabled = true;
 		if ( ! $disabled ) {
@@ -138,17 +134,17 @@
 						?>
 					<a class="menu-link-icon" href="<?php echo strtok( $_SERVER['REQUEST_URI'], '?' ); ?>"><i class="filter-menu-icon material-icons">close</i><?php endif; ?></a>
 				</li>
-					<?php
+				<?php
 				};
 				?>
 				</li>
 			</ul>
 
-				<?php
+			<?php
 			} else {
 				?>
 			<p>There aren't any assets or the assets have not been assigned to a project.</p>
-				<?php
+			<?php
 			}
 			?>
 		</div>

@@ -56,7 +56,7 @@
 		</div>
 		<div style="display:none" class="add-asset__file--meta">
 			<div style="display:none" class="add-asset-link-input mdc-text-field mdc-ripple">
-				<input name="asset_link" class="mdc-text-field__input" id="text-field-hero-input" pattern=".*\S+.*" required>
+				<input name="asset_link" class="mdc-text-field__input" id="text-field-hero-input" type="url" name="url" id="url" placeholder="https://example.com" required>
 				<div class="mdc-line-ripple link-line-ripple"></div>
 				<label for="text-field-hero-input" class="mdc-floating-label link-floating-label">Link</label>
 			</div>

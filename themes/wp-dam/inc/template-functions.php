@@ -140,7 +140,7 @@ label {
 	padding-bottom: 10px;
 }
 </style>
-	<?php
+<?php
 }
 add_action( 'login_enqueue_scripts', 'wp_dam_login_logo' );
 
@@ -173,6 +173,18 @@ function get_artist_terms() {
 
 function get_artist_slug( $artist_id ) {
 	return get_term( $artist_id, 'artist_project' )->slug;
+}
+function get_artist( $artist ) {
+	if ( is_numeric( $artist ) ) {
+		return get_term( $artist, 'artist_project' );
+	} elseif ( is_string( $artist ) ) {
+		$artist_args = array(
+			'taxonomy' => 'artist_project',
+			'slug'     => $artist,
+		);
+		return get_terms( $artist_args );
+	}
+	return;
 }
 function get_project_slug( $project_id ) {
 	return get_term( $project_id, 'artist_project' )->slug;
@@ -546,18 +558,17 @@ function wp_dam_artist_user_extra_field( $user ) {
 						if ( $artist->term_id === $selected ) {
 															echo 'selected';
 						}
-						?>
-						>
+						?>>
 					<?php echo $artist->name; ?>
 				</option>
-					<?php
+				<?php
 				}
 				?>
 				<span class="description"><?php _e( 'Please choose Artist to allow access to.' ); ?></span>
 		</td>
 	</tr>
 </table>
-		<?php
+<?php
 	}
 }
 
@@ -577,7 +588,7 @@ function wp_dam_artist_redirect() {
 				}
 			}
 		);
-		wp_redirect( home_url( '/' . $artist[ key( $artist ) ]->slug ) );
+		wp_redirect( home_url( '/assets/' . $artist[ key( $artist ) ]->slug ) );
 		die;
 	}
 }
@@ -779,7 +790,7 @@ function my_upload_new_media_html() {
 	</form>
 </div>
 
-	<?php
+<?php
 }
 add_action( 'wp_dam_frontend_addasset_uploader', 'my_upload_new_media_html' );
 

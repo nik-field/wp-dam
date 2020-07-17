@@ -442,8 +442,8 @@ $(document).ajaxSuccess(function () {
   var editPostIDInput;
 
   editAssetButtons.forEach(el => $(el).on("click", function () {
+    wasEscaped = false;
     addAssetDialog.open()
-
     var assetCard = event.target.closest('article');
     var assetData = JSON.parse(assetCard.attributes['data-asset-json'].value);
     var addAssetDialogRoot = document.querySelector('.dam-add-asset-dialog');
@@ -489,9 +489,11 @@ $(document).ajaxSuccess(function () {
     /* -------------------------------------------------------------------------- */
     /*                               HANDLE PREVIEW                               */
     /* -------------------------------------------------------------------------- */
-
+    previewEl.style = "display: none";
+    previewContainerEl.style = "display: none";
+    uploadButton.style = "display:flex";
     if (assetData.format === 'format_link') {
-
+      debugger;
       creatorField.root_.style.display = 'flex';
       creatorField.root_.parentNode.style.display = 'flex';
       linkField.input_.required = true;
@@ -506,25 +508,60 @@ $(document).ajaxSuccess(function () {
       linkField.root_.style.display = 'flex';
       checkSaveButton();
     } else {
+      debugger;
       creatorField.root_.style.display = 'flex';
       creatorField.root_.parentNode.style.display = 'flex';
       linkField.input_.required = false;
       uploadFileUrlInput.required = true;
       uploadFileIDInput.required = true;
       previewContainerEl.querySelector('#upload_button_helper-text').style.display = 'none';
-      uploadButton.disabled = false;
+      uploadButton.disabled = true;
       uploadEditButton.disabled = false;
+      uploadButton.style = "display:none";
       if (linkField.root_.style.display !== 'none') {
         linkField.root_.style.display = 'none';
       }
       $(linkField).animate({ opacity: '100' });
       if (previewContainerEl.style.display !== 'flex') {
         previewContainerEl.style.display = 'flex';
+        previewEl.style = "display:flex";
         $(previewContainerEl).animate({ opacity: '100' });
-        $(uploadButton).animate({ opacity: '100' });
       }
       checkSaveButton();
     }
+    $('input[type="checkbox"]').on('click', (e) => {
+      debugger;
+      checkSaveButton();
+      if (addAssetFormEl.elements.format.value === 'format_link') {
+        linkField.input_.required = true;
+        uploadFileUrlInput.required = false;
+        uploadFileIDInput.required = false;
+        uploadButton.disabled = true;
+        uploadEditButton.disabled = true;
+        previewContainerEl.style.display = 'none';
+        $(uploadButton).animate({ opacity: '0' });
+        $(linkField).animate({ opacity: '100' });
+        linkField.root_.style.display = 'flex';
+        checkSaveButton();
+      } else if (e.target.checked) {
+        linkField.input_.required = false;
+        uploadFileUrlInput.required = true;
+        uploadFileIDInput.required = true;
+        previewContainerEl.querySelector('#upload_button_helper-text').style.display = 'none';
+        uploadButton.disabled = false;
+        uploadEditButton.disabled = false;
+        if (linkField.root_.style.display !== 'none') {
+          linkField.root_.style.display = 'none';
+        }
+        $(linkField).animate({ opacity: '100' });
+        if (previewContainerEl.style.display !== 'flex') {
+          previewContainerEl.style.display = 'flex';
+          previewEl.style.display = 'none';
+          uploadButton.style.display = "flex";
+        }
+        checkSaveButton();
+      }
+    });
     var mimeType = assetData.mime;
     switch (mimeType.split("/")[0]) {
       case "image":
@@ -622,8 +659,7 @@ $(document).ajaxSuccess(function () {
         }
         break;
     }
-    previewEl.style = "display: flex";
-    uploadButton.style = "display:none";
+
     addAssetFormEl.dispatchEvent(changeEvent);
     /* -------------------------------------------------------------------------- */
     /*                                RESET DIALOG                                */

@@ -134,9 +134,9 @@ aside {
     justify-content: space-between;
     flex-wrap: wrap;
     .artist-menu-item {
-      min-height: 36px;
-      display: flex;
-      align-items: center;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
     .artist-menu--dropdown {
       display: flex;
@@ -153,9 +153,8 @@ aside {
       display: flex;
       padding: 0 16px;
       align-items: center;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      max-width: 100%;
+      box-sizing: border-box;
       min-height: 36px;
 
       .filter-menu-icon {
@@ -171,6 +170,8 @@ aside {
     .projects-sub-menu {
       padding-left: 1em;
       flex-basis: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
   }
 }

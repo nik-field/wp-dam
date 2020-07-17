@@ -247,7 +247,40 @@ add_filter( 'big_image_size_threshold', '__return_false' );
  * @return string URL to redirect to on login. Must be absolute.
  */
 function my_forcelogin_redirect() {
-	 return home_url( '/' );
+	 return home_url();
 }
 
-add_filter( 'v_forcelogin_redirect', 'my_forcelogin_redirect' );
+// add_filter( 'v_forcelogin_redirect', 'my_forcelogin_redirect' );
+
+/**
+ * Redirect user after successful login.
+ *
+ * @param string $redirect_to URL to redirect to.
+ * @param string $request URL the user is coming from.
+ * @param object $user Logged user's data.
+ * @return string
+ */
+function my_login_redirect( $redirect_to, $request, $user ) {
+	// is there a user to check?
+	if ( isset( $user->roles ) && is_array( $user->roles ) ) {
+		// check for admins
+		if ( in_array( 'administrator', $user->roles ) ) {
+			// redirect them to the default place
+			return $redirect_to;
+		} else {
+			return home_url();
+		}
+	} else {
+		return $redirect_to;
+	}
+}
+
+add_filter( 'login_redirect', 'my_login_redirect', 10, 3 );
+
+add_action( 'after_setup_theme', 'remove_admin_bar' );
+
+function remove_admin_bar() {
+	if ( ! current_user_can( 'administrator' ) && ! is_admin() ) {
+		show_admin_bar( false );
+	}
+}
