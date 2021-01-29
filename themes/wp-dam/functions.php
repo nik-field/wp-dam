@@ -43,8 +43,6 @@ if ( ! function_exists( 'wp_dam_setup' ) ) :
 			 */
 		add_theme_support( 'post-thumbnails' );
 
-		// add_theme_support( 'post-formats', array('link', 'image', 'quote', 'video', 'audio'));
-
 		// This theme uses wp_nav_menu() in one location.
 		register_nav_menus(
 			array(
