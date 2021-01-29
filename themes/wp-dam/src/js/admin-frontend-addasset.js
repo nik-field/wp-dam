@@ -33,7 +33,6 @@ import "../scss/frontend-media-uploader.scss";
 
 var counter = 1;
 function count() {
-  console.log(counter);
   counter++;
 }
 
@@ -242,7 +241,6 @@ addAssetDialog.listen('MDCDialog:opening', () => {
   /* ---------------------- HANDLE "HIDDEN" INPUT FIELDS ---------------------- */
   artistSelect.menu_.listen('MDCMenuSurface:opened', () => {
     var sidebarHeight = $("#add-asset__sidebar").height() - 56;
-    console.log(sidebarHeight);
     artistSelect.menu_.menuSurface_.foundation_.adapter_.setMaxHeight(sidebarHeight + "px");
   });
   wasEscaped ? null : artistSelect.listen("MDCSelect:change", (e) => {
@@ -353,6 +351,7 @@ $(document).ready(function () {
         break;
       case "application":
         switch (attachment.subtype) {
+          case "msword":
           case "vnd.openxmlformats-officedocument.wordprocessingml.document":
             formatRadios.find(el => el.value === 'format_document').checked = true;
             currentPreviewEl ? currentPreviewEl.remove() : null;
@@ -380,7 +379,6 @@ $(document).ready(function () {
             currentPreviewEl = previewDocEl;
             break;
           case "zip":
-            console.log(formatRadios.find(el => el.checked === true).value);
             if (formatRadios.find(el => el.checked === true).value !== 'format_audio-zip' && formatRadios.find(el => el.checked === true).value !== 'format_zip') {
               formatRadios.find(el => el.value === 'format_zip').checked = true;
             }
@@ -396,6 +394,8 @@ $(document).ready(function () {
             previewZipEl.src = attachment.icon;
             currentPreviewEl = previewZipEl;
             break;
+          default:
+            console.log(attachment.subtype);
         }
         break;
       default:
@@ -443,9 +443,16 @@ $(document).ajaxSuccess(function () {
 
   editAssetButtons.forEach(el => $(el).on("click", function () {
     wasEscaped = false;
-    addAssetDialog.open()
     var assetCard = event.target.closest('article');
-    var assetData = JSON.parse(assetCard.attributes['data-asset-json'].value);
+    if (assetCard.attributes['data-asset-json'].value == "") {
+      return;
+    } else {
+      var assetData = JSON.parse(assetCard.attributes['data-asset-json'].value);
+    }
+    addAssetDialog.open()
+
+    debugger;
+
     var addAssetDialogRoot = document.querySelector('.dam-add-asset-dialog');
 
     // Create hidden input that adds post_id to the POST object for updating the post
@@ -639,7 +646,6 @@ $(document).ajaxSuccess(function () {
             currentPreviewEl = previewDocEl;
             break;
           case "zip":
-            console.log(formatRadios.find(el => el.checked === true).value);
             if (formatRadios.find(el => el.checked === true).value !== 'format_audio-zip' && formatRadios.find(el => el.checked === true).value !== 'format_zip') {
               formatRadios.find(el => el.value === 'format_zip').checked = true;
             }
