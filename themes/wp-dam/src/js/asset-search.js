@@ -124,6 +124,7 @@ function ajaxExec() {
           var divider = '<hr>';
           for (var j = 0; j < elastic_results.length; j++) {
             var parsed = elastic_results[j].doc;
+            parsed['json_data'] = JSON.stringify(parsed);
             var parsed_values = Object.values(parsed);
             var parsed_values_lower = parsed_values.map(item => typeof item == 'string' ? item.toLowerCase() : item);
             var exact_match = Boolean(parsed_values_lower.includes(search_query.toLowerCase()));
