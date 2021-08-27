@@ -212,3 +212,38 @@ function frontend_add_asset_get_projects_callback() {
 
 	wp_die();
 }
+
+add_action( 'wp_ajax_artist_list', 'artist_list_callback' );
+add_action( 'wp_ajax_nopriv_artist_list', 'artist_list_callback' );
+
+function artist_list_callback() {
+	header( 'Content-Type: application/json' );
+	$artist_terms = get_artist_terms();
+	$artists      = array();
+	foreach ( $artist_terms as $artist ) {
+		$artist         = (array) $artist;
+		$artist['meta'] = (array) get_term_meta( $artist['term_id'] );
+		array_push( $artists, $artist );
+	}
+
+	echo wp_json_encode( $artists );
+	wp_die();
+}
+
+add_action( 'wp_ajax_project_list', 'project_list_callback' );
+add_action( 'wp_ajax_nopriv_project_list', 'project_list_callback' );
+
+function project_list_callback() {
+	header( 'Content-Type: application/json' );
+
+	$project_terms = get_project_terms();
+	$projects      = array();
+	foreach ( $project_terms as $project ) {
+		$project         = (array) $project;
+		$project['meta'] = (array) get_term_meta( $project['term_id'] );
+		array_push( $projects, $project );
+	}
+
+	echo wp_json_encode( $projects );
+	wp_die();
+}

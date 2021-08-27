@@ -17,7 +17,7 @@ services:
       - source: mysql_root_password
 
   wordpress:
-    build: https://git@github.com/bearbird/wp-fpm-ffmpeg.git
+    build: https://git@github.com/nik-field/wp-fpm-ffmpeg.git
     restart: always
     ports:
       - 80:80
