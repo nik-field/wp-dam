@@ -42,15 +42,23 @@ services:
       - source: mysql_password
 
   wpcli:
+    restart: on-failure
     depends_on:
       - wordpress
       - wpdb
     image: wordpress:cli
+    user: 1000:1000
+    environment:
+      WORDPRESS_DB_HOST: wpdb
+      WORDPRESS_DB_USER: exampleuser
+      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/mysql_password
+      WORDPRESS_DB_NAME: exampledb
     command: >
       /bin/sh -c '
       sleep 15;
       wp search-replace 'dam.local' 'dam.test' wp_postmeta;
       wp theme activate wp-dam;
+      wp user create testadmin test@ordinaryartistservices.com --role=editor --user_pass=testpassword;
       wp plugin activate auto-hide-admin-bar;
       wp plugin activate debug-bar;
       wp plugin activate query-monitor;
@@ -59,6 +67,8 @@ services:
       - wpdata:/var/www/html
       - db:/var/lib/mysql
       - ./:/var/www/html/wp-content
+    secrets:
+      - source: mysql_password
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin

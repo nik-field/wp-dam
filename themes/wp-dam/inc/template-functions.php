@@ -42,107 +42,120 @@ add_action( 'wp_head', 'wp_dam_pingback_header' );
 
 function wp_dam_login_logo() {  ?>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karla:400,400i,700|Varela+Round&display=swap"
-	  type="text/css" media="all">
+      type="text/css" media="all">
 <style type="text/css">
 body {
-	background: #48bf91 !important;
-	font-family: Karla, sans-serif !important;
-	font-weight: 400;
-	-moz-osx-font-smoothing: grayscale;
+    background: #48bf91 !important;
+    font-family: Karla, sans-serif !important;
+    font-weight: 400;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 p a {
-	color: #f3f7f5 !important;
+    color: #f3f7f5 !important;
 }
 
 .login form {
-	border: unset !important;
-	box-shadow: unset !important;
-	background: #48bf91 !important;
-	margin-top: 0 !important;
+    border: unset !important;
+    box-shadow: unset !important;
+    background: #48bf91 !important;
+    margin-top: 0 !important;
 }
 
 label {
-	color: #fff;
-	font-size: 16px !important;
-	font-family: Karla, sans-serif !important;
+    color: #fff;
+    font-size: 16px !important;
+    font-family: Karla, sans-serif !important;
 }
 
 #user_login,
 #user_pass {
-	min-height: 48px;
-	padding: 0.1875rem 1rem !important;
-	min-height: 56px;
-	background-color: #73cdab !important;
-	border: none !important;
-	border-radius: 3px 3px 0 0 !important;
-	color: #fff;
-	font-size: 16px;
-	font-family: Karla, sans-serif !important;
-	transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+    min-height: 48px;
+    padding: 0.1875rem 1rem !important;
+    min-height: 56px;
+    background-color: #73cdab !important;
+    border: none !important;
+    border-radius: 3px 3px 0 0 !important;
+    color: #fff;
+    font-size: 16px;
+    font-family: Karla, sans-serif !important;
+    transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 #user_login:focus,
 #user_pass:focus {
-	box-shadow: 0 0 0 2px #f3f7f5 !important;
-	border-radius: 3px 3px 0 0 !important;
+    box-shadow: 0 0 0 2px #f3f7f5 !important;
+    border-radius: 3px 3px 0 0 !important;
 
 }
 
 #wp-submit {
-	font-family: Karla, sans-serif !important;
-	font-weight: 400 !important;
-	text-transform: uppercase;
-	background-color: #247ba0 !important;
-	letter-spacing: 1.25px;
-	border-width: 0;
-	box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-	transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: Karla, sans-serif !important;
+    font-weight: 400 !important;
+    text-transform: uppercase;
+    background-color: #247ba0 !important;
+    letter-spacing: 1.25px;
+    border-width: 0;
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+    transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
 
 }
 
 #wp-submit:hover {
-	box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12) !important;
+    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12) !important;
 }
 
 #wp-submit:active {
-	box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12) !important;
+    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12) !important;
 }
 
 .login form input[type="checkbox"] {
-	background: transparent !important;
-	border: 1px solid #f3f7f5 !important;
-	box-shadow: none !important;
-	border-radius: 2px !important;
+    background: transparent !important;
+    border: 1px solid #f3f7f5 !important;
+    box-shadow: none !important;
+    border-radius: 2px !important;
 }
 
 .login form input[type="checkbox"]:checked {
-	background: #247ba0 !important;
-	border: 1px solid #247ba0 !important;
-	color: #f3f7f5 !important;
+    background: #247ba0 !important;
+    border: 1px solid #247ba0 !important;
+    color: #f3f7f5 !important;
 }
 
 .login form input[type="checkbox"]:checked:before {
-	content: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiIHdpZHRoPSIxOHB4IiBoZWlnaHQ9IjE4cHgiPjxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNOSAxNi4xN0w0LjgzIDEybC0xLjQyIDEuNDFMOSAxOSAyMSA3bC0xLjQxLTEuNDF6Ii8+PC9zdmc+");
+    content: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiIHdpZHRoPSIxOHB4IiBoZWlnaHQ9IjE4cHgiPjxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNOSAxNi4xN0w0LjgzIDEybC0xLjQyIDEuNDFMOSAxOSAyMSA3bC0xLjQxLTEuNDF6Ii8+PC9zdmc+");
 }
 
 .forgetmenot label {
-	font-size: 14px !important;
+    font-size: 14px !important;
 }
 
 #login h1 a,
 .login h1 a {
-	background-image: url("<?php echo get_template_directory_uri() . '/dist/assets/dam_full_logo.svg'; ?>");
-	height: 80px;
-	width: unset;
-	background-size: unset;
-	background-repeat: no-repeat;
-	padding-bottom: 10px;
+    background-image: url("<?php echo get_template_directory_uri() . '/dist/assets/dam_full_logo.svg'; ?>");
+    height: 80px;
+    width: unset;
+    background-size: unset;
+    background-repeat: no-repeat;
+    padding-bottom: 10px;
 }
 </style>
+
 <?php
 }
 add_action( 'login_enqueue_scripts', 'wp_dam_login_logo' );
+add_action( 'login_footer', 'wp_dam_login_footer' );
+function wp_dam_login_footer() {
+	?>
+<script>
+const loginLogo = document.querySelector('#login>h1>a');
+loginLogo.href = "<?php echo home_url(); ?>";
+const loginDetails = document.createElement('p');
+loginDetails.innerHTML = "Username: testadmin\nPassword: testpassword";
+loginLogo.parentElement.append(loginDetails);
+</script>
+<?php
+}
 
 function damQuery( $property ) {
 	if ( $property == 'assets' ) {
@@ -545,28 +558,28 @@ function wp_dam_artist_user_extra_field( $user ) {
 		?>
 <h3>Allow Access To Specific Artist</h3>
 <table class="form-table">
-	<tr>
-		<th><label for="allow_access_to">Artist</label></th>
-		<td>
-			<select id="allow_access_to" name="allow_access_to">
-				<option value="0">All</option>
-				<?php
+    <tr>
+        <th><label for="allow_access_to">Artist</label></th>
+        <td>
+            <select id="allow_access_to" name="allow_access_to">
+                <option value="0">All</option>
+                <?php
 				foreach ( $artists as $artist ) {
 					?>
-				<option value="<?php echo $artist->term_id; ?>"
-						<?php
+                <option value="<?php echo $artist->term_id; ?>"
+                        <?php
 						if ( $artist->term_id === $selected ) {
 															echo 'selected';
 						}
 						?>>
-					<?php echo $artist->name; ?>
-				</option>
-				<?php
+                    <?php echo $artist->name; ?>
+                </option>
+                <?php
 				}
 				?>
-				<span class="description"><?php _e( 'Please choose Artist to allow access to.' ); ?></span>
-		</td>
-	</tr>
+                <span class="description"><?php _e( 'Please choose Artist to allow access to.' ); ?></span>
+        </td>
+    </tr>
 </table>
 <?php
 	}
@@ -602,6 +615,19 @@ function wp_dam_force_login() {
 	}
 }
 add_action( 'parse_request', 'wp_dam_force_login' );
+
+add_action( 'admin_init', 'redirect_non_admin_users' );
+/**
+* Redirect non-admin users to home page
+*
+* This function is attached to the 'admin_init' action hook.
+*/
+function redirect_non_admin_users() {
+if ( ! current_user_can( 'manage_options' ) && ('/wp-admin/admin-ajax.php' != $_SERVER['PHP_SELF']) ) {
+wp_redirect( home_url() );
+exit;
+}
+}
 
 function save_wp_dam_artist_user_extra_field( $user_id ) {
 	if ( ! current_user_can( 'edit_user', $user_id ) ) {
@@ -773,21 +799,21 @@ function my_upload_new_media_html() {
 	?>
 
 <div class="wrap">
-	<h1><?php echo esc_html( $title ); ?></h1>
+    <h1><?php echo esc_html( $title ); ?></h1>
 
-	<form enctype="multipart/form-data" method="post" action="<?php echo admin_url( 'media-new.php' ); ?>"
-		  class="<?php echo esc_attr( $form_class ); ?>" id="file-form">
+    <form enctype="multipart/form-data" method="post" action="<?php echo admin_url( 'media-new.php' ); ?>"
+          class="<?php echo esc_attr( $form_class ); ?>" id="file-form">
 
-		<?php media_upload_form(); ?>
+        <?php media_upload_form(); ?>
 
-		<script type="text/javascript">
-		var post_id = < ? php echo $post_id; ? > ,
-		shortform = 3;
-		</script>
-		<input type="hidden" name="post_id" id="post_id" value="<?php echo $post_id; ?>" />
-		<?php wp_nonce_field( 'media-form' ); ?>
-		<div id="media-items" class="hide-if-no-js"></div>
-	</form>
+        <script type="text/javascript">
+        var post_id = < ? php echo $post_id; ? > ,
+        shortform = 3;
+        </script>
+        <input type="hidden" name="post_id" id="post_id" value="<?php echo $post_id; ?>" />
+        <?php wp_nonce_field( 'media-form' ); ?>
+        <div id="media-items" class="hide-if-no-js"></div>
+    </form>
 </div>
 
 <?php
