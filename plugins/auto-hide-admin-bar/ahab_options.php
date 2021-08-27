@@ -88,11 +88,6 @@ function ahab_plugin_options_init() {
 	add_settings_field( 'ahab_plugin_option_mobile', __( 'Show or hide on small screens:', 'auto-hide-admin-bar' ),
 		'ahab_plugin_setting_mobile', 'ahab_plugin', 'ahab_plugin_section_mobile' );
 
-	add_settings_section( 'ahab_plugin_section_admin', __( 'Hide on admin screens',
-		'auto-hide-admin-bar' ), 'ahab_plugin_section_admin_text', 'ahab_plugin' );
-	add_settings_field( 'ahab_plugin_option_admin', __( 'Hide on admin screens:', 'auto-hide-admin-bar' ),
-		'ahab_plugin_setting_admin', 'ahab_plugin', 'ahab_plugin_section_admin' );
-
 	add_settings_section( 'ahab_plugin_section_user_roles', __( 'Disable for user roles',
 		'auto-hide-admin-bar' ), 'ahab_plugin_section_user_roles_text', 'ahab_plugin' );
 	add_settings_field( 'ahab_plugin_option_user_roles', __( 'Disable for user role:', 'auto-hide-admin-bar' ),
@@ -182,22 +177,6 @@ function ahab_plugin_section_mobile_text() {
 	?>
 	<p> <?php _e( 'This option allows you to enable or disable the plugin, when on small screens (< 782px). The
     Default is "Hide the Toolbar". The behaviour of the Toolbar in larger screens will not be affected by this option.', 'auto-hide-admin-bar' ); ?> </p>
-	<?php
-}
-
-/**
- * Output section text for admin screens
- *
- * @author Marcel Bootsman
- * @link   https://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar/
- *
- * @param none
- *
- * @return none
- */
-function ahab_plugin_section_admin_text() {
-	?>
-	<p> <?php _e( 'This option allows you to hide or always show the Toolbar in admin screens. Default is "Always show the Toolbar"', 'auto-hide-admin-bar' ); ?> </p>
 	<?php
 }
 
@@ -402,38 +381,8 @@ function ahab_plugin_setting_mobile() {
 }
 
 /**
- * Output radio buttons for showing Toolbar on small screens
- *
- * @author Marcel Bootsman
- * @link   https://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar/
- *
- * @param none
- *
- * @return none
- */
-function ahab_plugin_setting_admin() {
-	$options    = get_option( 'ahab_plugin_options' );
-	$ahab_admin = DEFAULT_ADMIN;
-
-	if ( ! empty( $options[ 'admin' ] ) ) {
-		$ahab_admin = $options[ 'admin' ];
-	}
-	?>
-
-	<p>
-		<input type="radio" id="ahab_setting_admin" name="ahab_plugin_options[admin]" value="1" <?php checked( 1, $ahab_admin, true ); ?> />
-		<label for="ahab_setting_admin"><?php _e( 'Hide the Toolbar', 'auto-hide-admin-bar' ); ?></label>
-	</p>
-	<p>
-		<input type="radio" id="ahab_setting_admin" name="ahab_plugin_options[admin]" value="2" <?php checked( 2, $ahab_admin, true ); ?> />
-		<label for="ahab_setting_admin"><?php _e( 'Always show the Toolbar', 'auto-hide-admin-bar' ); ?></label>
-	</p>
-
-	<?php
-}
-
-/**
  * Output checkboxes for user roles
+ *
  *
  * @author Marcel Bootsman
  * @link   https://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar/

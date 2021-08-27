@@ -1,10 +1,10 @@
 === Auto Hide Admin Bar ===
 Contributors: mbootsman
-Donate link: https://www.bunq.me/nostromo
+Donate link: https://nostromo.nl/wordpress-plugins/auto-hide-admin-bar
 Tags: adminbar, admin bar, autohide, auto, hide, toolbar
 Requires at least: 3.1
-Tested up to: 5.3
-Stable tag: 1.4.1
+Tested up to: 5.6
+Stable tag: 1.4.3
 
 This plugin adds an auto-hide feature to the WordPress Admin Bar or Toolbar.
 
@@ -29,6 +29,13 @@ Sure, just go to https://translate.wordpress.org/projects/wp-plugins/auto-hide-a
 How do we make screenshots of things that are hidden? :)
 
 == Changelog ==
+= 1.4.3 =
+* Updated donate link
+
+= 1.4.2 =
+* Fixed issue with PHP 7.4.
+* Removed Admin settings, since they were not used.
+
 = 1.4.1 =
 * Fixed checking for existing options values. [Props: hanfox](https://wordpress.org/support/topic/updating-to-v1-4-throws-errors-due-to-new-empty-options/)
 

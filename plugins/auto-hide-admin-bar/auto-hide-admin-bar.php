@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Auto Hide Admin Bar
-Plugin URI: https://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar
+Plugin URI: https://nostromo.nl/wordpress-plugins/auto-hide-admin-bar
 Description: Automatically hides the Toolbar. Will show the Toolbar when hovering over the top of the site.
 Author: Marcel Bootsman
-Version: 1.4.1
-Author URI: https://www.nostromo.nl
+Version: 1.4.3
+Author URI: https://nostromo.nl
 Text Domain: auto-hide-admin-bar
 Domain Path: /languages/
 
@@ -27,10 +27,9 @@ define( 'DEFAULT_SPEED', 200 );
 define( 'DEFAULT_DELAY', 1500 );
 define( 'DEFAULT_INTERVAL', 100 );
 define( 'DEFAULT_MOBILE', 1 );
-define( 'DEFAULT_ADMIN', 2 );
 define( 'DEFAULT_ARROW', 1 );
 define( 'DEFAULT_ARROW_POS', 'left' );
-define( 'DONATE_LINK', 'https://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar' );
+define( 'DONATE_LINK', 'https://nostromo.nl/wordpress-plugins/auto-hide-admin-bar' );
 
 /**
  * Returns current plugin version.
@@ -55,12 +54,12 @@ if ( is_admin() ) {
 /**
  * Add Settings link to plugin page
  *
- * @author Marcel Bootsman
- * @link   http://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar/
- *
  * @param Array $links , filename $file
  *
  * @return Array $links with new link=
+ * @author Marcel Bootsman
+ * @link   http://nostromo.nl/wordpress-plugins/auto-hide-admin-bar/
+ *
  */
 add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'ahab_add_plugin_actions_links' );
 function ahab_add_plugin_actions_links( $links ) {
@@ -87,12 +86,12 @@ function ahab_add_plugin_actions_links_mu( $links ) {
 /**
  * Check if ahab is disabled (by user role)
  *
- * @author Marcel Bootsman
- * @link   http://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar/
- *
  * @param None
  *
  * @return true / false
+ * @author Marcel Bootsman
+ * @link   http://nostromo.nl/wordpress-plugins/auto-hide-admin-bar/
+ *
  */
 
 function is_ahab_disabled() {
@@ -136,12 +135,12 @@ function is_ahab_disabled() {
 /**
  * The main function. Build JS code and output it.
  *
- * @author Marcel Bootsman
- * @link   http://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar/
- *
  * @param None
  *
  * @return None
+ * @author Marcel Bootsman
+ * @link   http://nostromo.nl/wordpress-plugins/auto-hide-admin-bar/
+ *
  */
 
 function auto_hide_admin_bar() {
@@ -229,12 +228,12 @@ function auto_hide_admin_bar() {
 /**
  * Add jQuery
  *
- * @author Marcel Bootsman
- * @link   http://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar/
- *
  * @param None
  *
  * @return None
+ * @author Marcel Bootsman
+ * @link   http://nostromo.nl/wordpress-plugins/auto-hide-admin-bar/
+ *
  */
 
 add_action( 'wp_footer', 'ahab_add_jquery_stuff' );
@@ -257,12 +256,12 @@ function ahab_add_jquery_stuff() {
 /**
  * Hook main function for logged in users
  *
- * @author Marcel Bootsman
- * @link   http://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar/
- *
  * @param None
  *
  * @return None
+ * @author Marcel Bootsman
+ * @link   http://nostromo.nl/wordpress-plugins/auto-hide-admin-bar/
+ *
  */
 add_action( 'wp_footer', 'ahab_add_my_hide_stuff' );
 function ahab_add_my_hide_stuff() {
@@ -274,37 +273,23 @@ function ahab_add_my_hide_stuff() {
 /**
  * Hook main function in admin screens
  *
- * @author Marcel Bootsman
- * @link   http://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar/
- *
  * @param None
  *
  * @return None
+ * @author Marcel Bootsman
+ * @link   http://nostromo.nl/wordpress-plugins/auto-hide-admin-bar/
+ *
  */
-add_action( 'admin_footer', 'ahab_admin_add_my_hide_stuff' );
-function ahab_admin_add_my_hide_stuff() {
-	$options = get_option( 'ahab_plugin_options' );
-	if ( ( '' != $options[ 'admin' ] ) && ( is_numeric( $options[ 'admin' ] ) ) ) {
-		$ahab_admin = $options[ 'admin' ];
-	} else {
-		$ahab_admin = DEFAULT_ADMIN;
-	}
-
-	if ( 1 == $ahab_admin ) {
-
-		auto_hide_admin_bar();
-	}
-}
 
 /**
  * Load Text Domain
  *
- * @author Marcel Bootsman
- * @link   http://www.nostromo.nl/wordpress-plugins/auto-hide-admin-bar/
- *
  * @param None
  *
  * @return None
+ * @author Marcel Bootsman
+ * @link   http://nostromo.nl/wordpress-plugins/auto-hide-admin-bar/
+ *
  */
 add_action( 'plugins_loaded', 'auto_hide_admin_bar_load_textdomain' );
 function auto_hide_admin_bar_load_textdomain() {
